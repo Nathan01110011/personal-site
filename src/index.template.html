@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Nathan — GitHub and LinkedIn.">
+  <meta name="author" content="Nathan">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Nathan">
+  <meta property="og:description" content="Nathan — GitHub and LinkedIn.">
+  <title>Nathan — home page</title>
+  <link rel="icon" type="image/svg+xml" href="@@CURSOR_URL@@">
+  <style>
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { color-scheme: light; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 28px 16px 72px;
+      background: #008080;
+      color: #000;
+      font-family: Tahoma, "MS Sans Serif", Arial, sans-serif;
+      font-size: 13px;
+    }
+    button, input { font: inherit; }
+    button { color: #000; }
+    button:focus-visible, input:focus-visible {
+      outline: 1px dotted #000;
+      outline-offset: -5px;
+    }
+    .window {
+      width: 100%;
+      max-width: 570px;
+      padding: 3px;
+      background: #c0c0c0;
+      border: 1px solid;
+      border-color: #dfdfdf #000 #000 #dfdfdf;
+      box-shadow: inset 1px 1px #fff, inset -1px -1px #808080, 2px 2px 0 #004f4f;
+    }
+    .window:focus { outline: none; }
+    .title-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 30px;
+      padding: 3px 4px;
+      color: #fff;
+      background: linear-gradient(90deg, #000080, #1084d0);
+      font-weight: bold;
+    }
+    .window-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+    .window-title span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .monitor-icon { width: 18px; height: 18px; flex: 0 0 auto; }
+    .window-actions { display: none; gap: 2px; flex: 0 0 auto; }
+    .has-js .window-actions { display: flex; }
+    .bevel-button {
+      background: #c0c0c0;
+      border: 1px solid;
+      border-color: #fff #000 #000 #fff;
+      box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080;
+      border-radius: 0;
+    }
+    .bevel-button:active {
+      border-color: #000 #fff #fff #000;
+      box-shadow: inset 1px 1px #808080;
+    }
+    .window-control { width: 26px; height: 24px; padding: 4px; }
+    .window-control svg { display: block; width: 100%; height: 100%; shape-rendering: crispEdges; }
+    .path-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 7px 7px;
+      font-size: 11px;
+    }
+    .path {
+      flex: 1;
+      min-width: 0;
+      padding: 4px 6px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      background: #fff;
+      border: 1px solid;
+      border-color: #808080 #fff #fff #808080;
+      box-shadow: inset 1px 1px #000;
+      font-family: "Courier New", monospace;
+    }
+    .window-content { display: flex; flex-direction: column; padding: 16px 13px 13px; }
+    .intro { flex: 0 0 auto; text-align: center; margin: 0 0 22px; }
+    h1 { margin: 0; font: bold 34px/1.1 "Times New Roman", Times, serif; }
+    .directory {
+      display: flex;
+      flex-direction: column;
+      flex: 1 0 auto;
+      padding: 16px;
+      background: #fff;
+      border: 1px solid;
+      border-color: #808080 #fff #fff #808080;
+      box-shadow: inset 1px 1px #000;
+    }
+    .profiles {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .profile {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      min-width: 116px;
+      padding: 8px 12px;
+      color: #0000ee;
+      text-decoration: none;
+    }
+    .profile img { display: block; width: 80px; height: 80px; image-rendering: pixelated; }
+    .profile-label { padding: 2px 4px; text-decoration: underline; text-underline-offset: 2px; }
+    .profile:visited { color: #551a8b; }
+    .profile:hover .profile-label, .profile:focus-visible .profile-label { background: #000080; color: #fff; }
+    .profile:focus-visible { outline: 1px dotted #000; outline-offset: -2px; }
+    .status-bar { display: flex; gap: 3px; margin: 0 3px 3px; font-size: 11px; }
+    .status-panel {
+      display: flex;
+      align-items: center;
+      min-height: 25px;
+      padding: 3px 7px;
+      border: 1px solid;
+      border-color: #808080 #fff #fff #808080;
+    }
+    .status-info { flex: 1; }
+    .trail-option { display: none; align-items: center; gap: 5px; white-space: nowrap; }
+    .trail-option input { width: 13px; height: 13px; margin: 0; accent-color: #000080; }
+    .taskbar {
+      display: none;
+      position: fixed;
+      z-index: 2;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 42px;
+      align-items: center;
+      gap: 7px;
+      padding: 5px;
+      background: #c0c0c0;
+      border-top: 1px solid #fff;
+      box-shadow: 0 -1px #dfdfdf;
+    }
+    .has-js .taskbar { display: flex; }
+    .start-button { display: flex; align-items: center; gap: 6px; height: 31px; padding: 3px 8px; font-weight: bold; }
+    .start-mark { display: grid; grid-template-columns: 6px 6px; gap: 1px; transform: skewY(-10deg); }
+    .start-mark i { width: 6px; height: 6px; background: #ff0000; }
+    .start-mark i:nth-child(2) { background: #00a000; }
+    .start-mark i:nth-child(3) { background: #0000ff; }
+    .start-mark i:nth-child(4) { background: #ffff00; }
+    .task-divider { width: 2px; height: 27px; border-left: 1px solid #808080; border-right: 1px solid #fff; }
+    .task-button {
+      min-width: 0;
+      max-width: 205px;
+      flex: 1;
+      height: 31px;
+      padding: 4px 9px;
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 11px;
+    }
+    .task-button[aria-expanded="true"] { border-color: #000 #fff #fff #000; box-shadow: inset 1px 1px #808080; font-weight: bold; }
+    .clock { margin-left: auto; min-width: 72px; justify-content: center; height: 29px; font-size: 11px; }
+    .window.maximized { position: fixed; z-index: 1; inset: 8px 8px 50px; width: auto; max-width: none; display: flex; flex-direction: column; }
+    .window.maximized .window-content { flex: 1; min-height: 0; overflow: auto; }
+    .window.maximized > .title-bar, .window.maximized > .path-bar, .window.maximized > .status-bar { flex-shrink: 0; }
+    #cursor-trails { position: fixed; inset: 0; z-index: 9999; overflow: hidden; pointer-events: none; }
+    .cursor-trail { position: absolute; top: 0; left: 0; width: 32px; height: 32px; opacity: 0; image-rendering: pixelated; pointer-events: none; }
+    @media (hover: hover) and (pointer: fine) {
+      html, body, body * { cursor: url("@@CURSOR_URL@@") 1 1, auto; }
+      a, button, input, label { cursor: url("@@CURSOR_URL@@") 1 1, pointer; }
+      .has-js .trail-option { display: flex; }
+    }
+    @media (min-width: 640px) {
+      body { padding: 32px 24px 74px; }
+      .window-content { padding: 22px 22px 20px; }
+      .profiles { flex-direction: row; justify-content: center; gap: 55px; }
+      .directory { padding: 19px; }
+    }
+    @media (max-width: 359px) {
+      body { padding-inline: 8px; }
+      .window-title { font-size: 11px; }
+      .window-control { width: 24px; }
+      .window-content { padding-inline: 9px; }
+      .clock { min-width: 62px; }
+    }
+    @media (prefers-reduced-motion: reduce) { #cursor-trails { display: none; } }
+    @media print {
+      body { min-height: auto; background: #fff; padding: 0; }
+      .window { box-shadow: none; }
+      .window-actions, .taskbar, .trail-option, #cursor-trails { display: none !important; }
+      .window.maximized { position: static; }
+      .profiles { flex-direction: row; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <main class="window" id="home-window" aria-labelledby="name" tabindex="-1">
+    <div class="title-bar">
+      <div class="window-title">
+        <svg class="monitor-icon" viewBox="0 0 18 18" aria-hidden="true" focusable="false" shape-rendering="crispEdges">
+          <path fill="#000" d="M1 1h15v12H1zM6 13h5v2H6zM4 15h9v2H4z"/>
+          <path fill="#c0c0c0" d="M2 2h13v10H2zM5 15h7v1H5z"/>
+          <path fill="#008080" d="M3 3h11v7H3z"/><path fill="#fff" d="M3 3h11v1H3z"/>
+        </svg>
+        <span>Nathan's home page</span>
+      </div>
+      <div class="window-actions">
+        <button class="bevel-button window-control" id="minimize" type="button" aria-label="Minimize window" title="Minimize">
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 11h9v3H2z"/></svg>
+        </button>
+        <button class="bevel-button window-control" id="maximize" type="button" aria-label="Maximize window" aria-pressed="false" title="Maximize">
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 2h12v12H2zm1 3v8h10V5z"/></svg>
+        </button>
+        <button class="bevel-button window-control" id="close" type="button" aria-label="Close window" title="Close">
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 3h2v2h2v2h2V5h2V3h2v2h-2v2H9v2h2v2h2v2h-2v-2H9V9H7v2H5v2H3v-2h2V9h2V7H5V5H3z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="path-bar"><span>Address</span><span class="path">C:\Users\Nathan\Home</span></div>
+    <div class="window-content">
+      <header class="intro">
+        <h1 id="name">Nathan</h1>
+      </header>
+      <nav class="directory" aria-label="Find me online">
+        <ul class="profiles">
+          <li>
+            <a class="profile" href="https://github.com/Nathan01110011" rel="me" aria-label="Nathan on GitHub">
+              <img src="@@GITHUB_ICON@@" width="80" height="80" alt="" decoding="async">
+              <span class="profile-label">GitHub</span>
+            </a>
+          </li>
+          <li>
+            <a class="profile" href="https://www.linkedin.com/in/nathan-scott-orr" rel="me" aria-label="Nathan on LinkedIn">
+              <img src="@@LINKEDIN_ICON@@" width="80" height="80" alt="" decoding="async">
+              <span class="profile-label">LinkedIn</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="status-bar">
+      <span class="status-panel status-info">2 shortcuts</span>
+      <label class="status-panel trail-option"><input id="trails-enabled" type="checkbox" checked> Pointer trails</label>
+    </div>
+  </main>
+  <div class="taskbar" aria-label="Desktop taskbar">
+    <button class="bevel-button start-button" id="start" type="button" aria-label="Start — open Nathan's home page" title="Open home page">
+      <span class="start-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Start
+    </button>
+    <span class="task-divider" aria-hidden="true"></span>
+    <button class="bevel-button task-button" id="restore" type="button" aria-controls="home-window" aria-expanded="true" title="Open home page">Nathan's home page</button>
+    <time class="status-panel clock" id="clock" aria-label="Current local time"></time>
+  </div>
+  <div id="cursor-trails" aria-hidden="true"></div>
+  <script>
+    (() => {
+      'use strict';
+      document.documentElement.classList.add('has-js');
+      const home = document.getElementById('home-window');
+      const restore = document.getElementById('restore');
+      const maximize = document.getElementById('maximize');
+
+      function openWindow() {
+        home.hidden = false;
+        restore.setAttribute('aria-expanded', 'true');
+        home.focus({ preventScroll: true });
+      }
+      function hideWindow() {
+        home.hidden = true;
+        restore.setAttribute('aria-expanded', 'false');
+        restore.focus({ preventScroll: true });
+      }
+      document.getElementById('start').addEventListener('click', openWindow);
+      restore.addEventListener('click', openWindow);
+      document.getElementById('minimize').addEventListener('click', hideWindow);
+      document.getElementById('close').addEventListener('click', hideWindow);
+      maximize.addEventListener('click', () => {
+        const expanded = home.classList.toggle('maximized');
+        maximize.setAttribute('aria-pressed', String(expanded));
+        maximize.setAttribute('aria-label', expanded ? 'Restore window size' : 'Maximize window');
+        maximize.title = expanded ? 'Restore size' : 'Maximize';
+      });
+
+      const clock = document.getElementById('clock');
+      const timeFormat = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' });
+      function updateClock() {
+        const now = new Date();
+        clock.textContent = timeFormat.format(now);
+        clock.dateTime = now.toISOString();
+        clock.title = now.toLocaleDateString();
+      }
+      updateClock();
+      window.setInterval(updateClock, 60000);
+
+      const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const checkbox = document.getElementById('trails-enabled');
+      const layer = document.getElementById('cursor-trails');
+      const cursorUrl = '@@CURSOR_URL@@';
+      const ghosts = Array.from({ length: 8 }, () => {
+        const ghost = document.createElement('img');
+        ghost.className = 'cursor-trail';
+        ghost.src = cursorUrl;
+        ghost.alt = '';
+        ghost.draggable = false;
+        layer.appendChild(ghost);
+        return ghost;
+      });
+      const lifetime = 240;
+      let points = [];
+      let animation = 0;
+      let userWantsTrails = true;
+      let enabled = false;
+
+      function clearTrails() {
+        if (animation) window.cancelAnimationFrame(animation);
+        animation = 0;
+        points.length = 0;
+        ghosts.forEach(ghost => { ghost.style.opacity = '0'; });
+      }
+      function syncPreferences() {
+        const available = finePointer.matches && !reducedMotion.matches;
+        enabled = available && userWantsTrails;
+        checkbox.disabled = !available;
+        checkbox.checked = enabled;
+        checkbox.title = reducedMotion.matches ? 'Disabled by your reduced-motion setting' : 'Show mouse pointer trails';
+        if (!enabled) clearTrails();
+      }
+      function drawTrails(now) {
+        animation = 0;
+        points = points.filter(point => now - point.time < lifetime);
+        ghosts.forEach((ghost, index) => {
+          const targetTime = now - (index + 1) * 24;
+          let point;
+          for (let cursor = points.length - 1; cursor >= 0; cursor--) {
+            if (points[cursor].time <= targetTime) { point = points[cursor]; break; }
+          }
+          if (!point) { ghost.style.opacity = '0'; return; }
+          ghost.style.transform = `translate3d(${point.x - 1}px, ${point.y - 1}px, 0)`;
+          ghost.style.opacity = String((1 - (now - point.time) / lifetime) * .65);
+        });
+        if (points.length) animation = window.requestAnimationFrame(drawTrails);
+      }
+      window.addEventListener('pointermove', event => {
+        if (!enabled || event.pointerType !== 'mouse') return;
+        points.push({ x: event.clientX, y: event.clientY, time: performance.now() });
+        if (points.length > 64) points.shift();
+        if (!animation) animation = window.requestAnimationFrame(drawTrails);
+      }, { passive: true });
+      checkbox.addEventListener('change', () => {
+        userWantsTrails = checkbox.checked;
+        syncPreferences();
+      });
+      finePointer.addEventListener('change', syncPreferences);
+      reducedMotion.addEventListener('change', syncPreferences);
+      document.documentElement.addEventListener('pointerleave', clearTrails);
+      window.addEventListener('blur', clearTrails);
+      document.addEventListener('visibilitychange', () => { if (document.hidden) clearTrails(); });
+      syncPreferences();
+    })();
+  </script>
+</body>
+</html>
