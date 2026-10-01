@@ -1,11 +1,15 @@
 """Build the static HTML entrypoints. No dependencies."""
 from pathlib import Path
+from hashlib import sha256
 
 root = Path(__file__).resolve().parent.parent
 
 def build(asset_prefix=""):
     html = (root / "src/index.template.html").read_text()
     html = html.replace("@@ASSET_PREFIX@@", asset_prefix)
+    for source in [root / "src/base.css", root / "src/theme-bootstrap.js", root / "src/desktop.js", *sorted((root / "src/styles").glob("*.css"))]:
+        version = sha256(source.read_bytes()).hexdigest()[:12]
+        html = html.replace(f'assets/{source.name}"', f'assets/{source.name}?v={version}"')
     for token, filename in [
         ("@@GITHUB_ICON@@", "github-win95.png"),
         ("@@LINKEDIN_ICON@@", "linkedin-win95.png"),

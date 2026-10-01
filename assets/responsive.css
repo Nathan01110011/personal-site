@@ -1,3 +1,9 @@
+/* Desktop OS shortcuts stay horizontal at phone widths too. */
+:is([data-theme="windows"], [data-theme="mac"], [data-theme="ubuntu"]) .profiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 /* Wide screens become tablets, even when the theme was chosen on a laptop. */
 @media (min-width: 768px) {
   :is([data-theme="android"], [data-theme="ios"]) body { padding: 85px 48px 170px; }
