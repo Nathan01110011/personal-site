@@ -6,6 +6,12 @@ from urllib.parse import quote
 root = Path(__file__).resolve().parent.parent
 html = (root / "src/index.template.html").read_text()
 for token, filename in [
+    ("@@THEME_BOOTSTRAP@@", "theme-bootstrap.js"),
+    ("@@THEME_STYLES@@", "themes.css"),
+    ("@@DESKTOP_SCRIPT@@", "desktop.js"),
+]:
+    html = html.replace(token, (root / "src" / filename).read_text())
+for token, filename in [
     ("@@GITHUB_ICON@@", "github-win95.png"),
     ("@@LINKEDIN_ICON@@", "linkedin-win95.png"),
 ]:

@@ -1,0 +1,300 @@
+/* Shared desktop chrome and a single accessible appearance picker. */
+:root { --accent: #000080; --surface: #c0c0c0; }
+button, a { -webkit-tap-highlight-color: transparent; }
+.desktop-panel, .mobile-status, .mobile-launcher, .workspace-switcher { display: none; }
+.icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.tablet-settings-sidebar { display: none; }
+.panel-nav { display: flex; align-items: center; height: 100%; gap: 2px; }
+.panel-button { border: 0; background: transparent; padding: 5px 11px; min-height: 32px; font-size: 14px; }
+.panel-button:hover, .panel-button[aria-expanded="true"] { background: var(--accent); color: #fff; }
+.panel-clock { margin-left: auto; padding: 0 14px; font-size: 13px; white-space: nowrap; }
+.ubuntu-nav, .mac-nav { display: none; }
+.system-menu {
+  position: fixed; z-index: 20; left: var(--menu-left, 5px); bottom: 44px;
+  display: flex; width: min(326px, calc(100vw - 12px)); max-height: calc(100svh - 54px);
+  padding: 3px; overflow: auto; color: #000; background: #c0c0c0;
+  border: 1px solid; border-color: #fff #000 #000 #fff;
+  box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080, 2px 2px #0006;
+  font-size: 14px;
+}
+.menu-brand { width: 34px; flex-shrink: 0; background: linear-gradient(#000080, #1084d0); position: relative; }
+.menu-brand-name { position: absolute; left: 5px; bottom: 9px; writing-mode: vertical-rl; transform: rotate(180deg); color: #fff; font-size: 21px; font-weight: bold; white-space: nowrap; }
+.menu-body { flex: 1; min-width: 0; }
+.menu-titlebar { display: flex; align-items: center; justify-content: space-between; padding: 9px 12px 5px; }
+.menu-heading { margin: 0; font-size: 14px; font-weight: bold; }
+.menu-done { display: none; }
+.menu-links { padding: 4px; border-bottom: 1px solid #808080; box-shadow: 0 1px #fff; }
+.menu-link { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 37px; padding: 5px 8px; border: 0; background: transparent; color: inherit; text-align: left; text-decoration: none; }
+.menu-link svg { width: 23px; height: 23px; flex-shrink: 0; }
+.menu-link:hover, .menu-link:focus-visible { background: var(--accent); color: #fff; }
+.theme-list { padding: 4px; }
+.theme-choice { position: relative; display: flex; align-items: center; gap: 11px; width: 100%; min-height: 43px; padding: 5px 28px 5px 8px; border: 0; border-radius: 0; background: transparent; color: inherit; text-align: left; }
+.theme-choice:hover, .theme-choice:focus-visible { background: var(--accent); color: #fff; }
+.theme-choice[aria-pressed="true"]::after { content: '✓'; position: absolute; right: 10px; font-size: 17px; font-weight: bold; }
+.theme-copy { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 1px; }
+.theme-copy small { font-size: 12px; opacity: .8; }
+.theme-preview { position: relative; width: 32px; height: 26px; flex-shrink: 0; border: 1px solid #000; background: #008080; box-shadow: inset 1px 1px #ffffff80; }
+.theme-preview::before { content: ''; position: absolute; inset: 6px 5px 4px; border: 1px solid #ddd; background: linear-gradient(#000080 0 4px, #fff 4px); }
+.theme-preview[data-preview="auto"] { background: conic-gradient(#000080 0 25%, #a77849 0 50%, #73a834 0 75%, #68798f 0); }
+.theme-preview[data-preview="auto"]::before { background: #ddd; }
+.theme-preview[data-preview="mac"] { background: #989898; }
+.theme-preview[data-preview="mac"]::before { border-color: #000; background: linear-gradient(#aaa 0 4px, #fff 4px); }
+.theme-preview[data-preview="ubuntu"] { background: #75482e; }
+.theme-preview[data-preview="ubuntu"]::before { background: linear-gradient(#a77849 0 4px, #fff 4px); }
+.theme-preview[data-preview="android"] { background: #172616; border-radius: 3px; }
+.theme-preview[data-preview="android"]::before { background: linear-gradient(#a7cf4d 0 4px, #101010 4px); }
+.theme-preview[data-preview="ios"] { background: #677b96; border-radius: 5px; }
+.theme-preview[data-preview="ios"]::before { border-radius: 2px; background: linear-gradient(#b5c3d3 0 4px, #eef0f5 4px); }
+.settings-symbol { width: 26px; height: 26px; }
+.profile-icon { display: block; }
+.mobile-home { display: none; }
+button:focus-visible, a:focus-visible { outline-offset: -3px; }
+
+/* Macintosh Platinum: the striped title bar predates OS X traffic lights. */
+html[data-theme="mac"] { --accent: #000; --surface: #c9c9c9; }
+[data-theme="mac"] body {
+  padding-top: 62px; padding-bottom: 34px; background-color: #959595;
+  background-image: repeating-conic-gradient(#999 0 25%, #929292 0 50%);
+  background-size: 4px 4px; font-family: Chicago, Charcoal, Geneva, Arial, sans-serif;
+}
+[data-theme="mac"] .desktop-panel {
+  position: fixed; display: flex; z-index: 5; inset: 0 0 auto; height: 34px;
+  color: #000; background: linear-gradient(#fff, #dedede); border-bottom: 1px solid #000;
+  box-shadow: 0 1px #0004;
+}
+[data-theme="mac"] .mac-nav { display: flex; }
+[data-theme="mac"] .finder-title { font-weight: bold; padding: 0 12px; font-size: 14px; }
+[data-theme="mac"] .mac-mark { font-size: 23px; padding-inline: 12px; }
+[data-theme="mac"] .window { max-width: 580px; background: #c9c9c9; border: 1px solid #000; padding: 3px; box-shadow: 1px 1px #fff inset, -1px -1px #777 inset, 2px 3px #0007; }
+[data-theme="mac"] .title-bar { min-height: 29px; gap: 7px; color: #000; padding: 2px 6px; background: repeating-linear-gradient(#ccc 0 2px, #777 2px 3px, #ddd 3px 5px); }
+[data-theme="mac"] .window-title { order: 2; flex: 1; justify-content: center; gap: 0; font-size: 14px; }
+[data-theme="mac"] .window-title span { background: #ccc; padding: 3px 9px; }
+[data-theme="mac"] .monitor-icon { display: none; }
+[data-theme="mac"] .window-actions { display: contents; }
+[data-theme="mac"] .window-control { position: relative; width: 20px; height: 20px; padding: 3px; background: linear-gradient(135deg, #fff, #929292); border: 1px solid #555; box-shadow: inset 1px 1px #ddd; }
+[data-theme="mac"] #close { order: 0; }
+[data-theme="mac"] #maximize { order: 3; }
+[data-theme="mac"] #minimize { order: 4; }
+[data-theme="mac"] #close svg { visibility: hidden; }
+[data-theme="mac"] #close::after { content: ''; position: absolute; inset: 4px; border: 1px solid #555; background: #bbb; }
+[data-theme="mac"] .path-bar { border-block: 1px solid #888; margin-top: 2px; }
+[data-theme="mac"] .path { background: #ddd; box-shadow: none; border-color: #999 #fff #fff #999; font-family: inherit; }
+[data-theme="mac"] h1 { font-family: Geneva, Arial, sans-serif; font-size: 30px; }
+[data-theme="mac"] .directory { border: 1px solid #000; box-shadow: inset 1px 1px #888; }
+[data-theme="mac"] .profile, [data-theme="mac"] .profile:visited { color: #000; }
+[data-theme="mac"] .profile-label { text-decoration: none; }
+[data-theme="mac"] .profile:hover .profile-label, [data-theme="mac"] .profile:focus-visible .profile-label { background: #000; }
+[data-theme="mac"] .status-bar { margin-top: 3px; }
+[data-theme="mac"] .status-panel { border-color: #999 #eee #eee #999; }
+[data-theme="mac"] .taskbar { display: none; }
+[data-theme="mac"] .window.maximized { inset: 42px 8px 8px; }
+[data-theme="mac"] .system-menu { top: 33px; bottom: auto; background: #eee; padding: 0; border: 1px solid #000; box-shadow: 2px 3px #0006; max-height: calc(100svh - 43px); }
+[data-theme="mac"] .menu-brand { display: none; }
+[data-theme="mac"] .menu-links { border-color: #888; box-shadow: none; }
+[data-theme="mac"] .theme-preview { filter: grayscale(.3); }
+
+/* Ubuntu's Human / GNOME 2 desktop, with its two panels. */
+html[data-theme="ubuntu"] { --accent: #a45622; --surface: #e8dfd1; }
+[data-theme="ubuntu"] body { padding-top: 65px; background: radial-gradient(ellipse at 65% 28%, #d7b68744, transparent 60%), linear-gradient(135deg, #3c261d, #865532 50%, #ba8c59); color: #2b261f; font-family: 'DejaVu Sans', 'Liberation Sans', Arial, sans-serif; }
+[data-theme="ubuntu"] .desktop-panel { position: fixed; display: flex; z-index: 5; inset: 0 0 auto; height: 35px; background: linear-gradient(#f0eade, #dcd3c4); border-bottom: 1px solid #7e725f; box-shadow: 0 1px #fff8; }
+[data-theme="ubuntu"] .ubuntu-nav { display: flex; }
+.ubuntu-mark { color: #c85f16; font-size: 23px; vertical-align: -2px; margin-right: 5px; }
+[data-theme="ubuntu"] .panel-button { color: #29241e; padding-inline: 10px; }
+[data-theme="ubuntu"] .panel-button:hover, [data-theme="ubuntu"] .panel-button[aria-expanded="true"] { color: #fff; }
+[data-theme="ubuntu"] .window { max-width: 600px; background: #e8dfd1; border: 1px solid #3f3023; border-radius: 7px 7px 3px 3px; padding: 2px; box-shadow: inset 1px 1px #fff7, 0 5px 16px #21140e70; }
+[data-theme="ubuntu"] .title-bar { background: linear-gradient(#c79b66, #a87543); border-radius: 4px 4px 0 0; color: #fff; text-shadow: 0 1px #6e482a; min-height: 32px; padding-inline: 6px; }
+[data-theme="ubuntu"] .window.maximized { inset: 43px 8px 47px; }
+[data-theme="ubuntu"] .window-title { font-size: 14px; }
+[data-theme="ubuntu"] .monitor-icon { filter: sepia(1); }
+[data-theme="ubuntu"] .bevel-button { background: linear-gradient(#f4ede1, #d7cbb8); border: 1px solid #877965; border-radius: 3px; box-shadow: inset 1px 1px #fff9; }
+[data-theme="ubuntu"] .window-control { width: 26px; height: 24px; background: linear-gradient(#d4b186, #b68a58); border-color: #87603b; }
+[data-theme="ubuntu"] .window-control:active { background: #a27b50; }
+[data-theme="ubuntu"] .path-bar { padding: 11px 8px 7px; font-size: 12px; }
+[data-theme="ubuntu"] .path { padding: 6px 8px; border: 1px solid #a99c86; border-radius: 3px; box-shadow: inset 0 1px 2px #0002; }
+[data-theme="ubuntu"] h1 { font-family: 'DejaVu Sans', Arial, sans-serif; font-size: 32px; font-weight: normal; }
+[data-theme="ubuntu"] .directory { border: 1px solid #a99c86; box-shadow: inset 0 1px 2px #0001; }
+[data-theme="ubuntu"] .profile, [data-theme="ubuntu"] .profile:visited { color: #29241e; }
+[data-theme="ubuntu"] .profile-label { text-decoration: none; border-radius: 3px; }
+[data-theme="ubuntu"] .profile:hover .profile-label, [data-theme="ubuntu"] .profile:focus-visible .profile-label { background: #a45622; }
+[data-theme="ubuntu"] .status-panel { border: 0; }
+[data-theme="ubuntu"] .status-info { padding-left: 10px; }
+[data-theme="ubuntu"] .trail-option input { accent-color: #a45622; }
+[data-theme="ubuntu"] .taskbar { height: 39px; background: linear-gradient(#eee5d7, #d9d0c1); border-color: #fff6; box-shadow: 0 -1px #7e725f; padding-block: 4px; }
+[data-theme="ubuntu"] .start-button { font-size: 12px; font-weight: normal; height: 29px; }
+[data-theme="ubuntu"] .start-mark { display: none; }
+[data-theme="ubuntu"] .start-button::before { content: '●'; color: #c65a19; font-size: 19px; }
+[data-theme="ubuntu"] .task-divider { border-color: #ab9f8c #fff8; }
+[data-theme="ubuntu"] .task-button { height: 29px; font-size: 12px; }
+[data-theme="ubuntu"] .task-button[aria-expanded="true"] { background: #c7b8a1; box-shadow: inset 0 1px 2px #0003; border-color: #95866e; font-weight: normal; }
+[data-theme="ubuntu"] .taskbar .clock { display: none; }
+[data-theme="ubuntu"] .workspace-switcher { display: grid; grid-template-columns: repeat(2, 17px); gap: 2px; margin-left: auto; padding: 2px; border: 1px solid #998c78; }
+.workspace-switcher i { width: 17px; height: 10px; background: #baaf9b; border: 1px solid #897d68; }
+.workspace-switcher i:first-child { background: #a45622; }
+[data-theme="ubuntu"] .system-menu { top: 34px; bottom: auto; padding: 4px; border: 1px solid #8b7c65; background: #eee6d9; box-shadow: 2px 3px 7px #0004; max-height: calc(100svh - 45px); }
+[data-theme="ubuntu"] .menu-brand { display: none; }
+[data-theme="ubuntu"] .menu-links { border-color: #baae9a; box-shadow: 0 1px #fff; }
+[data-theme="ubuntu"] .theme-choice:hover { border-radius: 3px; }
+
+/* Shared homescreen layout for the two mobile OS skins. */
+:is([data-theme="android"], [data-theme="ios"]) body { display: flex; justify-content: center; align-items: flex-start; padding: 60px 20px 150px; color: #fff; font-size: 14px; }
+:is([data-theme="android"], [data-theme="ios"]) .window { width: 100%; max-width: 520px; padding: 0; background: transparent; border: 0; border-radius: 0; box-shadow: none; }
+:is([data-theme="android"], [data-theme="ios"]) .title-bar,
+:is([data-theme="android"], [data-theme="ios"]) .path-bar,
+:is([data-theme="android"], [data-theme="ios"]) .status-bar,
+:is([data-theme="android"], [data-theme="ios"]) .taskbar,
+:is([data-theme="android"], [data-theme="ios"]) .desktop-panel { display: none; }
+:is([data-theme="android"], [data-theme="ios"]) .window-content { display: block; padding: 0; }
+:is([data-theme="android"], [data-theme="ios"]) body.menu-open { overflow: hidden; }
+:is([data-theme="android"], [data-theme="ios"]) .intro { margin-bottom: 44px; text-shadow: 0 2px 3px #000a; }
+:is([data-theme="android"], [data-theme="ios"]) h1 { font: normal 36px/1.2 Arial, sans-serif; }
+:is([data-theme="android"], [data-theme="ios"]) .directory { display: block; padding: 0; background: transparent; border: 0; box-shadow: none; }
+:is([data-theme="android"], [data-theme="ios"]) .profiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; align-items: start; }
+:is([data-theme="android"], [data-theme="ios"]) .profile { display: flex; min-width: 0; padding: 8px 4px; gap: 10px; color: #fff; font-size: 14px; }
+:is([data-theme="android"], [data-theme="ios"]) .profile:visited { color: #fff; }
+:is([data-theme="android"], [data-theme="ios"]) .profile-label { text-decoration: none; padding: 2px 5px; text-shadow: 0 1px 2px #000; }
+:is([data-theme="android"], [data-theme="ios"]) .profile:focus-visible { outline: 2px solid #fff; border-radius: 7px; }
+:is([data-theme="android"], [data-theme="ios"]) .mobile-status { display: flex; position: fixed; z-index: 5; top: 0; left: 0; right: 0; height: 29px; padding: 4px 10px; align-items: center; justify-content: space-between; gap: 8px; font-size: 12px; }
+.signal-icon { letter-spacing: -2px; padding-right: 5px; }
+.battery-icon { display: inline-block; width: 21px; height: 10px; border: 1px solid currentColor; padding: 1px; position: relative; vertical-align: 0; margin-left: 5px; }
+.battery-icon::before { content: ''; display: block; width: 90%; height: 100%; background: currentColor; }
+.battery-icon::after { content: ''; position: absolute; width: 2px; height: 4px; right: -3px; top: 2px; background: currentColor; }
+.mobile-status .screen-clock { font-weight: bold; }
+:is([data-theme="android"], [data-theme="ios"]) .mobile-launcher { display: flex; position: fixed; z-index: 5; left: 50%; bottom: 0; transform: translateX(-50%); width: min(520px, 100%); min-height: 111px; padding: 13px 20px max(10px, env(safe-area-inset-bottom)); align-items: center; justify-content: center; gap: 40px; }
+.settings-launcher { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 3px 12px; color: #fff; border: 0; background: transparent; font-size: 14px; text-shadow: 0 1px 2px #000; }
+.settings-launcher .settings-symbol { width: 38px; height: 38px; }
+.settings-tile { display: grid; place-items: center; width: 57px; height: 57px; }
+.settings-launcher:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+:is([data-theme="android"], [data-theme="ios"]) .system-menu { display: block; left: 50%; top: 50%; bottom: auto; transform: translate(-50%, -50%); width: min(420px, calc(100vw - 24px)); max-height: calc(100svh - 40px); padding: 0; font-size: 16px; }
+:is([data-theme="android"], [data-theme="ios"]) .menu-brand,
+:is([data-theme="android"], [data-theme="ios"]) .menu-links { display: none; }
+:is([data-theme="android"], [data-theme="ios"]) .menu-titlebar { position: sticky; top: 0; z-index: 1; min-height: 53px; padding: 9px 12px; }
+:is([data-theme="android"], [data-theme="ios"]) .menu-heading { font-size: 19px; }
+:is([data-theme="android"], [data-theme="ios"]) .menu-done { display: inline-block; min-height: 34px; padding: 5px 13px; font-size: 14px; font-weight: bold; }
+:is([data-theme="android"], [data-theme="ios"]) .theme-choice { min-height: 62px; padding-inline: 14px 36px; gap: 14px; }
+:is([data-theme="android"], [data-theme="ios"]) .theme-copy small { font-size: 13px; }
+:is([data-theme="android"], [data-theme="ios"]) .theme-preview { width: 36px; height: 30px; }
+:is([data-theme="android"], [data-theme="ios"]) .theme-choice[aria-pressed="true"]::after { right: 14px; font-size: 21px; }
+
+/* Android 2.3 Gingerbread: black chrome, Droid-era green and the app drawer. */
+html[data-theme="android"] { --accent: #a8cf55; }
+[data-theme="android"] body { font-family: 'Droid Sans', Arial, sans-serif; background: linear-gradient(160deg, #16231a 0%, #233a25 35%, #111c13 75%); }
+[data-theme="android"] .mobile-status { background: #111; color: #b8d96c; border-bottom: 1px solid #000; }
+[data-theme="android"] .status-carrier { color: #ddd; }
+[data-theme="android"] .profile-label { border-radius: 12px; background: #0007; }
+[data-theme="android"] .profile:hover .profile-label, [data-theme="android"] .profile:focus-visible .profile-label { color: #111; background: #a8cf55; text-shadow: none; }
+[data-theme="android"] .profile-icon { filter: drop-shadow(0 2px 3px #0009); }
+[data-theme="android"] .mobile-launcher { min-height: 108px; border-top: 1px solid #ffffff25; border-radius: 28px 28px 0 0; background: linear-gradient(#242424ee, #090909); box-shadow: 0 -2px 5px #0005; }
+[data-theme="android"] .settings-launcher { color: #ddd; }
+[data-theme="android"] .settings-tile { color: #bbb; background: linear-gradient(#444, #161616); border: 1px solid #666; border-radius: 7px; box-shadow: inset 0 1px #9995, 0 1px 2px #000; }
+[data-theme="android"] .settings-launcher:hover .settings-tile { color: #a8cf55; }
+[data-theme="android"] .system-menu { color: #eee; background: #141414; border: 1px solid #777; border-radius: 2px; box-shadow: 0 5px 20px #0009; }
+[data-theme="android"] .menu-titlebar { color: #a8cf55; background: linear-gradient(#333, #222); border-bottom: 3px solid #a8cf55; }
+[data-theme="android"] .menu-done { color: #eee; background: linear-gradient(#555, #333); border: 1px solid #777; border-radius: 3px; }
+[data-theme="android"] .theme-list { padding: 0; }
+[data-theme="android"] .theme-choice { border-bottom: 1px solid #383838; }
+[data-theme="android"] .theme-choice:hover, [data-theme="android"] .theme-choice:focus-visible { color: #111; background: #a8cf55; }
+[data-theme="android"] .theme-choice:focus-visible { outline: 2px solid #fff; }
+[data-theme="android"] .theme-choice[aria-pressed="true"]::after { color: #a8cf55; }
+[data-theme="android"] .theme-choice[aria-pressed="true"]:is(:hover, :focus-visible)::after { color: #111; }
+
+/* iOS 6: linen, glossy app tiles, a glass dock and grouped Settings. */
+html[data-theme="ios"] { --accent: #42689b; }
+[data-theme="ios"] body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #364451; background-image: repeating-linear-gradient(0deg, #ffffff05 0 1px, #00000005 1px 2px), repeating-linear-gradient(90deg, #ffffff06 0 1px, #00000006 1px 3px), radial-gradient(ellipse at 50% 20%, #6d829055, #15263488); }
+[data-theme="ios"] .mobile-status { background: linear-gradient(#343c45, #151b22); color: #fff; text-shadow: 0 -1px #000; }
+[data-theme="ios"] h1 { font-weight: 300; }
+[data-theme="ios"] .profile-icon { position: relative; width: 83px; height: 83px; padding: 6px; background: linear-gradient(#7a93af, #385b85 50%, #29456c); border: 1px solid #152b4b; border-radius: 17px; box-shadow: inset 0 1px 1px #fff8, 0 3px 5px #0007; overflow: hidden; }
+[data-theme="ios"] .profile img { width: 69px; height: 69px; }
+[data-theme="ios"] .profile-icon::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 47%; border-radius: 15px 15px 45% 45%; background: linear-gradient(#ffffff66, #ffffff15); pointer-events: none; }
+[data-theme="ios"] .profile:hover .profile-label, [data-theme="ios"] .profile:focus-visible .profile-label { background: #0005; border-radius: 4px; }
+[data-theme="ios"] .profile-label { font-weight: bold; }
+[data-theme="ios"] .mobile-launcher { background: linear-gradient(#c4ccd955, #9aaabd55 48%, #394f6888 49%, #c5d2e155); border-top: 1px solid #e0e8f580; box-shadow: 0 -1px 5px #0007, inset 0 1px #fff3; }
+[data-theme="ios"] .settings-tile { color: #444; border-radius: 12px; border: 1px solid #28313e; background: linear-gradient(#eee, #acb3bf 50%, #858d9a 51%, #c5ccd5); box-shadow: inset 0 1px 1px #fff, 0 2px 4px #0008; text-shadow: 0 1px #fff; }
+[data-theme="ios"] .settings-launcher { font-weight: bold; }
+[data-theme="ios"] .system-menu { color: #222; background: repeating-linear-gradient(90deg, #d9dee7 0 1px, #e2e6ed 1px 4px); border: 1px solid #777; border-radius: 8px; box-shadow: 0 5px 20px #0008; }
+[data-theme="ios"] .menu-titlebar { color: #fff; text-shadow: 0 -1px #34465d; background: linear-gradient(#b4c2d3, #849bb6 50%, #6d88a8 51%, #57769b); border-bottom: 1px solid #3d5573; }
+[data-theme="ios"] .menu-heading { font-size: 20px; }
+[data-theme="ios"] .menu-done { color: #fff; text-shadow: 0 -1px #263952; background: linear-gradient(#89a1bf, #466890); border: 1px solid #3d587a; border-radius: 6px; box-shadow: inset 0 1px #c5d4e5; }
+[data-theme="ios"] .theme-list { margin: 20px 14px; padding: 0; border: 1px solid #aeb4bf; border-radius: 10px; background: #fff; overflow: hidden; }
+[data-theme="ios"] .theme-choice { font-weight: bold; border-bottom: 1px solid #d7d9dd; }
+[data-theme="ios"] .theme-choice:last-child { border-bottom: 0; }
+[data-theme="ios"] .theme-choice:hover, [data-theme="ios"] .theme-choice:focus-visible { color: #fff; background: linear-gradient(#4c93e5, #1664c2); }
+[data-theme="ios"] .theme-copy small { font-weight: normal; }
+[data-theme="ios"] .theme-choice[aria-pressed="true"]::after { color: #3e6598; }
+[data-theme="ios"] .theme-choice[aria-pressed="true"]:is(:hover, :focus-visible)::after { color: #fff; }
+
+/* Wide screens become tablets, even when the theme was chosen on a laptop. */
+@media (min-width: 768px) {
+  :is([data-theme="android"], [data-theme="ios"]) body { padding: 85px 48px 170px; }
+  :is([data-theme="android"], [data-theme="ios"]) .window { max-width: 1100px; }
+  :is([data-theme="android"], [data-theme="ios"]) .intro { margin-bottom: 55px; }
+  :is([data-theme="android"], [data-theme="ios"]) h1 { font-size: 42px; }
+  :is([data-theme="android"], [data-theme="ios"]) .profiles { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px; }
+  :is([data-theme="android"], [data-theme="ios"]) .profile { font-size: 15px; }
+  :is([data-theme="android"], [data-theme="ios"]) .mobile-launcher { width: min(1100px, calc(100% - 64px)); }
+  :is([data-theme="android"], [data-theme="ios"]) .system-menu { width: min(800px, calc(100vw - 64px)); }
+  :is([data-theme="android"], [data-theme="ios"]) .menu-body { display: grid; grid-template-columns: 220px minmax(0, 1fr); grid-template-areas: 'heading heading' 'sidebar choices'; }
+  :is([data-theme="android"], [data-theme="ios"]) .menu-titlebar { grid-area: heading; }
+  :is([data-theme="android"], [data-theme="ios"]) .tablet-settings-sidebar { display: block; grid-area: sidebar; min-height: 410px; border-right: 1px solid #0003; padding-top: 22px; }
+  .tablet-settings-title { display: flex; align-items: center; gap: 11px; padding: 4px 20px 22px; font-weight: bold; font-size: 18px; }
+  .settings-category { padding: 13px 20px; font-weight: bold; }
+  :is([data-theme="android"], [data-theme="ios"]) .theme-list { grid-area: choices; }
+  [data-theme="ios"] .tablet-settings-sidebar { background: #c9d0de; color: #3e4e67; }
+  [data-theme="ios"] .settings-category { color: #fff; text-shadow: 0 -1px #284e7e; background: linear-gradient(#7397c6, #4d75a9); border-block: 1px solid #456894; }
+  [data-theme="ios"] .profile-icon { width: 92px; height: 92px; padding: 8px; border-radius: 19px; }
+  [data-theme="ios"] .profile img { width: 74px; height: 74px; }
+  [data-theme="ios"] .mobile-launcher { min-height: 125px; border-radius: 10px 10px 0 0; }
+  /* Android 3 Honeycomb moved the status and navigation chrome to the bottom. */
+  html[data-theme="android"] { --accent: #62cce9; }
+  [data-theme="android"] body { background: radial-gradient(ellipse at 70% 25%, #144663, transparent 65%), linear-gradient(135deg, #07131b, #102a3b 50%, #06131d); }
+  [data-theme="android"] .mobile-status { top: auto; bottom: 0; height: 42px; padding-inline: 24px; color: #62cce9; border-top: 1px solid #253a49; background: #060c12; }
+  [data-theme="android"] .mobile-launcher { bottom: 42px; min-height: 95px; width: 100%; border-radius: 0; background: linear-gradient(#0a192566, #09141f); border-color: #274357; }
+  [data-theme="android"] .settings-launcher:hover .settings-tile { color: #62cce9; }
+  [data-theme="android"] .settings-tile { background: linear-gradient(#23465a, #0c202e); border-color: #436477; border-radius: 3px; color: #9fb9c9; }
+  [data-theme="android"] .profile img { width: 88px; height: 88px; }
+  [data-theme="android"] .profile:hover .profile-label, [data-theme="android"] .profile:focus-visible .profile-label { background: #62cce9; }
+  [data-theme="android"] .system-menu { border-color: #2c506a; background: #0c1821; }
+  [data-theme="android"] .menu-titlebar { color: #62cce9; background: #152b3a; border-color: #62cce9; }
+  [data-theme="android"] .tablet-settings-sidebar { background: #101f2b; color: #b6d1e2; }
+  [data-theme="android"] .settings-category { color: #62cce9; background: #1b3445; border-left: 3px solid #62cce9; }
+  [data-theme="android"] .theme-choice { border-color: #253c4c; }
+  [data-theme="android"] .theme-choice:hover, [data-theme="android"] .theme-choice:focus-visible { background: #62cce9; }
+  [data-theme="android"] .theme-choice[aria-pressed="true"]::after { color: #62cce9; }
+}
+@media (min-width: 1100px) {
+  [data-theme="ios"] .profiles { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  [data-theme="android"] .profiles { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+@media (hover: hover) and (pointer: fine) {
+  :is([data-theme="android"], [data-theme="ios"]) body,
+  :is([data-theme="android"], [data-theme="ios"]) body * { cursor: auto; }
+  :is([data-theme="android"], [data-theme="ios"]) a,
+  :is([data-theme="android"], [data-theme="ios"]) button { cursor: pointer; }
+}
+
+@media (max-width: 639px) {
+  .panel-clock { padding-inline: 8px; }
+  [data-theme="mac"] .panel-button { padding-inline: 8px; }
+  [data-theme="mac"] .finder-title { padding-inline: 6px; }
+  [data-theme="mac"] .mac-mark { padding-inline: 8px; }
+  [data-theme="ubuntu"] .panel-button { padding-inline: 8px; font-size: 13px; }
+  [data-theme="ubuntu"] .panel-clock { font-size: 12px; }
+  [data-theme="ubuntu"] .ubuntu-mark { font-size: 18px; margin-right: 3px; }
+}
+@media (max-width: 600px) {
+  :is([data-theme="android"], [data-theme="ios"]) .system-menu { inset: 0; transform: none; width: 100%; max-height: 100svh; min-height: 100svh; border: 0; border-radius: 0; }
+  :is([data-theme="android"], [data-theme="ios"]) .menu-titlebar { padding-top: max(9px, env(safe-area-inset-top)); }
+  :is([data-theme="android"], [data-theme="ios"]) .theme-list { margin-bottom: max(20px, env(safe-area-inset-bottom)); }
+  [data-theme="android"] .theme-list { margin: 0; }
+}
+@media (max-height: 510px) and (min-width: 601px) {
+  :is([data-theme="android"], [data-theme="ios"]) body { padding-top: 42px; }
+  :is([data-theme="android"], [data-theme="ios"]) .intro { margin-bottom: 14px; }
+  :is([data-theme="android"], [data-theme="ios"]) .mobile-launcher { min-height: 85px; padding-block: 5px; }
+}
+@media print {
+  .desktop-panel, .system-menu, .mobile-status, .mobile-launcher { display: none !important; }
+  body { color: #000 !important; background: #fff !important; padding: 0 !important; }
+  .window { position: static !important; }
+  .profile, .profile:visited { color: #000 !important; }
+}

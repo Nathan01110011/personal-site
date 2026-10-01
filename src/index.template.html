@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="windows">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#008080">
   <meta name="description" content="Nathan — GitHub and LinkedIn.">
   <meta name="author" content="Nathan">
   <meta property="og:type" content="website">
@@ -11,6 +12,9 @@
   <meta property="og:description" content="Nathan — GitHub and LinkedIn.">
   <title>Nathan — home page</title>
   <link rel="icon" type="image/svg+xml" href="@@CURSOR_URL@@">
+  <script>
+@@THEME_BOOTSTRAP@@
+  </script>
   <style>
     * { box-sizing: border-box; }
     [hidden] { display: none !important; }
@@ -216,10 +220,39 @@
       .window.maximized { position: static; }
       .profiles { flex-direction: row; justify-content: center; }
     }
+
+@@THEME_STYLES@@
   </style>
 </head>
 <body>
-  <main class="window" id="home-window" aria-labelledby="name" tabindex="-1">
+  <svg class="icon-sprite" aria-hidden="true" focusable="false">
+    <symbol id="settings-symbol" viewBox="0 0 24 24">
+      <path fill="currentColor" fill-rule="evenodd" d="M9 2h6l.6 3 2.2 1.3 2.9-1 3 5.2-2.3 2 .1 2.5 2.2 2-3 5.2-2.9-1-2.2 1.3-.6 3H9l-.6-3-2.2-1-2.9 1-3-5.2 2.3-2-.1-2.5-2.2-2 3-5.2 2.9 1L8.4 5zm3 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" transform="translate(2 0) scale(.83)"/>
+    </symbol>
+    <symbol id="home-symbol" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="m3 10 9-7 9 7v11h-6v-7H9v7H3z"/>
+    </symbol>
+  </svg>
+  <header class="desktop-panel" data-menu-background aria-label="Desktop menu bar">
+    <nav class="panel-nav mac-nav" aria-label="Mac menu bar">
+      <button class="panel-button mac-mark" data-open-menu type="button" aria-label="Mac menu" aria-controls="system-menu" aria-expanded="false">⌘</button>
+      <span class="finder-title">Finder</span>
+      <button class="panel-button" id="mac-home" data-open-home type="button" aria-label="File — open Nathan's home page">File</button>
+      <button class="panel-button" id="mac-appearance" data-open-menu type="button" aria-controls="system-menu" aria-expanded="false">Appearance</button>
+    </nav>
+    <nav class="panel-nav ubuntu-nav" aria-label="Ubuntu menu bar">
+      <button class="panel-button" data-open-menu type="button" aria-controls="system-menu" aria-expanded="false"><span class="ubuntu-mark" aria-hidden="true">●</span>Applications</button>
+      <button class="panel-button" data-open-home type="button">Places</button>
+      <button class="panel-button" id="ubuntu-system" data-open-menu type="button" aria-controls="system-menu" aria-expanded="false">System</button>
+    </nav>
+    <time class="panel-clock" data-clock aria-label="Current local time"></time>
+  </header>
+  <header class="mobile-status" data-menu-background aria-label="Status bar">
+    <span class="status-carrier"><span class="signal-icon" aria-hidden="true">▂▄▆</span>Nathan</span>
+    <time class="screen-clock" data-clock aria-label="Current local time"></time>
+    <span aria-hidden="true">Wi-Fi<span class="battery-icon"></span></span>
+  </header>
+  <main class="window" data-menu-background id="home-window" aria-labelledby="name" tabindex="-1">
     <div class="title-bar">
       <div class="window-title">
         <svg class="monitor-icon" viewBox="0 0 18 18" aria-hidden="true" focusable="false" shape-rendering="crispEdges">
@@ -227,7 +260,7 @@
           <path fill="#c0c0c0" d="M2 2h13v10H2zM5 15h7v1H5z"/>
           <path fill="#008080" d="M3 3h11v7H3z"/><path fill="#fff" d="M3 3h11v1H3z"/>
         </svg>
-        <span>Nathan's home page</span>
+        <span class="window-title-text">Nathan's home page</span>
       </div>
       <div class="window-actions">
         <button class="bevel-button window-control" id="minimize" type="button" aria-label="Minimize window" title="Minimize">
@@ -241,7 +274,7 @@
         </button>
       </div>
     </div>
-    <div class="path-bar"><span>Address</span><span class="path">C:\Users\Nathan\Home</span></div>
+    <div class="path-bar"><span class="path-label">Address</span><span class="path">C:\Users\Nathan\Home</span></div>
     <div class="window-content">
       <header class="intro">
         <h1 id="name">Nathan</h1>
@@ -250,13 +283,13 @@
         <ul class="profiles">
           <li>
             <a class="profile" href="https://github.com/Nathan01110011" rel="me" aria-label="Nathan on GitHub">
-              <img src="@@GITHUB_ICON@@" width="80" height="80" alt="" decoding="async">
+              <span class="profile-icon"><img src="@@GITHUB_ICON@@" width="80" height="80" alt="" decoding="async"></span>
               <span class="profile-label">GitHub</span>
             </a>
           </li>
           <li>
             <a class="profile" href="https://www.linkedin.com/in/nathan-scott-orr" rel="me" aria-label="Nathan on LinkedIn">
-              <img src="@@LINKEDIN_ICON@@" width="80" height="80" alt="" decoding="async">
+              <span class="profile-icon"><img src="@@LINKEDIN_ICON@@" width="80" height="80" alt="" decoding="async"></span>
               <span class="profile-label">LinkedIn</span>
             </a>
           </li>
@@ -268,121 +301,51 @@
       <label class="status-panel trail-option"><input id="trails-enabled" type="checkbox" checked> Pointer trails</label>
     </div>
   </main>
-  <div class="taskbar" aria-label="Desktop taskbar">
-    <button class="bevel-button start-button" id="start" type="button" aria-label="Start — open Nathan's home page" title="Open home page">
-      <span class="start-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Start
+  <div class="taskbar" data-menu-background aria-label="Desktop taskbar">
+    <button class="bevel-button start-button" id="start" data-open-menu type="button" aria-label="Start menu" aria-controls="system-menu" aria-expanded="false" title="Start menu">
+      <span class="start-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="start-text">Start</span>
     </button>
     <span class="task-divider" aria-hidden="true"></span>
     <button class="bevel-button task-button" id="restore" type="button" aria-controls="home-window" aria-expanded="true" title="Open home page">Nathan's home page</button>
-    <time class="status-panel clock" id="clock" aria-label="Current local time"></time>
+    <span class="workspace-switcher" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <time class="status-panel clock" data-clock id="clock" aria-label="Current local time"></time>
   </div>
+  <div class="mobile-launcher" data-menu-background aria-label="Home screen dock">
+    <button class="settings-launcher" id="mobile-settings" data-open-menu type="button" aria-label="Settings — change appearance" aria-controls="system-menu" aria-expanded="false">
+      <span class="settings-tile"><svg class="settings-symbol" aria-hidden="true" focusable="false"><use href="#settings-symbol"/></svg></span>
+      <span>Settings</span>
+    </button>
+  </div>
+  <section class="system-menu" id="system-menu" aria-labelledby="appearance-heading" tabindex="-1" hidden>
+    <div class="menu-brand" aria-hidden="true"><span class="menu-brand-name">Windows 98</span></div>
+    <div class="menu-body">
+      <div class="menu-links">
+        <button class="menu-link" data-open-home type="button"><svg aria-hidden="true" focusable="false"><use href="#home-symbol"/></svg>Nathan's home page</button>
+        <a class="menu-link" href="https://github.com/Nathan01110011" rel="me">GitHub</a>
+        <a class="menu-link" href="https://www.linkedin.com/in/nathan-scott-orr" rel="me">LinkedIn</a>
+      </div>
+      <header class="menu-titlebar">
+        <h2 class="menu-heading" id="appearance-heading">Appearance</h2>
+        <button class="menu-done" id="menu-done" type="button" aria-label="Close appearance settings">Done</button>
+      </header>
+      <aside class="tablet-settings-sidebar" aria-label="Settings sidebar">
+        <div class="tablet-settings-title"><svg class="settings-symbol" aria-hidden="true" focusable="false"><use href="#settings-symbol"/></svg>Settings</div>
+        <div class="settings-category" aria-current="page">Appearance</div>
+      </aside>
+      <div class="theme-list" role="group" aria-labelledby="appearance-heading">
+        <button class="theme-choice" data-theme-choice="auto" type="button" aria-pressed="true"><span class="theme-preview" data-preview="auto" aria-hidden="true"></span><span class="theme-copy">Automatic<small id="auto-theme-name">This device</small></span></button>
+        <button class="theme-choice" data-theme-choice="windows" type="button" aria-pressed="false"><span class="theme-preview" data-preview="windows" aria-hidden="true"></span><span class="theme-copy">Windows 98<small>1998</small></span></button>
+        <button class="theme-choice" data-theme-choice="mac" type="button" aria-pressed="false"><span class="theme-preview" data-preview="mac" aria-hidden="true"></span><span class="theme-copy">Classic Mac<small>Platinum · 1997</small></span></button>
+        <button class="theme-choice" data-theme-choice="ubuntu" type="button" aria-pressed="false"><span class="theme-preview" data-preview="ubuntu" aria-hidden="true"></span><span class="theme-copy">Ubuntu<small>GNOME 2 · 2006</small></span></button>
+        <button class="theme-choice" data-theme-choice="android" type="button" aria-pressed="false"><span class="theme-preview" data-preview="android" aria-hidden="true"></span><span class="theme-copy">Android<small>Gingerbread / Honeycomb</small></span></button>
+        <button class="theme-choice" data-theme-choice="ios" type="button" aria-pressed="false"><span class="theme-preview" data-preview="ios" aria-hidden="true"></span><span class="theme-copy">iOS<small>iPhone / iPad · iOS 6</small></span></button>
+      </div>
+    </div>
+  </section>
+  <p class="visually-hidden" id="theme-announcement" aria-live="polite"></p>
   <div id="cursor-trails" aria-hidden="true"></div>
   <script>
-    (() => {
-      'use strict';
-      document.documentElement.classList.add('has-js');
-      const home = document.getElementById('home-window');
-      const restore = document.getElementById('restore');
-      const maximize = document.getElementById('maximize');
-
-      function openWindow() {
-        home.hidden = false;
-        restore.setAttribute('aria-expanded', 'true');
-        home.focus({ preventScroll: true });
-      }
-      function hideWindow() {
-        home.hidden = true;
-        restore.setAttribute('aria-expanded', 'false');
-        restore.focus({ preventScroll: true });
-      }
-      document.getElementById('start').addEventListener('click', openWindow);
-      restore.addEventListener('click', openWindow);
-      document.getElementById('minimize').addEventListener('click', hideWindow);
-      document.getElementById('close').addEventListener('click', hideWindow);
-      maximize.addEventListener('click', () => {
-        const expanded = home.classList.toggle('maximized');
-        maximize.setAttribute('aria-pressed', String(expanded));
-        maximize.setAttribute('aria-label', expanded ? 'Restore window size' : 'Maximize window');
-        maximize.title = expanded ? 'Restore size' : 'Maximize';
-      });
-
-      const clock = document.getElementById('clock');
-      const timeFormat = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' });
-      function updateClock() {
-        const now = new Date();
-        clock.textContent = timeFormat.format(now);
-        clock.dateTime = now.toISOString();
-        clock.title = now.toLocaleDateString();
-      }
-      updateClock();
-      window.setInterval(updateClock, 60000);
-
-      const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-      const checkbox = document.getElementById('trails-enabled');
-      const layer = document.getElementById('cursor-trails');
-      const cursorUrl = '@@CURSOR_URL@@';
-      const ghosts = Array.from({ length: 8 }, () => {
-        const ghost = document.createElement('img');
-        ghost.className = 'cursor-trail';
-        ghost.src = cursorUrl;
-        ghost.alt = '';
-        ghost.draggable = false;
-        layer.appendChild(ghost);
-        return ghost;
-      });
-      const lifetime = 240;
-      let points = [];
-      let animation = 0;
-      let userWantsTrails = true;
-      let enabled = false;
-
-      function clearTrails() {
-        if (animation) window.cancelAnimationFrame(animation);
-        animation = 0;
-        points.length = 0;
-        ghosts.forEach(ghost => { ghost.style.opacity = '0'; });
-      }
-      function syncPreferences() {
-        const available = finePointer.matches && !reducedMotion.matches;
-        enabled = available && userWantsTrails;
-        checkbox.disabled = !available;
-        checkbox.checked = enabled;
-        checkbox.title = reducedMotion.matches ? 'Disabled by your reduced-motion setting' : 'Show mouse pointer trails';
-        if (!enabled) clearTrails();
-      }
-      function drawTrails(now) {
-        animation = 0;
-        points = points.filter(point => now - point.time < lifetime);
-        ghosts.forEach((ghost, index) => {
-          const targetTime = now - (index + 1) * 24;
-          let point;
-          for (let cursor = points.length - 1; cursor >= 0; cursor--) {
-            if (points[cursor].time <= targetTime) { point = points[cursor]; break; }
-          }
-          if (!point) { ghost.style.opacity = '0'; return; }
-          ghost.style.transform = `translate3d(${point.x - 1}px, ${point.y - 1}px, 0)`;
-          ghost.style.opacity = String((1 - (now - point.time) / lifetime) * .65);
-        });
-        if (points.length) animation = window.requestAnimationFrame(drawTrails);
-      }
-      window.addEventListener('pointermove', event => {
-        if (!enabled || event.pointerType !== 'mouse') return;
-        points.push({ x: event.clientX, y: event.clientY, time: performance.now() });
-        if (points.length > 64) points.shift();
-        if (!animation) animation = window.requestAnimationFrame(drawTrails);
-      }, { passive: true });
-      checkbox.addEventListener('change', () => {
-        userWantsTrails = checkbox.checked;
-        syncPreferences();
-      });
-      finePointer.addEventListener('change', syncPreferences);
-      reducedMotion.addEventListener('change', syncPreferences);
-      document.documentElement.addEventListener('pointerleave', clearTrails);
-      window.addEventListener('blur', clearTrails);
-      document.addEventListener('visibilitychange', () => { if (document.hidden) clearTrails(); });
-      syncPreferences();
-    })();
+@@DESKTOP_SCRIPT@@
   </script>
 </body>
 </html>

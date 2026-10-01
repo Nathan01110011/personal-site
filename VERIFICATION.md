@@ -1,19 +1,32 @@
 # Verification
 
-Prepared for GitHub Pages on 2026-10-01. This package contains the approved
-Nathan-only design, without the two introductory lines.
+Retro OS appearances checked on 2026-10-01. The homepage still contains Nathan's
+two original GitHub and LinkedIn shortcuts and the original unmodified artwork.
 
-The generated HTML was compared byte-for-byte with the current published
-preview. Both public profile links, the responsive layout, window behavior,
-generated icons, and cursor trails are preserved.
+`node scripts/test-themes.cjs` passes 16 checks: Windows, Mac, generic Linux,
+Ubuntu-labelled Linux, Android before Linux, iPhone, desktop-mode iPad, Mac
+without touch, structured OS hints, Chrome OS, unknown devices, saved choices,
+invalid preferences, Automatic and blocked storage.
 
-The build has no third-party Python dependencies. Artwork is embedded without
-changing its bytes. The output has no external image, script, font, or stylesheet
-dependencies. Source and ZIP contents were checked, and temporary hosting
-configuration is excluded from this project.
+Chromium interaction and screenshot checks pass for all five appearances at
+desktop or tablet dimensions, Android and iOS at 390 × 844, and all three desktop
+skins at 320 × 640. All six choices fit inside their menus. Both original PNGs
+decode successfully, the links retain their correct destinations, and no page
+script errors or horizontal overflow were found.
 
-The public repository is https://github.com/Nathan01110011/personal-site.
-GitHub Pages was enabled on 2026-10-01. The build writes identical `index.html`
-and `docs/index.html` files to support publishing from either `main` source
-folder. Both folders contain `.nojekyll` so GitHub serves the approved HTML
-directly. The root output was compared byte-for-byte with the approved page.
+Additional browser checks pass for:
+
+- Switching through every appearance using its visible menu control.
+- Saved choices surviving reload, and Automatic clearing the saved preference.
+- Desktop maximize/restore, minimize/reopen, and close/reopen through the menus.
+- iOS and Android resizing between 320, 390, 768 and 1366px without losing the
+  selected appearance; tablet Settings sidebars appear only on wide screens.
+- Escape dismissal, returned focus, and inert backgrounds for mobile dialogs.
+- Desktop-mode iPad detection, blocked local storage and reduced motion.
+- A working two-link Windows fallback with JavaScript disabled.
+
+The static, self-contained output was inspected in Chromium via a local file
+because the execution environment isolates loopback networking. It contains no
+external script, image, font or stylesheet dependencies. Both `index.html` and
+`docs/index.html` are generated identically, supporting either GitHub Pages
+source folder. The existing GitHub Pages configuration remains unchanged.
