@@ -12,7 +12,7 @@
 :is([data-theme="android"], [data-theme="ios"]) h1 { font: normal 36px/1.2 Arial, sans-serif; }
 :is([data-theme="android"], [data-theme="ios"]) .directory { display: block; padding: 0; background: transparent; border: 0; box-shadow: none; }
 :is([data-theme="android"], [data-theme="ios"]) .profiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; align-items: start; }
-:is([data-theme="android"], [data-theme="ios"]) .profile { display: flex; min-width: 0; padding: 8px 4px; gap: 10px; color: #fff; font-size: 14px; }
+:is([data-theme="android"], [data-theme="ios"]) .profile { display: flex; width: 100%; min-width: 0; padding: 8px 4px; gap: 10px; color: #fff; font-size: 14px; }
 :is([data-theme="android"], [data-theme="ios"]) .profile-button { color: #fff; }
 :is([data-theme="android"], [data-theme="ios"]) .profile:visited { color: #fff; }
 :is([data-theme="android"], [data-theme="ios"]) .profile-label { text-decoration: none; padding: 2px 5px; text-shadow: 0 1px 2px #000; }
