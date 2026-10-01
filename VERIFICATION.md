@@ -13,5 +13,7 @@ dependencies. Source and ZIP contents were checked, and temporary hosting
 configuration is excluded from this project.
 
 The public repository is https://github.com/Nathan01110011/personal-site.
-The output is ready for GitHub Pages publishing from `main` and `/docs`.
-Live deployment confirmation remains pending until Pages is enabled.
+GitHub Pages was enabled on 2026-10-01. The build writes identical `index.html`
+and `docs/index.html` files to support publishing from either `main` source
+folder. Both folders contain `.nojekyll` so GitHub serves the approved HTML
+directly. The root output was compared byte-for-byte with the approved page.

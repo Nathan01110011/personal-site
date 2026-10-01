@@ -6,14 +6,17 @@ and sit side by side on desktop. The white panel expands with the window.
 
 Repository: https://github.com/Nathan01110011/personal-site
 
+Website: https://nathan01110011.github.io/personal-site/
+
 GitHub: https://github.com/Nathan01110011
 
 LinkedIn: https://www.linkedin.com/in/nathan-scott-orr
 
 ## Site files
 
-`docs/index.html` is the complete, self-contained website. Its CSS, JavaScript,
+`index.html` is the complete, self-contained website. Its CSS, JavaScript,
 and artwork are embedded. No external dependencies or server are required.
+`docs/index.html` is an identical copy so either GitHub Pages source folder works.
 
 - `src/index.template.html`: editable page, styling, and behavior.
 - `artwork/`: original generated PNGs and the hand-authored cursor SVG.
@@ -26,17 +29,15 @@ and artwork are embedded. No external dependencies or server are required.
 python3 scripts/build.py
 ```
 
-Commit both the changed source files and the rebuilt `docs/index.html`.
-Once GitHub Pages is enabled, pushes to `main` publish the committed `docs/`
-folder automatically. The Python build runs locally, not on the hosting server.
+Commit the changed source files and both rebuilt HTML files.
+Pushes to `main` publish the committed website automatically. The Python build
+runs locally, not on the hosting server.
 
 ## GitHub Pages setup
 
-In Settings → Pages, choose **Deploy from a branch**, select **main** and
-**/docs**, and save. The `.nojekyll` file keeps the output as plain HTML.
-
-After successful publication, the default URL will be:
-https://nathan01110011.github.io/personal-site/
+GitHub Pages is enabled. In Settings → Pages, use **Deploy from a branch**,
+**main**, and **/(root)**. Publishing from **/docs** is also supported.
+Both source folders contain `.nojekyll` to serve the output as plain HTML.
 
 To connect a custom domain later, first add it under Settings → Pages, then
 configure the corresponding DNS records at Namecheap. GitHub provisions the
@@ -48,5 +49,5 @@ https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-gi
 
 ## Namecheap shared hosting
 
-The same `docs/index.html` can also be uploaded directly as `index.html` into
+The same `index.html` can also be uploaded directly into
 the domain's document root on shared / cPanel hosting.

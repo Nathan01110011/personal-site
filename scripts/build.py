@@ -15,6 +15,8 @@ cursor = (root / "artwork/cursor.svg").read_text().strip()
 html = html.replace("@@CURSOR_URL@@", "data:image/svg+xml," + quote(cursor, safe=""))
 if "@@" in html:
     raise ValueError("Unresolved template token")
-(root / "docs").mkdir(exist_ok=True)
-(root / "docs/index.html").write_text(html)
-print(f"Built docs/index.html ({len(html.encode()):,} bytes)")
+for directory in (root, root / "docs"):
+    directory.mkdir(exist_ok=True)
+    (directory / "index.html").write_text(html)
+    (directory / ".nojekyll").touch()
+print(f"Built index.html and docs/index.html ({len(html.encode()):,} bytes each)")
