@@ -1,0 +1,35 @@
+/* Local covers hide each scroll shadow when that edge is reached. */
+.cv-paper { --scroll-surface: #fffdf0; }
+[data-theme="ubuntu"] .cv-paper { --scroll-surface: #fffaf0; }
+:is([data-theme="mac"], [data-theme="ios"]) .cv-paper { --scroll-surface: #fff; }
+[data-theme="android"] .cv-paper { --scroll-surface: #f6f2dc; }
+.system-menu, .window.maximized .window-content { --scroll-surface: var(--surface); }
+[data-theme="android"] .system-menu { --scroll-surface: #111; }
+[data-theme="ios"] .system-menu { --scroll-surface: #e2e6ed; }
+@media (min-width: 768px) {
+  [data-theme="android"] .system-menu { --scroll-surface: #0c1821; }
+}
+.cv-paper, .system-menu, .window.maximized .window-content {
+  scrollbar-gutter: stable;
+  scrollbar-width: auto;
+  scrollbar-color: var(--accent) var(--scroll-surface);
+  background-image:
+    linear-gradient(var(--scroll-surface) 35%, transparent),
+    linear-gradient(transparent, var(--scroll-surface) 65%),
+    radial-gradient(farthest-side at 50% 0, #0005, transparent),
+    radial-gradient(farthest-side at 50% 100%, #0005, transparent);
+  background-position: top, bottom, top, bottom;
+  background-size: 100% 36px, 100% 36px, 100% 14px, 100% 14px;
+  background-repeat: no-repeat;
+  background-attachment: local, local, scroll, scroll;
+}
+.cv-paper::-webkit-scrollbar, .system-menu::-webkit-scrollbar,
+.window.maximized .window-content::-webkit-scrollbar { width: 12px; }
+.cv-paper::-webkit-scrollbar-track, .system-menu::-webkit-scrollbar-track,
+.window.maximized .window-content::-webkit-scrollbar-track { background: var(--scroll-surface); }
+.cv-paper::-webkit-scrollbar-thumb, .system-menu::-webkit-scrollbar-thumb,
+.window.maximized .window-content::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border: 3px solid var(--scroll-surface);
+  border-radius: 6px;
+}
