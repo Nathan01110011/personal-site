@@ -97,12 +97,12 @@
       box-shadow: inset 1px 1px #000;
     }
     .profiles {
-      display: flex;
+      display: grid;
       flex: 1;
-      flex-direction: column;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       align-items: center;
       justify-content: center;
-      gap: 18px;
+      gap: 8px;
       list-style: none;
       margin: 0;
       padding: 0;
@@ -112,18 +112,21 @@
       flex-direction: column;
       align-items: center;
       gap: 7px;
-      min-width: 116px;
-      padding: 8px 12px;
+      min-width: 0;
+      width: 100%;
+      padding: 8px 4px;
       color: #0000ee;
       text-decoration: none;
     }
     .profile-button { border: 0; background: transparent; cursor: pointer; }
-    .profile img { display: block; width: 80px; height: 80px; image-rendering: pixelated; }
+    .profile-icon { max-width: 100%; }
+    .profile img { display: block; width: 80px; max-width: 100%; height: auto; image-rendering: pixelated; }
     .cv-icon {
       position: relative;
       display: block;
       width: 80px;
-      height: 80px;
+      height: auto;
+      aspect-ratio: 1;
       background: #fff;
       border: 1px solid #000;
       box-shadow: inset -6px 0 #ececec, inset 0 -6px #d8d8d8;
@@ -242,7 +245,6 @@
     @media (min-width: 640px) {
       body { padding: 32px 24px 74px; }
       .window-content { padding: 22px 22px 20px; }
-      .profiles { flex-direction: row; justify-content: center; gap: 55px; }
       .directory { padding: 19px; }
     }
     @media (max-width: 359px) {
