@@ -5,12 +5,7 @@ root = Path(__file__).resolve().parent.parent
 
 def build(asset_prefix=""):
     html = (root / "src/index.template.html").read_text()
-    for token, filename in [
-        ("@@THEME_BOOTSTRAP@@", "theme-bootstrap.js"),
-        ("@@THEME_STYLES@@", "themes.css"),
-        ("@@DESKTOP_SCRIPT@@", "desktop.js"),
-    ]:
-        html = html.replace(token, (root / "src" / filename).read_text())
+    html = html.replace("@@ASSET_PREFIX@@", asset_prefix)
     for token, filename in [
         ("@@GITHUB_ICON@@", "github-win95.png"),
         ("@@LINKEDIN_ICON@@", "linkedin-win95.png"),
@@ -23,10 +18,19 @@ def build(asset_prefix=""):
 
 outputs = [
     (root, build()),
-    (root / "docs", build("../")),
+    (root / "docs", build()),
 ]
 for directory, html in outputs:
     directory.mkdir(exist_ok=True)
+    assets = directory / "assets"
+    assets.mkdir(exist_ok=True)
+    sources = [root / "src/base.css", root / "src/theme-bootstrap.js", root / "src/desktop.js"]
+    sources.extend(sorted((root / "src/styles").glob("*.css")))
+    for source in sources:
+        (assets / source.name).write_text(source.read_text())
+    if directory != root:
+        from shutil import copytree
+        copytree(root / "artwork", directory / "artwork", dirs_exist_ok=True)
     (directory / "index.html").write_text(html)
     (directory / ".nojekyll").touch()
     print(f"Built {directory.relative_to(root) if directory != root else '.'}/index.html ({len(html.encode()):,} bytes)")

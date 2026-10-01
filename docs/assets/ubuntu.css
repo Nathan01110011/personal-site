@@ -1,0 +1,44 @@
+/* Ubuntu's Human / GNOME 2 desktop, with its two panels. */
+html[data-theme="ubuntu"] { --accent: #a45622; --surface: #e8dfd1; }
+[data-theme="ubuntu"] body { padding-top: 65px; background: radial-gradient(ellipse at 65% 28%, #d7b68744, transparent 60%), linear-gradient(135deg, #3c261d, #865532 50%, #ba8c59); color: #2b261f; font-family: 'DejaVu Sans', 'Liberation Sans', Arial, sans-serif; }
+[data-theme="ubuntu"] .desktop-panel { position: fixed; display: flex; z-index: 5; inset: 0 0 auto; height: 35px; background: linear-gradient(#f0eade, #dcd3c4); border-bottom: 1px solid #7e725f; box-shadow: 0 1px #fff8; }
+[data-theme="ubuntu"] .ubuntu-nav { display: flex; }
+.ubuntu-mark { color: #c85f16; font-size: 23px; vertical-align: -2px; margin-right: 5px; }
+[data-theme="ubuntu"] .panel-button { color: #29241e; padding-inline: 10px; }
+[data-theme="ubuntu"] .panel-button:hover, [data-theme="ubuntu"] .panel-button[aria-expanded="true"] { color: #fff; }
+[data-theme="ubuntu"] .window { max-width: 600px; background: #e8dfd1; border: 1px solid #3f3023; border-radius: 7px 7px 3px 3px; padding: 2px; box-shadow: inset 1px 1px #fff7, 0 5px 16px #21140e70; }
+[data-theme="ubuntu"] .title-bar { background: linear-gradient(#c79b66, #a87543); border-radius: 4px 4px 0 0; color: #fff; text-shadow: 0 1px #6e482a; min-height: 32px; padding-inline: 6px; }
+[data-theme="ubuntu"] .window.maximized { inset: 43px 8px 47px; }
+[data-theme="ubuntu"] .window-title { font-size: 14px; }
+[data-theme="ubuntu"] .monitor-icon { filter: sepia(1); }
+[data-theme="ubuntu"] .bevel-button { background: linear-gradient(#f4ede1, #d7cbb8); border: 1px solid #877965; border-radius: 3px; box-shadow: inset 1px 1px #fff9; }
+[data-theme="ubuntu"] .window-control { width: 26px; height: 24px; background: linear-gradient(#d4b186, #b68a58); border-color: #87603b; }
+[data-theme="ubuntu"] .window-control:active { background: #a27b50; }
+[data-theme="ubuntu"] .path-bar { padding: 11px 8px 7px; font-size: 12px; }
+[data-theme="ubuntu"] .path { padding: 6px 8px; border: 1px solid #a99c86; border-radius: 3px; box-shadow: inset 0 1px 2px #0002; }
+[data-theme="ubuntu"] h1 { font-family: 'DejaVu Sans', Arial, sans-serif; font-size: 32px; font-weight: normal; }
+[data-theme="ubuntu"] .directory { border: 1px solid #a99c86; box-shadow: inset 0 1px 2px #0001; }
+[data-theme="ubuntu"] .profile, [data-theme="ubuntu"] .profile:visited { color: #29241e; }
+[data-theme="ubuntu"] .profile-label { text-decoration: none; border-radius: 3px; }
+[data-theme="ubuntu"] .profile:hover .profile-label, [data-theme="ubuntu"] .profile:focus-visible .profile-label { background: #a45622; }
+[data-theme="ubuntu"] .cv-icon { border-radius: 3px; box-shadow: inset -6px 0 #f2eee7, inset 0 -6px #d9cbb8, 0 1px 2px #0002; }
+[data-theme="ubuntu"] .cv-icon::before, [data-theme="ubuntu"] .cv-icon::after { background: #a45622; }
+[data-theme="ubuntu"] .cv-paper { background: #fffaf0; border: 1px solid #a99c86; border-radius: 3px; box-shadow: inset 0 1px 2px #0001; font-family: 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+[data-theme="ubuntu"] .status-panel { border: 0; }
+[data-theme="ubuntu"] .status-info { padding-left: 10px; }
+[data-theme="ubuntu"] .trail-option input { accent-color: #a45622; }
+[data-theme="ubuntu"] .taskbar { height: 39px; background: linear-gradient(#eee5d7, #d9d0c1); border-color: #fff6; box-shadow: 0 -1px #7e725f; padding-block: 4px; }
+[data-theme="ubuntu"] .start-button { font-size: 12px; font-weight: normal; height: 29px; }
+[data-theme="ubuntu"] .start-mark { display: none; }
+[data-theme="ubuntu"] .start-button::before { content: '●'; color: #c65a19; font-size: 19px; }
+[data-theme="ubuntu"] .task-divider { border-color: #ab9f8c #fff8; }
+[data-theme="ubuntu"] .task-button { height: 29px; font-size: 12px; }
+[data-theme="ubuntu"] .task-button[aria-expanded="true"] { background: #c7b8a1; box-shadow: inset 0 1px 2px #0003; border-color: #95866e; font-weight: normal; }
+[data-theme="ubuntu"] .taskbar .clock { display: none; }
+[data-theme="ubuntu"] .workspace-switcher { display: grid; grid-template-columns: repeat(2, 17px); gap: 2px; margin-left: auto; padding: 2px; border: 1px solid #998c78; }
+.workspace-switcher i { width: 17px; height: 10px; background: #baaf9b; border: 1px solid #897d68; }
+.workspace-switcher i:first-child { background: #a45622; }
+[data-theme="ubuntu"] .system-menu { top: 34px; bottom: auto; padding: 4px; border: 1px solid #8b7c65; background: #eee6d9; box-shadow: 2px 3px 7px #0004; max-height: calc(100svh - 45px); }
+[data-theme="ubuntu"] .menu-brand { display: none; }
+[data-theme="ubuntu"] .menu-links { border-color: #baae9a; box-shadow: 0 1px #fff; }
+[data-theme="ubuntu"] .theme-choice:hover { border-radius: 3px; }

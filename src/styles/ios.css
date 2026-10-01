@@ -1,0 +1,28 @@
+/* iOS 6: linen, glossy app tiles, a glass dock and grouped Settings. */
+html[data-theme="ios"] { --accent: #42689b; }
+[data-theme="ios"] body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #364451; background-image: repeating-linear-gradient(0deg, #ffffff05 0 1px, #00000005 1px 2px), repeating-linear-gradient(90deg, #ffffff06 0 1px, #00000006 1px 3px), radial-gradient(ellipse at 50% 20%, #6d829055, #15263488); }
+[data-theme="ios"] .mobile-status { background: linear-gradient(#343c45, #151b22); color: #fff; text-shadow: 0 -1px #000; }
+[data-theme="ios"] h1 { font-weight: 300; }
+[data-theme="ios"] .profile-icon { position: relative; width: 83px; height: 83px; padding: 6px; background: linear-gradient(#7a93af, #385b85 50%, #29456c); border: 1px solid #152b4b; border-radius: 17px; box-shadow: inset 0 1px 1px #fff8, 0 3px 5px #0007; overflow: hidden; }
+[data-theme="ios"] .profile img { width: 69px; height: 69px; }
+[data-theme="ios"] .profile-icon::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 47%; border-radius: 15px 15px 45% 45%; background: linear-gradient(#ffffff66, #ffffff15); pointer-events: none; }
+[data-theme="ios"] .profile:hover .profile-label, [data-theme="ios"] .profile:focus-visible .profile-label { background: #0005; border-radius: 4px; }
+[data-theme="ios"] .profile-label { font-weight: bold; }
+[data-theme="ios"] .cv-icon { padding: 0; border-radius: 17px; border-color: #152b4b; box-shadow: inset 0 1px 1px #fff8, 0 3px 5px #0007; }
+[data-theme="ios"] .cv-icon::before { left: 18px; right: 18px; top: 23px; background: #42689b; box-shadow: 0 11px #777, 0 22px #777, 0 33px #777; }
+[data-theme="ios"] .cv-icon::after { top: auto; left: auto; right: 11px; bottom: 11px; height: auto; border-radius: 4px; background: #42689b; }
+[data-theme="ios"] .cv-paper { background: #fff; border-radius: 7px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+[data-theme="ios"] .mobile-launcher { background: linear-gradient(#c4ccd955, #9aaabd55 48%, #394f6888 49%, #c5d2e155); border-top: 1px solid #e0e8f580; box-shadow: 0 -1px 5px #0007, inset 0 1px #fff3; }
+[data-theme="ios"] .settings-tile { color: #444; border-radius: 12px; border: 1px solid #28313e; background: linear-gradient(#eee, #acb3bf 50%, #858d9a 51%, #c5ccd5); box-shadow: inset 0 1px 1px #fff, 0 2px 4px #0008; text-shadow: 0 1px #fff; }
+[data-theme="ios"] .settings-launcher { font-weight: bold; }
+[data-theme="ios"] .system-menu { color: #222; background: repeating-linear-gradient(90deg, #d9dee7 0 1px, #e2e6ed 1px 4px); border: 1px solid #777; border-radius: 8px; box-shadow: 0 5px 20px #0008; }
+[data-theme="ios"] .menu-titlebar { color: #fff; text-shadow: 0 -1px #34465d; background: linear-gradient(#b4c2d3, #849bb6 50%, #6d88a8 51%, #57769b); border-bottom: 1px solid #3d5573; }
+[data-theme="ios"] .menu-heading { font-size: 20px; }
+[data-theme="ios"] .menu-done { color: #fff; text-shadow: 0 -1px #263952; background: linear-gradient(#89a1bf, #466890); border: 1px solid #3d587a; border-radius: 6px; box-shadow: inset 0 1px #c5d4e5; }
+[data-theme="ios"] .theme-list { margin: 20px 14px; padding: 0; border: 1px solid #aeb4bf; border-radius: 10px; background: #fff; overflow: hidden; }
+[data-theme="ios"] .theme-choice { font-weight: bold; border-bottom: 1px solid #d7d9dd; }
+[data-theme="ios"] .theme-choice:last-child { border-bottom: 0; }
+[data-theme="ios"] .theme-choice:hover, [data-theme="ios"] .theme-choice:focus-visible { color: #fff; background: linear-gradient(#4c93e5, #1664c2); }
+[data-theme="ios"] .theme-copy small { font-weight: normal; }
+[data-theme="ios"] .theme-choice[aria-pressed="true"]::after { color: #3e6598; }
+[data-theme="ios"] .theme-choice[aria-pressed="true"]:is(:hover, :focus-visible)::after { color: #fff; }

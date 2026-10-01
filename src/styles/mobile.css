@@ -1,0 +1,43 @@
+/* Shared homescreen layout for the two mobile OS skins. */
+:is([data-theme="android"], [data-theme="ios"]) body { display: flex; justify-content: center; align-items: flex-start; padding: 60px 20px 150px; color: #fff; font-size: 14px; }
+:is([data-theme="android"], [data-theme="ios"]) .window { width: 100%; max-width: 520px; padding: 0; background: transparent; border: 0; border-radius: 0; box-shadow: none; }
+:is([data-theme="android"], [data-theme="ios"]) .title-bar,
+:is([data-theme="android"], [data-theme="ios"]) .path-bar,
+:is([data-theme="android"], [data-theme="ios"]) .status-bar,
+:is([data-theme="android"], [data-theme="ios"]) .taskbar,
+:is([data-theme="android"], [data-theme="ios"]) .desktop-panel { display: none; }
+:is([data-theme="android"], [data-theme="ios"]) .window-content { display: block; padding: 0; }
+:is([data-theme="android"], [data-theme="ios"]) body.menu-open { overflow: hidden; }
+:is([data-theme="android"], [data-theme="ios"]) .intro { margin-bottom: 44px; text-shadow: 0 2px 3px #000a; }
+:is([data-theme="android"], [data-theme="ios"]) h1 { font: normal 36px/1.2 Arial, sans-serif; }
+:is([data-theme="android"], [data-theme="ios"]) .directory { display: block; padding: 0; background: transparent; border: 0; box-shadow: none; }
+:is([data-theme="android"], [data-theme="ios"]) .profiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; align-items: start; }
+:is([data-theme="android"], [data-theme="ios"]) .profile { display: flex; min-width: 0; padding: 8px 4px; gap: 10px; color: #fff; font-size: 14px; }
+:is([data-theme="android"], [data-theme="ios"]) .profile-button { color: #fff; }
+:is([data-theme="android"], [data-theme="ios"]) .profile:visited { color: #fff; }
+:is([data-theme="android"], [data-theme="ios"]) .profile-label { text-decoration: none; padding: 2px 5px; text-shadow: 0 1px 2px #000; }
+:is([data-theme="android"], [data-theme="ios"]) .profile:focus-visible { outline: 2px solid #fff; border-radius: 7px; }
+:is([data-theme="android"], [data-theme="ios"]) .cv-notes { color: #111; }
+:is([data-theme="android"], [data-theme="ios"]) .cv-toolbar { color: #fff; text-shadow: 0 1px 2px #000; font-family: Arial, sans-serif; }
+:is([data-theme="android"], [data-theme="ios"]) .cv-paper { max-height: calc(100svh - 250px); border: 0; box-shadow: 0 3px 10px #0008; }
+:is([data-theme="android"], [data-theme="ios"]) .mobile-status { display: flex; position: fixed; z-index: 5; top: 0; left: 0; right: 0; height: 29px; padding: 4px 10px; align-items: center; justify-content: space-between; gap: 8px; font-size: 12px; }
+.signal-icon { letter-spacing: -2px; padding-right: 5px; }
+.battery-icon { display: inline-block; width: 21px; height: 10px; border: 1px solid currentColor; padding: 1px; position: relative; vertical-align: 0; margin-left: 5px; }
+.battery-icon::before { content: ''; display: block; width: 90%; height: 100%; background: currentColor; }
+.battery-icon::after { content: ''; position: absolute; width: 2px; height: 4px; right: -3px; top: 2px; background: currentColor; }
+.mobile-status .screen-clock { font-weight: bold; }
+:is([data-theme="android"], [data-theme="ios"]) .mobile-launcher { display: flex; position: fixed; z-index: 5; left: 50%; bottom: 0; transform: translateX(-50%); width: min(520px, 100%); min-height: 111px; padding: 13px 20px max(10px, env(safe-area-inset-bottom)); align-items: center; justify-content: center; gap: 40px; }
+.settings-launcher { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 3px 12px; color: #fff; border: 0; background: transparent; font-size: 14px; text-shadow: 0 1px 2px #000; }
+.settings-launcher .settings-symbol { width: 38px; height: 38px; }
+.settings-tile { display: grid; place-items: center; width: 57px; height: 57px; }
+.settings-launcher:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+:is([data-theme="android"], [data-theme="ios"]) .system-menu { display: block; left: 50%; top: 50%; bottom: auto; transform: translate(-50%, -50%); width: min(420px, calc(100vw - 24px)); max-height: calc(100svh - 40px); padding: 0; font-size: 16px; }
+:is([data-theme="android"], [data-theme="ios"]) .menu-brand,
+:is([data-theme="android"], [data-theme="ios"]) .menu-links { display: none; }
+:is([data-theme="android"], [data-theme="ios"]) .menu-titlebar { position: sticky; top: 0; z-index: 1; min-height: 53px; padding: 9px 12px; }
+:is([data-theme="android"], [data-theme="ios"]) .menu-heading { font-size: 19px; }
+:is([data-theme="android"], [data-theme="ios"]) .menu-done { display: inline-block; min-height: 34px; padding: 5px 13px; font-size: 14px; font-weight: bold; }
+:is([data-theme="android"], [data-theme="ios"]) .theme-choice { min-height: 62px; padding-inline: 14px 36px; gap: 14px; }
+:is([data-theme="android"], [data-theme="ios"]) .theme-copy small { font-size: 13px; }
+:is([data-theme="android"], [data-theme="ios"]) .theme-preview { width: 36px; height: 30px; }
+:is([data-theme="android"], [data-theme="ios"]) .theme-choice[aria-pressed="true"]::after { right: 14px; font-size: 21px; }
