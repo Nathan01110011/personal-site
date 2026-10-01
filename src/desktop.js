@@ -54,6 +54,7 @@
   }
   function showView(view, focusTarget = true) {
     activeView = view === 'cv' ? 'cv' : 'home';
+    document.body.dataset.view = activeView;
     directory.dataset.view = activeView;
     profiles.hidden = activeView !== 'home';
     cvNotes.hidden = activeView !== 'cv';

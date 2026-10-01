@@ -76,6 +76,37 @@
   :is([data-theme="android"], [data-theme="ios"]) .intro { margin-bottom: 14px; }
   :is([data-theme="android"], [data-theme="ios"]) .mobile-launcher { min-height: 85px; padding-block: 5px; }
 }
+[data-theme="ios"] body[data-view="cv"] { overflow: hidden; }
+[data-theme="ios"] body[data-view="cv"] .mobile-launcher,
+[data-theme="ios"] body[data-view="cv"] .intro,
+[data-theme="ios"] body.menu-open .mobile-launcher { display: none; }
+[data-theme="ios"] body[data-view="cv"] .window {
+  position: fixed;
+  inset: 29px 0 0;
+  width: 100%;
+  max-width: none;
+  height: calc(100dvh - 29px);
+  margin: 0;
+  background: #fff;
+  overflow: hidden;
+}
+[data-theme="ios"] body[data-view="cv"] .window-content,
+[data-theme="ios"] body[data-view="cv"] .directory { height: 100%; }
+[data-theme="ios"] body[data-view="cv"] .cv-notes { display: flex; flex-direction: column; height: 100%; }
+[data-theme="ios"] body[data-view="cv"] .cv-toolbar {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 10px 14px;
+  min-height: 48px;
+  background: linear-gradient(#b4c2d3, #57769b);
+  border-bottom: 1px solid #3d5573;
+}
+[data-theme="ios"] body[data-view="cv"] .cv-toolbar > span { font-size: 0; }
+[data-theme="ios"] body[data-view="cv"] .cv-toolbar > span::after { content: 'CV Notes'; font-size: 16px; font-weight: bold; }
+[data-theme="ios"] body[data-view="cv"] .cv-back { color: #fff; background: linear-gradient(#89a1bf, #466890); border: 1px solid #3d587a; border-radius: 6px; box-shadow: inset 0 1px #c5d4e5; min-height: 32px; }
+[data-theme="ios"] body[data-view="cv"] .cv-paper { flex: 1; min-height: 0; max-height: none; border-radius: 0; overflow: auto; overscroll-behavior: contain; padding-bottom: max(18px, env(safe-area-inset-bottom)); }
+[data-theme="ios"] body.menu-open .system-menu { inset: 29px 0 0; transform: none; width: 100%; height: calc(100dvh - 29px); min-height: 0; max-height: none; border: 0; border-radius: 0; }
+
 @media print {
   .desktop-panel, .system-menu, .mobile-status, .mobile-launcher { display: none !important; }
   body { color: #000 !important; background: #fff !important; padding: 0 !important; }
