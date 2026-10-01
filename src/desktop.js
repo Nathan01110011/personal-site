@@ -9,7 +9,12 @@
   const toggles = Array.from(document.querySelectorAll('[data-open-menu]'));
   const choices = Array.from(document.querySelectorAll('[data-theme-choice]'));
   const background = Array.from(document.querySelectorAll('[data-menu-background]'));
+  const directory = document.querySelector('.directory');
+  const profiles = document.querySelector('.profiles');
+  const cvNotes = document.querySelector('.cv-notes');
+  const statusInfo = document.getElementById('status-info');
   let lastToggle = null;
+  let activeView = 'home';
 
   const mobileTheme = () => ['android', 'ios'].includes(appearance.theme);
   function launchControl() {
@@ -35,6 +40,31 @@
     maximize.setAttribute('aria-pressed', 'false');
     maximize.setAttribute('aria-label', 'Maximize window');
     maximize.title = 'Maximize';
+  }
+  function themePath(view = activeView) {
+    const paths = {
+      home: { windows: 'C:\\Users\\Nathan\\Home', mac: 'Macintosh HD › Nathan › Home', ubuntu: '/home/nathan' },
+      cv: { windows: 'C:\\Users\\Nathan\\Documents\\CV Notes.txt', mac: 'Macintosh HD › Nathan › Documents › CV Notes', ubuntu: '/home/nathan/Documents/cv-notes.txt' }
+    };
+    return (paths[view] || paths.home)[appearance.theme] || (view === 'cv' ? 'CV Notes' : 'Nathan');
+  }
+  function themeTitle(view = activeView) {
+    if (view === 'cv') return appearance.theme === 'ubuntu' ? 'cv-notes.txt — Text Editor' : 'CV Notes';
+    return appearance.theme === 'ubuntu' ? 'nathan — File Browser' : "Nathan's home page";
+  }
+  function showView(view, focusTarget = true) {
+    activeView = view === 'cv' ? 'cv' : 'home';
+    directory.dataset.view = activeView;
+    profiles.hidden = activeView !== 'home';
+    cvNotes.hidden = activeView !== 'cv';
+    document.querySelector('.path').textContent = themePath();
+    document.querySelector('.window-title-text').textContent = themeTitle();
+    restore.textContent = activeView === 'cv' ? 'CV Notes' : "Nathan's home page";
+    restore.title = activeView === 'cv' ? 'Open CV notes' : 'Open home page';
+    statusInfo.textContent = activeView === 'cv' ? 'CV summary · last updated Oct 2026' : '3 shortcuts';
+    if (!focusTarget) return;
+    const target = activeView === 'cv' ? cvNotes.querySelector('.cv-back') : directory.querySelector('[data-open-cv]');
+    target?.focus({ preventScroll: true });
   }
   function positionMenu() {
     if (!lastToggle || mobileTheme()) return;
@@ -83,10 +113,9 @@
     document.getElementById('auto-theme-name').textContent = labels[appearance.detected];
     document.querySelector('.menu-brand-name').textContent = labels[appearance.theme];
     document.querySelector('.start-text').textContent = appearance.theme === 'ubuntu' ? 'System' : 'Start';
-    const paths = { windows: 'C:\\Users\\Nathan\\Home', mac: 'Macintosh HD › Nathan › Home', ubuntu: '/home/nathan' };
-    document.querySelector('.path').textContent = paths[appearance.theme] || 'Nathan';
+    document.querySelector('.path').textContent = themePath();
     document.querySelector('.path-label').textContent = appearance.theme === 'windows' ? 'Address' : 'Location';
-    document.querySelector('.window-title-text').textContent = appearance.theme === 'ubuntu' ? 'nathan — File Browser' : "Nathan's home page";
+    document.querySelector('.window-title-text').textContent = themeTitle();
     document.querySelector('meta[name="theme-color"]').content = { windows: '#008080', mac: '#959595', ubuntu: '#75482e', android: '#111111', ios: '#364451' }[appearance.theme];
     resetWindowSize();
     home.hidden = false;
@@ -113,7 +142,14 @@
   document.querySelectorAll('[data-open-home]').forEach(button => button.addEventListener('click', () => {
     closeMenu(false);
     openWindow();
+    showView('home', false);
   }));
+  document.querySelectorAll('[data-open-cv]').forEach(button => button.addEventListener('click', () => {
+    closeMenu(false);
+    openWindow();
+    showView('cv');
+  }));
+  document.querySelectorAll('[data-open-home-view]').forEach(button => button.addEventListener('click', () => showView('home')));
   restore.addEventListener('click', openWindow);
   document.getElementById('minimize').addEventListener('click', hideWindow);
   document.getElementById('close').addEventListener('click', hideWindow);
