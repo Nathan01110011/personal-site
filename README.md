@@ -9,10 +9,10 @@ desktop-mode iPads are distinguished from Macs. Unknown devices use Windows.
 A manual choice is saved locally; **Automatic** clears it and follows the OS.
 
 Switch appearances from **Start** on Windows, the **Mac / Appearance** menu on
-Mac, **System** on Ubuntu, or the **Settings** dock icon on Android and iOS.
+Mac, **System** on Ubuntu, or the **Settings** app on Android and iOS.
 Every appearance remains selectable on every device. Android and iOS use phone
 layouts on narrow screens and tablet layouts from 768px: Honeycomb-style Android
-chrome or an iPad-style app grid, dock and two-pane Settings. No extra profile
+chrome or an iPad-style app grid and two-pane Settings. No extra profile
 content has been added. Desktop window controls, a pixel cursor and optional
 pointer trails are retained; trails respect reduced motion and are disabled in
 the mobile OS appearances.

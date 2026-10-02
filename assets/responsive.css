@@ -6,13 +6,12 @@
 
 /* Wide screens become tablets, even when the theme was chosen on a laptop. */
 @media (min-width: 768px) {
-  :is([data-theme="android"], [data-theme="ios"]) body { padding: 85px 48px 170px; }
+  :is([data-theme="android"], [data-theme="ios"]) body { padding: 85px 48px max(40px, env(safe-area-inset-bottom)); }
   :is([data-theme="android"], [data-theme="ios"]) .window { max-width: 1100px; }
   :is([data-theme="android"], [data-theme="ios"]) .intro { margin-bottom: 55px; }
   :is([data-theme="android"], [data-theme="ios"]) h1 { font-size: 42px; }
   :is([data-theme="android"], [data-theme="ios"]) .profiles { gap: 30px; }
   :is([data-theme="android"], [data-theme="ios"]) .profile { font-size: 15px; }
-  :is([data-theme="android"], [data-theme="ios"]) .mobile-launcher { width: min(1100px, calc(100% - 64px)); }
   :is([data-theme="android"], [data-theme="ios"]) .system-menu { width: min(800px, calc(100vw - 64px)); }
   :is([data-theme="android"], [data-theme="ios"]) .menu-body { display: grid; grid-template-columns: 220px minmax(0, 1fr); grid-template-areas: 'heading heading' 'sidebar choices'; }
   :is([data-theme="android"], [data-theme="ios"]) .menu-titlebar { grid-area: heading; }
@@ -24,14 +23,12 @@
   [data-theme="ios"] .settings-category { color: #fff; text-shadow: 0 -1px #284e7e; background: linear-gradient(#7397c6, #4d75a9); border-block: 1px solid #456894; }
   [data-theme="ios"] .profile-icon { width: 92px; height: 92px; padding: 8px; border-radius: 19px; }
   [data-theme="ios"] .profile img { width: 74px; height: 74px; }
-  [data-theme="ios"] .mobile-launcher { min-height: 125px; border-radius: 10px 10px 0 0; }
   /* Android 3 Honeycomb moved the status and navigation chrome to the bottom. */
   html[data-theme="android"] { --accent: #62cce9; }
-  [data-theme="android"] body { background: radial-gradient(ellipse at 70% 25%, #144663, transparent 65%), linear-gradient(135deg, #07131b, #102a3b 50%, #06131d); }
+  [data-theme="android"] body { padding-bottom: max(74px, calc(42px + env(safe-area-inset-bottom))); background: radial-gradient(ellipse at 70% 25%, #144663, transparent 65%), linear-gradient(135deg, #07131b, #102a3b 50%, #06131d); }
   [data-theme="android"] .mobile-status { top: auto; bottom: 0; height: 42px; padding-inline: 24px; color: #62cce9; border-top: 1px solid #253a49; background: #060c12; }
-  [data-theme="android"] .mobile-launcher { bottom: 42px; min-height: 95px; width: 100%; border-radius: 0; background: linear-gradient(#0a192566, #09141f); border-color: #274357; }
   [data-theme="android"] .settings-launcher:hover .settings-tile { color: #62cce9; }
-  [data-theme="android"] .settings-tile { background: linear-gradient(#23465a, #0c202e); border-color: #436477; border-radius: 3px; color: #9fb9c9; }
+  [data-theme="android"] .settings-tile { width: 88px; height: 88px; background: linear-gradient(#23465a, #0c202e); border-color: #436477; border-radius: 3px; color: #9fb9c9; }
   [data-theme="android"] .profile img { width: 88px; height: 88px; }
   [data-theme="android"] .cv-icon { width: 88px; height: 88px; }
   [data-theme="android"] .cv-icon::before { top: 21px; box-shadow: 0 12px #ddd, 0 24px #777, 0 36px #777; }
@@ -46,8 +43,8 @@
   [data-theme="android"] .theme-choice:hover, [data-theme="android"] .theme-choice:focus-visible { background: #62cce9; }
   [data-theme="android"] .theme-choice[aria-pressed="true"]::after { color: #62cce9; }
 }
-@media (orientation: landscape) {
-  :is([data-theme="android"], [data-theme="ios"]) .profiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (orientation: landscape) and (min-width: 480px) {
+  :is([data-theme="android"], [data-theme="ios"]) .profiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 @media (hover: hover) and (pointer: fine) {
   :is([data-theme="android"], [data-theme="ios"]) body,
@@ -74,12 +71,9 @@
 @media (max-height: 510px) and (min-width: 601px) {
   :is([data-theme="android"], [data-theme="ios"]) body { padding-top: 42px; }
   :is([data-theme="android"], [data-theme="ios"]) .intro { margin-bottom: 14px; }
-  :is([data-theme="android"], [data-theme="ios"]) .mobile-launcher { min-height: 85px; padding-block: 5px; }
 }
 [data-theme="ios"] body[data-view="cv"] { overflow: hidden; }
-[data-theme="ios"] body[data-view="cv"] .mobile-launcher,
-[data-theme="ios"] body[data-view="cv"] .intro,
-[data-theme="ios"] body.menu-open .mobile-launcher { display: none; }
+[data-theme="ios"] body[data-view="cv"] .intro { display: none; }
 [data-theme="ios"] body[data-view="cv"] .window {
   position: fixed;
   inset: 29px 0 0;
@@ -108,7 +102,7 @@
 [data-theme="ios"] body.menu-open .system-menu { inset: 29px 0 0; transform: none; width: 100%; height: calc(100dvh - 29px); min-height: 0; max-height: none; border: 0; border-radius: 0; }
 
 @media print {
-  .desktop-panel, .system-menu, .mobile-status, .mobile-launcher { display: none !important; }
+  .desktop-panel, .system-menu, .mobile-status, .mobile-settings-app { display: none !important; }
   body { color: #000 !important; background: #fff !important; padding: 0 !important; }
   .window { position: static !important; }
   .profile, .profile:visited { color: #000 !important; }

@@ -124,7 +124,9 @@
     syncPreferences();
     if (announce) {
       document.getElementById('theme-announcement').textContent = 'Appearance: ' + labels[appearance.theme];
-      launchControl().focus({ preventScroll: true });
+      const launcher = launchControl();
+      const focusTarget = launcher.getClientRects().length ? launcher : cvNotes.querySelector('.cv-back');
+      focusTarget?.focus({ preventScroll: true });
     }
   }
   toggles.forEach(toggle => toggle.addEventListener('click', () => {

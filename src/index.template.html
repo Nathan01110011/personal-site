@@ -47,9 +47,9 @@
     <time class="panel-clock" data-clock aria-label="Current local time"></time>
   </header>
   <header class="mobile-status" data-menu-background aria-label="Status bar">
-    <span class="status-carrier"><span class="signal-icon" aria-hidden="true">▂▄▆</span>Nathan</span>
+    <span class="status-carrier"><svg class="signal-icon" viewBox="0 0 18 14" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M0 11h3v3H0zM5 8h3v6H5zM10 4h3v10h-3zM15 0h3v14h-3z"/></svg>Nathan</span>
     <time class="screen-clock" data-clock aria-label="Current local time"></time>
-    <span aria-hidden="true">Wi-Fi<span class="battery-icon"></span></span>
+    <span class="status-connections" aria-hidden="true">Wi-Fi<span class="battery-icon"></span></span>
   </header>
   <main class="window" data-menu-background id="home-window" aria-labelledby="name" tabindex="-1">
     <div class="title-bar">
@@ -96,6 +96,12 @@
             <button class="profile profile-button" data-open-cv type="button" aria-label="Open Nathan's CV notes">
               <span class="profile-icon cv-icon" aria-hidden="true"></span>
               <span class="profile-label">CV Notes</span>
+            </button>
+          </li>
+          <li class="mobile-settings-app">
+            <button class="profile profile-button settings-launcher" id="mobile-settings" data-open-menu type="button" aria-label="Settings — change appearance" aria-controls="system-menu" aria-expanded="false">
+              <span class="profile-icon settings-tile" aria-hidden="true"><svg class="settings-symbol" focusable="false"><use href="#settings-symbol"/></svg></span>
+              <span class="profile-label">Settings</span>
             </button>
           </li>
         </ul>
@@ -157,12 +163,6 @@
     <button class="bevel-button task-button" id="restore" type="button" aria-controls="home-window" aria-expanded="true" title="Open home page">Nathan's home page</button>
     <span class="workspace-switcher" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
     <time class="status-panel clock" data-clock id="clock" aria-label="Current local time"></time>
-  </div>
-  <div class="mobile-launcher" data-menu-background aria-label="Home screen dock">
-    <button class="settings-launcher" id="mobile-settings" data-open-menu type="button" aria-label="Settings — change appearance" aria-controls="system-menu" aria-expanded="false">
-      <span class="settings-tile"><svg class="settings-symbol" aria-hidden="true" focusable="false"><use href="#settings-symbol"/></svg></span>
-      <span>Settings</span>
-    </button>
   </div>
   <section class="system-menu" id="system-menu" aria-labelledby="appearance-heading" tabindex="-1" hidden>
     <div class="menu-brand" aria-hidden="true"><span class="menu-brand-name">Windows 98</span></div>
