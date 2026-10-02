@@ -9,8 +9,8 @@
 @media (min-width: 768px) {
   [data-theme="android"] .system-menu { --scroll-surface: #0c1821; }
 }
+.cv-paper, .window.maximized .window-content { scrollbar-gutter: stable; }
 .cv-paper, .system-menu, .window.maximized .window-content {
-  scrollbar-gutter: stable;
   scrollbar-width: auto;
   scrollbar-color: var(--accent) var(--scroll-surface);
   background-image:
