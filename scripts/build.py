@@ -31,7 +31,10 @@ for directory, html in outputs:
     sources = [root / "src/base.css", root / "src/theme-bootstrap.js", root / "src/desktop.js"]
     sources.extend(sorted((root / "src/styles").glob("*.css")))
     for source in sources:
-        (assets / source.name).write_text(source.read_text())
+        content = source.read_text()
+        if "@@" in content:
+            raise ValueError(f"Unresolved template token in {source.relative_to(root)}")
+        (assets / source.name).write_text(content)
     if directory != root:
         from shutil import copytree
         copytree(root / "artwork", directory / "artwork", dirs_exist_ok=True)

@@ -203,7 +203,7 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const checkbox = document.getElementById('trails-enabled');
   const layer = document.getElementById('cursor-trails');
-  const cursorUrl = '@@CURSOR_URL@@';
+  const cursorUrl = new URL('../artwork/cursor.svg', document.currentScript.src).href;
   const ghosts = Array.from({ length: 8 }, () => {
     const ghost = document.createElement('img');
     ghost.className = 'cursor-trail';
