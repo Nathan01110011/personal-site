@@ -27,3 +27,9 @@ html[data-theme="ios"] { --accent: #42689b; }
 [data-theme="ios"] .theme-copy small { font-weight: normal; }
 [data-theme="ios"] .theme-choice[aria-pressed="true"]::after { color: #3e6598; }
 [data-theme="ios"] .theme-choice[aria-pressed="true"]:is(:hover, :focus-visible)::after { color: #fff; }
+
+[data-theme="ios"] .profile-icon.app-icon { background-size: 320px 80px; background-repeat: no-repeat; }
+[data-theme="ios"] .profile-icon.app-icon-github { background-position: 0 0 !important; }
+[data-theme="ios"] .profile-icon.app-icon-linkedin { background-position: -80px 0 !important; }
+[data-theme="ios"] .profile-icon.app-icon-cv { background-position: -160px 0 !important; }
+[data-theme="ios"] .profile-icon.app-icon-settings { background-position: -240px 0 !important; }
