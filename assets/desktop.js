@@ -15,6 +15,40 @@
   const statusInfo = document.getElementById('status-info');
   let lastToggle = null;
   let activeView = 'home';
+  const titleBar = home.querySelector('.title-bar');
+  let windowOffset = { x: 0, y: 0 };
+  let dragState = null;
+
+  const desktopTheme = () => ['windows', 'mac', 'ubuntu'].includes(appearance.theme);
+  function applyWindowOffset() {
+    if (!desktopTheme() || home.classList.contains('maximized')) {
+      home.style.transform = '';
+      return;
+    }
+    home.style.transform = `translate3d(${windowOffset.x}px, ${windowOffset.y}px, 0)`;
+  }
+  function clampWindowOffset() {
+    if (!desktopTheme() || home.classList.contains('maximized')) return;
+    const previous = home.style.transform;
+    home.style.transform = '';
+    const base = home.getBoundingClientRect();
+    home.style.transform = previous;
+    const margin = 8;
+    const minX = margin - base.left;
+    const maxX = window.innerWidth - margin - base.right;
+    const minY = margin - base.top;
+    const bottomReserve = appearance.theme === 'ubuntu' ? 47 : 50;
+    const maxY = window.innerHeight - bottomReserve - margin - base.bottom;
+    windowOffset.x = Math.min(Math.max(windowOffset.x, Math.min(minX, maxX)), Math.max(minX, maxX));
+    windowOffset.y = Math.min(Math.max(windowOffset.y, Math.min(minY, maxY)), Math.max(minY, maxY));
+    applyWindowOffset();
+  }
+  function seedWindowOffset() {
+    if (window.innerWidth >= 700 && window.innerHeight >= 560 && windowOffset.x === 0 && windowOffset.y === 0) {
+      windowOffset = { x: 24, y: -18 };
+    }
+    clampWindowOffset();
+  }
 
   const mobileTheme = () => ['android', 'ios'].includes(appearance.theme);
   function launchControl() {
@@ -40,6 +74,7 @@
     maximize.setAttribute('aria-pressed', 'false');
     maximize.setAttribute('aria-label', 'Maximize window');
     maximize.title = 'Maximize';
+    applyWindowOffset();
   }
   function themePath(view = activeView) {
     const paths = {
@@ -122,6 +157,10 @@
     home.hidden = false;
     restore.setAttribute('aria-expanded', 'true');
     syncPreferences();
+    window.requestAnimationFrame(() => {
+      if (desktopTheme()) seedWindowOffset();
+      else home.style.transform = '';
+    });
     if (announce) {
       document.getElementById('theme-announcement').textContent = 'Appearance: ' + labels[appearance.theme];
       const launcher = launchControl();
@@ -161,7 +200,31 @@
     maximize.setAttribute('aria-pressed', String(expanded));
     maximize.setAttribute('aria-label', expanded ? 'Restore window size' : 'Maximize window');
     maximize.title = expanded ? 'Restore size' : 'Maximize';
+    applyWindowOffset();
+    if (!expanded) window.requestAnimationFrame(clampWindowOffset);
   });
+
+  titleBar.addEventListener('pointerdown', event => {
+    if (!desktopTheme() || home.classList.contains('maximized') || event.button !== 0 || event.target.closest('.window-actions')) return;
+    event.preventDefault();
+    dragState = { pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, originX: windowOffset.x, originY: windowOffset.y };
+    titleBar.setPointerCapture(event.pointerId);
+    home.classList.add('dragging');
+  });
+  titleBar.addEventListener('pointermove', event => {
+    if (!dragState || event.pointerId !== dragState.pointerId) return;
+    windowOffset.x = dragState.originX + event.clientX - dragState.startX;
+    windowOffset.y = dragState.originY + event.clientY - dragState.startY;
+    clampWindowOffset();
+  });
+  function endDrag(event) {
+    if (!dragState || event.pointerId !== dragState.pointerId) return;
+    dragState = null;
+    home.classList.remove('dragging');
+    if (titleBar.hasPointerCapture(event.pointerId)) titleBar.releasePointerCapture(event.pointerId);
+  }
+  titleBar.addEventListener('pointerup', endDrag);
+  titleBar.addEventListener('pointercancel', endDrag);
   document.addEventListener('pointerdown', event => {
     if (!menu.hidden && !menu.contains(event.target) && !toggles.some(toggle => toggle.contains(event.target))) closeMenu(false);
   });
@@ -186,7 +249,10 @@
       }
     }
   });
-  window.addEventListener('resize', positionMenu, { passive: true });
+  window.addEventListener('resize', () => {
+    positionMenu();
+    window.requestAnimationFrame(clampWindowOffset);
+  }, { passive: true });
 
   const clocks = Array.from(document.querySelectorAll('[data-clock]'));
   const timeFormat = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' });
