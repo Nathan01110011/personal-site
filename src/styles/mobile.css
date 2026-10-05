@@ -1,6 +1,6 @@
 /* Shared homescreen layout for the two mobile OS skins. */
 :is([data-theme="android"], [data-theme="ios"]) body { display: flex; justify-content: center; align-items: flex-start; padding: 60px 20px max(32px, env(safe-area-inset-bottom)); color: #fff; font-size: 14px; }
-:is([data-theme="android"], [data-theme="ios"]) .window { width: 100%; max-width: 520px; padding: 0; background: transparent; border: 0; border-radius: 0; box-shadow: none; }
+:is([data-theme="android"], [data-theme="ios"]) .window { width: 100%; max-width: 520px; padding: 0; background: transparent; border: 0; border-radius: 0; box-shadow: none; transform: none !important; }
 :is([data-theme="android"], [data-theme="ios"]) .title-bar,
 :is([data-theme="android"], [data-theme="ios"]) .path-bar,
 :is([data-theme="android"], [data-theme="ios"]) .status-bar,
@@ -20,6 +20,22 @@
 :is([data-theme="android"], [data-theme="ios"]) .cv-notes { color: #111; }
 :is([data-theme="android"], [data-theme="ios"]) .cv-toolbar { color: #fff; text-shadow: 0 1px 2px #000; font-family: Arial, sans-serif; }
 :is([data-theme="android"], [data-theme="ios"]) .cv-paper { max-height: calc(100svh - 250px); border: 0; box-shadow: 0 3px 10px #0008; }
+[data-theme="android"] body[data-view="cv"] { overflow: hidden; }
+[data-theme="android"] body[data-view="cv"] .intro { display: none; }
+[data-theme="android"] body[data-view="cv"] .window {
+  position: fixed;
+  inset: 29px 0 0;
+  width: 100%;
+  max-width: none;
+  height: calc(100dvh - 29px);
+  margin: 0;
+  overflow: hidden;
+}
+[data-theme="android"] body[data-view="cv"] .window-content,
+[data-theme="android"] body[data-view="cv"] .directory { height: 100%; }
+[data-theme="android"] body[data-view="cv"] .cv-notes { display: flex; flex-direction: column; height: 100%; }
+[data-theme="android"] body[data-view="cv"] .cv-toolbar { flex-shrink: 0; margin: 0; padding: 10px 14px; min-height: 48px; background: #202020; border-bottom: 3px solid var(--accent); }
+[data-theme="android"] body[data-view="cv"] .cv-paper { flex: 1; min-height: 0; max-height: none; overflow: auto; border-radius: 0; padding-bottom: max(18px, env(safe-area-inset-bottom)); }
 :is([data-theme="android"], [data-theme="ios"]) .mobile-status { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); position: fixed; z-index: 5; top: 0; left: 0; right: 0; height: 29px; padding: 4px 10px; align-items: center; gap: 8px; font-size: 12px; }
 .status-carrier, .status-connections { display: flex; align-items: center; gap: 5px; white-space: nowrap; line-height: 1; }
 .status-connections { justify-self: end; }
