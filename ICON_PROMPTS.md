@@ -1,5 +1,21 @@
 # Retro shortcut artwork
 
+## Current theme icons
+
+The current UI uses 20 independent 256 × 256 lossless WebP files in
+`artwork/icons/`, displayed at 80 × 80. Windows, Mac, Android, and iOS icons were
+repaired with image generation using the previous artwork as references.
+Prompts requested complete object borders, opaque interiors, and transparency
+only outside the object. The invalid Ubuntu sprite was replaced with matching
+GNOME 2 / Human-style folder, address book, notes, and settings artwork.
+
+Exports crop each icon with padding, resize it, and preserve its alpha channel.
+Do not remove background colours with a colour key: pale paper, silver borders,
+and dark outlines are part of the icons. CSS uses one file per icon rather than
+offsets into a sprite strip. `scripts/build.py` copies them into `docs/artwork/`.
+
+## Original Windows artwork
+
 Generation mode: built-in image generation (`image_gen.imagegen`). Two original
 PNG assets were generated in one bounded batch, with no retries or raster edits.
 The originals are copied intact into `artwork/` and embedded byte-for-byte in

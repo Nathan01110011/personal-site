@@ -27,16 +27,17 @@ LinkedIn: https://www.linkedin.com/in/nathan-scott-orr
 
 ## Site files
 
-`index.html` is the complete, self-contained website. Its CSS, JavaScript,
-and artwork are embedded. No external dependencies or server are required.
-`docs/index.html` is an identical copy so either GitHub Pages source folder works.
+`index.html` loads the local CSS, JavaScript, and artwork files. No build service
+or application server is required. `docs/` contains the same website so either
+GitHub Pages source folder works.
 
 - `src/index.template.html`: editable page, styling, and behavior.
-- `src/themes.css`: the five appearances and responsive phone/tablet layouts.
+- `src/base.css` and `src/styles/`: the five appearances and responsive layouts.
 - `src/theme-bootstrap.js`: OS detection and the saved preference, before paint.
 - `src/desktop.js`: menu, window, clock, theme switching and pointer behavior.
+- `artwork/icons/`: separate transparent WebP icons for each appearance.
 - `artwork/`: original generated PNGs and the hand-authored cursor SVG.
-- `scripts/build.py`: embeds artwork into the final HTML without changing pixels.
+- `scripts/build.py`: copies assets and builds both HTML entrypoints with versioned CSS and JavaScript URLs.
 - `scripts/test-themes.cjs`: OS detection and preference regression checks.
 - `ICON_PROMPTS.md`: original image prompts and generation details.
 
@@ -47,7 +48,7 @@ python3 scripts/build.py
 node scripts/test-themes.cjs
 ```
 
-Commit the changed source files and both rebuilt HTML files.
+Commit the changed source files, artwork, and rebuilt `assets/`, `docs/`, and HTML files.
 Pushes to `main` publish the committed website automatically. The Python build
 runs locally, not on the hosting server.
 
@@ -67,5 +68,5 @@ https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-gi
 
 ## Namecheap shared hosting
 
-The same `index.html` can also be uploaded directly into
+Upload `index.html`, `assets/`, and `artwork/` together into
 the domain's document root on shared / cPanel hosting.
