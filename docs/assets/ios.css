@@ -5,6 +5,8 @@ html[data-theme="ios"] { --accent: #42689b; }
 [data-theme="ios"] h1 { font-weight: 300; }
 [data-theme="ios"] .profile-icon { position: relative; width: 83px; height: 83px; padding: 6px; background: linear-gradient(#7a93af, #385b85 50%, #29456c); border: 1px solid #152b4b; border-radius: 17px; box-shadow: inset 0 1px 1px #fff8, 0 3px 5px #0007; overflow: hidden; }
 [data-theme="ios"] .profile img { width: 69px; height: 69px; }
+[data-theme="ios"] .profile-icon.app-icon { width: 80px; height: 80px; padding: 0; background-image: url("../artwork/os-icons/ios.svg"); background-color: transparent; border: 0; border-radius: 0; box-shadow: none; overflow: visible; }
+[data-theme="ios"] .profile-icon.app-icon::after { display: none; }
 [data-theme="ios"] .profile-icon::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 47%; border-radius: 15px 15px 45% 45%; background: linear-gradient(#ffffff66, #ffffff15); pointer-events: none; }
 [data-theme="ios"] .profile:hover .profile-label, [data-theme="ios"] .profile:focus-visible .profile-label { background: #0005; border-radius: 4px; }
 [data-theme="ios"] .profile-label { font-weight: bold; }
