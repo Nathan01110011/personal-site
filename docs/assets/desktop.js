@@ -294,7 +294,7 @@
     ghosts.forEach(ghost => { ghost.style.opacity = '0'; });
   }
   function syncPreferences() {
-    const available = finePointer.matches && !reducedMotion.matches && !mobileTheme();
+    const available = finePointer.matches && !reducedMotion.matches && appearance.theme === 'windows';
     enabled = available && userWantsTrails;
     checkbox.disabled = !available;
     checkbox.checked = enabled;
