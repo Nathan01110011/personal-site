@@ -126,6 +126,7 @@
     .app-icon-linkedin { background-position-x: -80px; }
     .app-icon-cv { background-position-x: -160px; }
     .app-icon-settings { background-position-x: -240px; }
+    [data-theme="windows"] .app-icon { background-image: url("../artwork/os-icons/windows.svg"); }
     .cv-icon {
       position: relative;
       display: block;
