@@ -30,6 +30,7 @@ html[data-theme="mac"] { --accent: #000; --surface: #c9c9c9; }
 [data-theme="mac"] h1 { font-family: Geneva, Arial, sans-serif; font-size: 30px; }
 [data-theme="mac"] .directory { border: 1px solid #000; box-shadow: inset 1px 1px #888; }
 [data-theme="mac"] .profile, [data-theme="mac"] .profile:visited { color: #000; }
+[data-theme="mac"] .app-icon { background-image: url("../artwork/os-icons/mac.svg"); }
 [data-theme="mac"] .profile-label { text-decoration: none; }
 [data-theme="mac"] .profile:hover .profile-label, [data-theme="mac"] .profile:focus-visible .profile-label { background: #000; }
 [data-theme="mac"] .cv-icon::before, [data-theme="mac"] .cv-icon::after { background: #000; }
