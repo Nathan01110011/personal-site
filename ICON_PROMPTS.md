@@ -14,6 +14,13 @@ Do not remove background colours with a colour key: pale paper, silver borders,
 and dark outlines are part of the icons. CSS uses one file per icon rather than
 offsets into a sprite strip. `scripts/build.py` copies them into `docs/artwork/`.
 
+The iOS tiles were subsequently regenerated individually using the built-in
+image tool, with each existing icon as its edit reference. The prompt requested
+equal visible tile width and height, preserved colours, artwork, gloss and rounded
+corners, opaque interiors, and clean transparent outer edges. Export normalization
+sets the visible tile bounds to a square with equal canvas padding; image URLs
+include a content hash so browsers fetch the corrected proportions.
+
 ## Original Windows artwork
 
 Generation mode: built-in image generation (`image_gen.imagegen`). Two original

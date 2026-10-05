@@ -5,7 +5,7 @@ html[data-theme="ios"] { --accent: #42689b; }
 [data-theme="ios"] h1 { font-weight: 300; }
 [data-theme="ios"] .profile-icon { position: relative; width: 83px; height: 83px; padding: 6px; background: linear-gradient(#7a93af, #385b85 50%, #29456c); border: 1px solid #152b4b; border-radius: 17px; box-shadow: inset 0 1px 1px #fff8, 0 3px 5px #0007; overflow: hidden; }
 [data-theme="ios"] .profile img { width: 69px; height: 69px; }
-[data-theme="ios"] .profile-icon.app-icon { width: 80px; height: 80px; padding: 0; background-image: url("../artwork/icons/ios-github.webp"); background-color: transparent; border: 0; border-radius: 0; box-shadow: none; overflow: visible; }
+[data-theme="ios"] .profile-icon.app-icon { width: 80px; height: 80px; padding: 0; background-image: url("../artwork/icons/ios-github.webp?v=7ab6773b273b"); background-color: transparent; border: 0; border-radius: 0; box-shadow: none; overflow: visible; }
 [data-theme="ios"] .profile-icon.app-icon::after { display: none; }
 [data-theme="ios"] .profile-icon::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 47%; border-radius: 15px 15px 45% 45%; background: linear-gradient(#ffffff66, #ffffff15); pointer-events: none; }
 [data-theme="ios"] .profile:hover .profile-label, [data-theme="ios"] .profile:focus-visible .profile-label { background: #0005; border-radius: 4px; }
@@ -31,7 +31,7 @@ html[data-theme="ios"] { --accent: #42689b; }
 [data-theme="ios"] .profile-icon.app-icon { background-size: 80px 80px; background-repeat: no-repeat; }
 
 /* Independent alpha-preserving assets; no sprite offsets or colour-key removal. */
-[data-theme="ios"] .profile-icon.app-icon-github { background-image: url("../artwork/icons/ios-github.webp"); }
-[data-theme="ios"] .profile-icon.app-icon-linkedin { background-image: url("../artwork/icons/ios-linkedin.webp"); }
-[data-theme="ios"] .profile-icon.app-icon-cv { background-image: url("../artwork/icons/ios-cv.webp"); }
-[data-theme="ios"] .profile-icon.app-icon-settings { background-image: url("../artwork/icons/ios-settings.webp"); }
+[data-theme="ios"] .profile-icon.app-icon-github { background-image: url("../artwork/icons/ios-github.webp?v=7ab6773b273b"); }
+[data-theme="ios"] .profile-icon.app-icon-linkedin { background-image: url("../artwork/icons/ios-linkedin.webp?v=a6753b1c153d"); }
+[data-theme="ios"] .profile-icon.app-icon-cv { background-image: url("../artwork/icons/ios-cv.webp?v=a9192d1a91a0"); }
+[data-theme="ios"] .profile-icon.app-icon-settings { background-image: url("../artwork/icons/ios-settings.webp?v=338931b66873"); }
