@@ -121,6 +121,11 @@
     .profile-button { border: 0; background: transparent; cursor: pointer; }
     .profile-icon { max-width: 100%; }
     .profile img { display: block; width: 80px; max-width: 100%; height: auto; image-rendering: pixelated; }
+    .app-icon { display: block; width: 80px; height: 80px; flex: 0 0 80px; background-repeat: no-repeat; background-size: 320px 80px; background-position-y: 0; }
+    .app-icon-github { background-position-x: 0; }
+    .app-icon-linkedin { background-position-x: -80px; }
+    .app-icon-cv { background-position-x: -160px; }
+    .app-icon-settings { background-position-x: -240px; }
     .cv-icon {
       position: relative;
       display: block;
@@ -245,7 +250,7 @@
     @media (hover: hover) and (pointer: fine) {
       html, body, body * { cursor: url("../artwork/cursor.svg") 1 1, auto; }
       a, button, input, label { cursor: url("../artwork/cursor.svg") 1 1, pointer; }
-      .has-js .trail-option { display: flex; }
+      html[data-theme="windows"].has-js .trail-option { display: flex; }
     }
     @media (min-width: 640px) {
       body { padding: 32px 24px 74px; }
