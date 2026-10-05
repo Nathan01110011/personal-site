@@ -232,9 +232,14 @@
     }
     .task-button[aria-expanded="true"] { border-color: #000 #fff #fff #000; box-shadow: inset 1px 1px #808080; font-weight: bold; }
     .clock { margin-left: auto; min-width: 72px; justify-content: center; height: 29px; font-size: 11px; }
-    .window.maximized { position: fixed; z-index: 1; inset: 8px 8px 50px; width: auto; max-width: none; display: flex; flex-direction: column; }
-    .window.maximized .window-content { flex: 1; min-height: 0; overflow: auto; }
+    .window.maximized { position: fixed; z-index: 1; inset: 8px 8px 50px; width: auto; max-width: none; display: flex; flex-direction: column; transform: none !important; }
+    .window.maximized .window-content { flex: 1; min-height: 0; overflow: hidden; }
+    .window.maximized .directory { flex: 1; min-height: 0; }
+    .window.maximized .cv-notes { display: flex; flex: 1; min-height: 0; flex-direction: column; }
+    .window.maximized .cv-paper { flex: 1; min-height: 0; max-height: none; }
     .window.maximized > .title-bar, .window.maximized > .path-bar, .window.maximized > .status-bar { flex-shrink: 0; }
+    :is([data-theme="windows"], [data-theme="mac"], [data-theme="ubuntu"]) .window:not(.maximized) > .title-bar { cursor: move; touch-action: none; }
+    .window.dragging { user-select: none; }
     #cursor-trails { position: fixed; inset: 0; z-index: 9999; overflow: hidden; pointer-events: none; }
     .cursor-trail { position: absolute; top: 0; left: 0; width: 32px; height: 32px; opacity: 0; image-rendering: pixelated; pointer-events: none; }
     @media (hover: hover) and (pointer: fine) {
