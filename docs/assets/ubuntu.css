@@ -19,6 +19,7 @@ html[data-theme="ubuntu"] { --accent: #a45622; --surface: #e8dfd1; }
 [data-theme="ubuntu"] h1 { font-family: 'DejaVu Sans', Arial, sans-serif; font-size: 32px; font-weight: normal; }
 [data-theme="ubuntu"] .directory { border: 1px solid #a99c86; box-shadow: inset 0 1px 2px #0001; }
 [data-theme="ubuntu"] .profile, [data-theme="ubuntu"] .profile:visited { color: #29241e; }
+[data-theme="ubuntu"] .app-icon { background-image: url("../artwork/os-icons/ubuntu.svg"); }
 [data-theme="ubuntu"] .profile-label { text-decoration: none; border-radius: 3px; }
 [data-theme="ubuntu"] .profile:hover .profile-label, [data-theme="ubuntu"] .profile:focus-visible .profile-label { background: #a45622; }
 [data-theme="ubuntu"] .cv-icon { border-radius: 3px; box-shadow: inset -6px 0 #f2eee7, inset 0 -6px #d9cbb8, 0 1px 2px #0002; }
