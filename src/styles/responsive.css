@@ -6,8 +6,10 @@
 
 /* Wide screens become tablets, even when the theme was chosen on a laptop. */
 @media (min-width: 768px) {
-  :is([data-theme="android"], [data-theme="ios"]) body { padding: 85px 48px max(40px, env(safe-area-inset-bottom)); }
-  :is([data-theme="android"], [data-theme="ios"]) .window { max-width: 1100px; }
+  :is([data-theme="android"], [data-theme="ios"]) body { padding: 64px 32px max(40px, env(safe-area-inset-bottom)); }
+  :is([data-theme="android"], [data-theme="ios"]) .window { max-width: 1280px; }
+  [data-theme="android"] body { padding-inline: clamp(24px, 4vw, 56px); }
+  [data-theme="android"] .window { max-width: 1360px; }
   :is([data-theme="android"], [data-theme="ios"]) .intro { margin-bottom: 55px; }
   :is([data-theme="android"], [data-theme="ios"]) h1 { font-size: 42px; }
   :is([data-theme="android"], [data-theme="ios"]) .profiles { gap: 30px; }
@@ -26,6 +28,7 @@
   /* Android 3 Honeycomb moved the status and navigation chrome to the bottom. */
   html[data-theme="android"] { --accent: #62cce9; }
   [data-theme="android"] body { padding-bottom: max(74px, calc(42px + env(safe-area-inset-bottom))); background: radial-gradient(ellipse at 70% 25%, #144663, transparent 65%), linear-gradient(135deg, #07131b, #102a3b 50%, #06131d); }
+  [data-theme="android"] body[data-view="cv"] .window { inset: 0 0 42px; height: calc(100dvh - 42px); }
   [data-theme="android"] .mobile-status { top: auto; bottom: 0; height: 42px; padding-inline: 24px; color: #62cce9; border-top: 1px solid #253a49; background: #060c12; }
   [data-theme="android"] .settings-launcher:hover .settings-tile { color: #62cce9; }
   [data-theme="android"] .settings-tile { width: 88px; height: 88px; background: linear-gradient(#23465a, #0c202e); border-color: #436477; border-radius: 3px; color: #9fb9c9; }
