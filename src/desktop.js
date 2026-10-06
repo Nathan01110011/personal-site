@@ -51,6 +51,151 @@
     clampWindowOffset();
   }
 
+  // App content has one owner: move the existing nodes, without cloning the playlist,
+  // between independent desktop windows and the mobile full-screen container.
+  const apps = {};
+  let frontWindow = home;
+  function focusWindow(shell) {
+    frontWindow = shell;
+    const windows = [home, ...Object.values(apps).map(app => app.shell)];
+    windows.filter(item => item !== shell).forEach((item, index) => {
+      item.style.zIndex = String(index + 1);
+      item.classList.remove('active-window');
+    });
+    shell.style.zIndex = String(windows.length + 1);
+    shell.classList.add('active-window');
+  }
+  home.addEventListener('pointerdown', () => focusWindow(home));
+  home.addEventListener('focusin', () => focusWindow(home));
+  for (const [view, article] of Object.entries({ cv: cvNotes, music: musicPlayer })) {
+    const shell = document.createElement('section');
+    shell.id = view + '-window';
+    shell.className = 'window app-window ' + view + '-window';
+    shell.dataset.app = view;
+    shell.hidden = true;
+    shell.tabIndex = -1;
+    shell.setAttribute('aria-labelledby', view + '-window-title');
+    shell.setAttribute('data-menu-background', '');
+    const bar = titleBar.cloneNode(true);
+    bar.querySelectorAll('[id]').forEach(element => {
+      if (['minimize', 'maximize', 'close'].includes(element.id)) element.dataset.windowAction = element.id;
+      element.removeAttribute('id');
+    });
+    bar.querySelector('.window-title-text').id = view + '-window-title';
+    const pathBar = home.querySelector('.path-bar').cloneNode(true);
+    const content = document.createElement('div');
+    content.className = 'window-content';
+    shell.append(bar, pathBar, content);
+    home.after(shell);
+    background.push(shell);
+    const task = document.createElement('button');
+    task.className = 'bevel-button task-button app-task';
+    task.type = 'button';
+    task.dataset.restoreApp = view;
+    task.textContent = view === 'cv' ? 'CV Notes' : 'Music';
+    task.setAttribute('aria-controls', shell.id);
+    task.hidden = true;
+    restore.after(task);
+    const app = apps[view] = { shell, article, content, task, opened: false, x: 0, y: 0, placed: false };
+    task.addEventListener('click', () => launchApp(view));
+    shell.addEventListener('pointerdown', () => focusWindow(shell));
+    shell.addEventListener('focusin', () => focusWindow(shell));
+    bar.querySelector('[data-window-action="minimize"]').addEventListener('click', () => {
+      shell.hidden = true;
+      task.setAttribute('aria-expanded', 'false');
+      openWindow();
+    });
+    bar.querySelector('[data-window-action="close"]').addEventListener('click', () => closeApp(view));
+    const zoom = bar.querySelector('[data-window-action="maximize"]');
+    zoom.addEventListener('click', () => {
+      const expanded = shell.classList.toggle('maximized');
+      zoom.setAttribute('aria-pressed', String(expanded));
+      zoom.setAttribute('aria-label', expanded ? 'Restore window size' : 'Maximize window');
+      zoom.title = expanded ? 'Restore size' : 'Maximize';
+      placeApp(app);
+    });
+    let drag;
+    bar.addEventListener('pointerdown', event => {
+      if (!desktopTheme() || shell.classList.contains('maximized') || event.button !== 0 || event.target.closest('button')) return;
+      event.preventDefault();
+      focusWindow(shell);
+      drag = { id: event.pointerId, x: event.clientX, y: event.clientY, originX: app.x, originY: app.y };
+      bar.setPointerCapture(event.pointerId);
+      shell.classList.add('dragging');
+    });
+    bar.addEventListener('pointermove', event => {
+      if (!drag || event.pointerId !== drag.id) return;
+      app.x = drag.originX + event.clientX - drag.x;
+      app.y = drag.originY + event.clientY - drag.y;
+      placeApp(app);
+    });
+    function finishDrag(event) {
+      if (!drag || event.pointerId !== drag.id) return;
+      drag = null;
+      shell.classList.remove('dragging');
+      if (bar.hasPointerCapture(event.pointerId)) bar.releasePointerCapture(event.pointerId);
+    }
+    bar.addEventListener('pointerup', finishDrag);
+    bar.addEventListener('pointercancel', finishDrag);
+  }
+  function placeApp(app) {
+    if (!desktopTheme() || app.shell.hidden || app.shell.classList.contains('maximized')) return;
+    const top = appearance.theme === 'windows' ? 8 : 43;
+    const bottom = appearance.theme === 'mac' ? 8 : 50;
+    const bounds = app.shell.getBoundingClientRect();
+    if (!app.placed) {
+      app.x = (window.innerWidth - bounds.width) / 2 + (app === apps.music ? 110 : -100);
+      app.y = top + (app === apps.music ? 34 : 70);
+      app.placed = true;
+    }
+    app.x = Math.max(8, Math.min(app.x, window.innerWidth - bounds.width - 8));
+    app.y = Math.max(top, Math.min(app.y, window.innerHeight - bottom - bounds.height));
+    app.shell.style.left = app.x + 'px';
+    app.shell.style.top = app.y + 'px';
+  }
+  function launchApp(view) {
+    if (!desktopTheme()) { openWindow(); showView(view); return; }
+    const app = apps[view];
+    app.opened = true;
+    app.article.hidden = false;
+    app.shell.hidden = false;
+    app.task.hidden = false;
+    app.task.setAttribute('aria-expanded', 'true');
+    placeApp(app);
+    focusWindow(app.shell);
+    if (view === 'music') document.dispatchEvent(new CustomEvent('nathan:musicopen'));
+    app.shell.focus({ preventScroll: true });
+  }
+  function closeApp(view) {
+    const app = apps[view];
+    app.opened = false;
+    app.shell.hidden = true;
+    app.task.hidden = true;
+    app.task.setAttribute('aria-expanded', 'false');
+    if (view === 'music') document.dispatchEvent(new CustomEvent('nathan:musicclose'));
+    openWindow();
+    profiles.querySelector('[data-open-' + view + ']').focus({ preventScroll: true });
+  }
+  function arrangeApps() {
+    for (const [view, app] of Object.entries(apps)) {
+      app.shell.querySelector('.window-title-text').textContent = themeTitle(view);
+      app.shell.querySelector('.path').textContent = themePath(view);
+      app.shell.querySelector('.path-label').textContent = appearance.theme === 'windows' ? 'Address' : 'Location';
+      if (desktopTheme()) {
+        if (app.article.parentElement !== app.content) app.content.appendChild(app.article);
+        app.article.hidden = !app.opened;
+        app.shell.hidden = !app.opened;
+        app.task.hidden = !app.opened;
+        app.task.setAttribute('aria-expanded', String(app.opened));
+        placeApp(app);
+      } else {
+        if (app.article.parentElement !== directory) directory.appendChild(app.article);
+        app.shell.hidden = true;
+        app.task.hidden = true;
+      }
+    }
+  }
+
   const mobileTheme = () => ['android', 'ios'].includes(appearance.theme);
   function launchControl() {
     if (mobileTheme()) return document.getElementById('mobile-settings');
@@ -62,6 +207,8 @@
     home.hidden = false;
     restore.setAttribute('aria-expanded', 'true');
     document.dispatchEvent(new CustomEvent('nathan:windowopen'));
+    focusWindow(home);
+    if (!desktopTheme() && activeView === 'music') document.dispatchEvent(new CustomEvent('nathan:musicopen'));
     home.focus({ preventScroll: true });
   }
   function hideWindow() {
@@ -97,14 +244,16 @@
     document.body.dataset.view = activeView;
     directory.dataset.view = activeView;
     profiles.hidden = activeView !== 'home';
-    cvNotes.hidden = activeView !== 'cv';
-    musicPlayer.hidden = activeView !== 'music';
+    if (!desktopTheme()) {
+      cvNotes.hidden = activeView !== 'cv';
+      musicPlayer.hidden = activeView !== 'music';
+    }
     document.querySelector('.path').textContent = themePath();
     document.querySelector('.window-title-text').textContent = themeTitle();
     restore.textContent = { cv: 'CV Notes', music: 'Music' }[activeView] || "Nathan's home page";
     restore.title = 'Open ' + ({ cv: 'CV notes', music: 'music player' }[activeView] || 'home page');
     statusInfo.textContent = { cv: 'CV summary · last updated Oct 2026', music: 'Music · Spotify playlist' }[activeView] || (mobileTheme() ? '5 shortcuts' : '4 shortcuts');
-    document.dispatchEvent(new CustomEvent('nathan:viewchange', { detail: { view: activeView } }));
+    if (!desktopTheme()) document.dispatchEvent(new CustomEvent('nathan:viewchange', { detail: { view: activeView } }));
     window.requestAnimationFrame(clampWindowOffset);
     if (!focusTarget) return;
     const target = activeView === 'cv' ? cvNotes.querySelector('.cv-back') : activeView === 'music' ? musicPlayer.querySelector('.music-back') : directory.querySelector(previousView === 'music' ? '[data-open-music]' : '[data-open-cv]');
@@ -149,6 +298,13 @@
   function applyAppearance(choice, announce = true) {
     const mode = appearance.choices.includes(choice) ? choice : 'auto';
     closeMenu(false);
+    if (desktopTheme()) activeView = Object.entries(apps).find(([, app]) => app.shell === frontWindow && app.opened)?.[0] || 'home';
+    else if (activeView in apps) apps[activeView].opened = true;
+    const nextTheme = mode === 'auto' ? appearance.detected : mode;
+    if (desktopTheme() !== ['windows', 'mac', 'ubuntu'].includes(nextTheme)) {
+      // Moving an iframe to another parent reloads its browsing context.
+      document.dispatchEvent(new CustomEvent('nathan:musicclose'));
+    }
     appearance.mode = mode;
     appearance.theme = mode === 'auto' ? appearance.detected : mode;
     document.documentElement.dataset.theme = appearance.theme;
@@ -157,6 +313,10 @@
     document.getElementById('auto-theme-name').textContent = labels[appearance.detected];
     document.querySelector('.menu-brand-name').textContent = labels[appearance.theme];
     document.querySelector('.start-text').textContent = appearance.theme === 'ubuntu' ? 'System' : 'Start';
+    const mobileView = activeView;
+    if (desktopTheme()) activeView = 'home';
+    arrangeApps();
+    showView(desktopTheme() ? 'home' : mobileView, false);
     document.querySelector('.path').textContent = themePath();
     document.querySelector('.path-label').textContent = appearance.theme === 'windows' ? 'Address' : 'Location';
     document.querySelector('.window-title-text').textContent = themeTitle();
@@ -167,7 +327,7 @@
     home.hidden = false;
     restore.setAttribute('aria-expanded', 'true');
     syncPreferences();
-    document.dispatchEvent(new CustomEvent('nathan:windowopen'));
+    if (desktopTheme() && apps.music.opened) document.dispatchEvent(new CustomEvent('nathan:musicopen'));
     window.requestAnimationFrame(() => {
       if (desktopTheme()) seedWindowOffset();
       else home.style.transform = '';
@@ -199,19 +359,20 @@
   }));
   document.querySelectorAll('[data-open-cv]').forEach(button => button.addEventListener('click', () => {
     closeMenu(false);
-    openWindow();
-    showView('cv');
+    launchApp('cv');
   }));
   document.querySelectorAll('[data-open-music]').forEach(button => button.addEventListener('click', () => {
     closeMenu(false);
-    openWindow();
-    showView('music');
+    launchApp('music');
   }));
-  document.querySelectorAll('[data-open-home-view]').forEach(button => button.addEventListener('click', () => showView('home')));
+  document.querySelectorAll('[data-open-home-view]').forEach(button => button.addEventListener('click', () => {
+    if (desktopTheme()) closeApp(button.closest('[data-view]').dataset.view);
+    else showView('home');
+  }));
   restore.addEventListener('click', openWindow);
   document.getElementById('minimize').addEventListener('click', hideWindow);
   document.getElementById('close').addEventListener('click', () => {
-    document.dispatchEvent(new CustomEvent('nathan:musicclose'));
+    if (!desktopTheme()) document.dispatchEvent(new CustomEvent('nathan:musicclose'));
     hideWindow();
   });
   maximize.addEventListener('click', () => {
@@ -270,7 +431,7 @@
   });
   window.addEventListener('resize', () => {
     positionMenu();
-    window.requestAnimationFrame(clampWindowOffset);
+    window.requestAnimationFrame(() => { clampWindowOffset(); Object.values(apps).forEach(placeApp); });
   }, { passive: true });
 
   const clocks = Array.from(document.querySelectorAll('[data-clock]'));

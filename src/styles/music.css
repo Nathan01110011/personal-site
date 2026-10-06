@@ -44,12 +44,12 @@ body[data-view="music"] .window-content { padding: 10px; }
 .window.maximized .music-scroll { flex: 1; min-height: 0; max-height: none; }
 
 /* Winamp 2: dark steel, recessed green LED display and a playlist editor. */
-[data-theme="windows"] body[data-view="music"] .window { max-width: 540px; background: #34344b; border-color: #9b9baa #151520 #151520 #9b9baa; box-shadow: inset 1px 1px #686881, inset -1px -1px #1b1b2c, 2px 2px #004f4f; }
-[data-theme="windows"] body[data-view="music"] .title-bar { color: #ddd; background: repeating-linear-gradient(#44445a 0 2px, #252536 2px 4px); font: bold 11px/1.4 Tahoma, sans-serif; }
-[data-theme="windows"] body[data-view="music"] .window-title-text { background: #303045; padding-inline: 6px; }
-[data-theme="windows"] body[data-view="music"] .monitor-icon,
-[data-theme="windows"] body[data-view="music"] .path-bar,
-[data-theme="windows"] body[data-view="music"] .status-bar { display: none; }
+[data-theme="windows"] .music-window { max-width: 540px; background: #34344b; border-color: #9b9baa #151520 #151520 #9b9baa; box-shadow: inset 1px 1px #686881, inset -1px -1px #1b1b2c, 2px 2px #004f4f; }
+[data-theme="windows"] .music-window .title-bar { color: #ddd; background: repeating-linear-gradient(#44445a 0 2px, #252536 2px 4px); font: bold 11px/1.4 Tahoma, sans-serif; }
+[data-theme="windows"] .music-window .window-title-text { background: #303045; padding-inline: 6px; }
+[data-theme="windows"] .music-window .monitor-icon,
+[data-theme="windows"] .music-window .path-bar,
+[data-theme="windows"] .music-window .status-bar { display: none; }
 [data-theme="windows"] .music-player { color: #c7c7d5; font-family: Tahoma, Arial, sans-serif; }
 [data-theme="windows"] .music-app-name { text-transform: uppercase; letter-spacing: .16em; color: #d3c795; }
 [data-theme="windows"] .music-back { background: #a5a5b4; min-height: 26px; }

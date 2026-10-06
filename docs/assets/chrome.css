@@ -50,3 +50,23 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .profile-icon { display: block; }
 .mobile-home { display: none; }
 button:focus-visible, a:focus-visible { outline-offset: -3px; }
+
+/* Each desktop app is a persistent window; mobile uses its full-screen app view. */
+.app-window { position: fixed; margin: 0; min-width: 0; width: min(570px, calc(100vw - 16px)); max-height: calc(100dvh - 98px); display: flex; flex-direction: column; }
+.app-window > .title-bar, .app-window > .path-bar { flex-shrink: 0; }
+.app-window .window-content { min-height: 0; overflow: hidden; padding: 10px; }
+.app-window .cv-notes, .app-window .music-player { display: flex; flex-direction: column; min-height: 0; }
+.app-window .cv-toolbar, .app-window .music-toolbar { flex-shrink: 0; }
+.app-window .cv-paper, .app-window .music-scroll { min-height: 0; overflow: auto; }
+.app-window.maximized { max-height: none; }
+.app-window .music-scroll { max-height: none; }
+.app-window .music-back, .app-window .cv-back { display: none; }
+.taskbar, .desktop-panel { z-index: 10 !important; }
+:is([data-theme="android"], [data-theme="ios"]) .app-window,
+:is([data-theme="android"], [data-theme="ios"]) .app-task { display: none; }
+[data-theme="mac"] [data-window-action="close"] { order: 0; }
+[data-theme="mac"] [data-window-action="maximize"] { order: 3; }
+[data-theme="mac"] [data-window-action="minimize"] { order: 4; }
+[data-theme="mac"] [data-window-action="close"] svg { visibility: hidden; }
+[data-theme="mac"] [data-window-action="close"]::after { content: ''; position: absolute; inset: 4px; border: 1px solid #555; background: #bbb; }
+[data-theme="mac"] .title-bar > .window-title { min-width: 0; }

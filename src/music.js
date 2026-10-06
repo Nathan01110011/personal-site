@@ -141,7 +141,6 @@
     try {
       const action = button.dataset.musicAction;
       if (action === 'toggle') controller.togglePlay();
-      else if (action === 'pause') controller.pause();
       else if (action === 'restart') controller.restart();
     } catch (_) {
       enableControls(false);
@@ -163,11 +162,12 @@
     else pausePlayback();
   });
   document.addEventListener('nathan:musicclose', () => {
-    // Keep the selected view for restore, but stop pending and current playback.
+    currentView = 'home';
     destroyPlayer();
   });
-  document.addEventListener('nathan:windowopen', () => {
-    if (currentView === 'music') loadPlaylist();
+  document.addEventListener('nathan:musicopen', () => {
+    currentView = 'music';
+    loadPlaylist();
   });
   document.addEventListener('nathan:themechange', event => {
     player.querySelector('.music-app-name').textContent = {

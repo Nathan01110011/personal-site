@@ -57,3 +57,22 @@ because the execution environment isolates loopback networking. It contains no
 external script, image, font or stylesheet dependencies. Both `index.html` and
 `docs/index.html` are generated identically, supporting either GitHub Pages
 source folder. The existing GitHub Pages configuration remains unchanged.
+
+## Independent app windows and Settings repair — 6 October 2026
+
+CV Notes and Music now use separate persistent windows on Windows, Classic Mac
+and Ubuntu. Each has its own drag, minimize, maximize/restore and close controls;
+launching an existing app restores it without creating another Spotify player.
+The root launcher stays available. Opening CV or minimizing Music preserves
+playback; closing Music unloads its iframe. Mobile themes retain full-screen apps.
+The tablet iOS Settings sidebar stretches to the bottom, with a scrollable choice
+pane on short screens. Playback has one combined Play/Pause control.
+
+Validation: 16 OS/preference checks and 20 controlled Spotify browser flows
+covering all five themes at 320×640, 390×844, 844×390 and 1366×900. Additional
+checks cover simultaneous app windows, dragging, minimize/reopen, maximize,
+closing the launcher while Music plays, one iframe on repeated launch, desktop/
+mobile theme transitions, tablet Settings at 960×1400 and 844×390, and blocked
+Spotify API fallback. No page script errors or horizontal overflow were found.
+The controlled API verifies UI behavior; actual Spotify audio is checked separately
+on the published site.
