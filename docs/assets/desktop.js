@@ -55,15 +55,17 @@
   // between independent desktop windows and the mobile full-screen container.
   const apps = {};
   let frontWindow = home;
+  const windowOrder = [home];
   function focusWindow(shell) {
     frontWindow = shell;
-    const windows = [home, ...Object.values(apps).map(app => app.shell)];
-    windows.filter(item => item !== shell).forEach((item, index) => {
+    // Raise only the selected window; keep every other window in its current order.
+    const previousIndex = windowOrder.indexOf(shell);
+    if (previousIndex !== -1) windowOrder.splice(previousIndex, 1);
+    windowOrder.push(shell);
+    windowOrder.forEach((item, index) => {
       item.style.zIndex = String(index + 1);
-      item.classList.remove('active-window');
+      item.classList.toggle('active-window', item === shell);
     });
-    shell.style.zIndex = String(windows.length + 1);
-    shell.classList.add('active-window');
   }
   home.addEventListener('pointerdown', () => focusWindow(home));
   home.addEventListener('focusin', () => focusWindow(home));
@@ -87,6 +89,7 @@
     content.className = 'window-content';
     shell.append(bar, pathBar, content);
     home.after(shell);
+    windowOrder.push(shell);
     background.push(shell);
     const task = document.createElement('button');
     task.className = 'bevel-button task-button app-task';

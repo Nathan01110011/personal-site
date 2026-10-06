@@ -102,6 +102,41 @@ const mockEmbed = '<html><body style="margin:0;padding:24px;background:#121212;c
       assert.equal(await page.locator('#cv-window').isVisible(), true);
       assert.equal(await page.locator('#music-window').isVisible(), true);
       assert.equal(await page.locator('.music-play').getAttribute('aria-pressed'), 'true', 'Opening CV preserves music playback');
+      const order = () => page.locator('.window').evaluateAll(elements => elements
+        .filter(el => !el.hidden)
+        .sort((a, b) => Number(a.style.zIndex) - Number(b.style.zIndex))
+        .map(el => el.id));
+      async function selectWindow(view) {
+        if (view === 'home') await page.locator(theme === 'mac' ? '#mac-home' : '#restore').click();
+        else if (theme === 'mac') {
+          await page.locator('#mac-appearance').click();
+          await page.locator('.system-menu [data-open-' + view + ']').click();
+        } else await page.locator('[data-restore-app="' + view + '"]').click();
+      }
+      // All initial stacking permutations: raising a window may only remove that
+      // window from its old position and append it to the front of the stack.
+      for (const sequence of [
+        ['cv', 'music', 'home'], ['music', 'cv', 'home'],
+        ['home', 'cv', 'music'], ['cv', 'home', 'music'],
+        ['home', 'music', 'cv'], ['music', 'home', 'cv']
+      ]) {
+        for (const view of sequence) await selectWindow(view);
+        for (const view of ['cv', 'home', 'music', 'home', 'cv', 'cv']) {
+          const before = await order();
+          const selected = view + '-window';
+          await selectWindow(view);
+          assert.deepEqual(await order(), [...before.filter(id => id !== selected), selected], theme + ': selecting ' + view + ' preserves other windows');
+        }
+      }
+      await selectWindow('home');
+      const homeBounds = await page.locator('#home-window').boundingBox();
+      const cvBounds = await page.locator('#cv-window').boundingBox();
+      // Its title bar is exposed above the launcher: exercise a direct window click.
+      const beforeClick = await order();
+      assert.ok(cvBounds.y < homeBounds.y, 'CV title bar is exposed');
+      await page.locator('#cv-window .window-title-text').click();
+      assert.deepEqual(await order(), [...beforeClick.filter(id => id !== 'cv-window'), 'cv-window'], theme + ': direct click raises only CV');
+
       await page.locator('#cv-window [data-window-action="minimize"]').click();
       assert.equal(await page.locator('#cv-window').isVisible(), false);
       await page.locator('.profiles [data-open-cv]').click();
@@ -207,7 +242,7 @@ const mockEmbed = '<html><body style="margin:0;padding:24px;background:#121212;c
     if (await fallback.locator('#music-window').isVisible()) await fallback.locator('#music-window [data-window-action="close"]').click();
     else await fallback.locator('.music-back').click();
     assert.equal(await fallback.locator('#spotify-player-host iframe').count(), 0, 'Fallback audio unloads on Back');
-    console.log('Passed ' + checks + ' theme/viewport music flows plus independent desktop windows, drag, minimize, maximize, Settings height and blocked-API fallback.');
+    console.log('Passed ' + checks + ' theme/viewport music flows plus independent desktop windows, drag, stable stacking order, minimize, maximize, Settings height and blocked-API fallback.');
   } finally {
     await browser.close();
   }

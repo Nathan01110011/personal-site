@@ -99,3 +99,15 @@ Live Winamp bounds verified after deployment: left/top 8px, right 1355px and
 bottom 886px on a 1363×936 viewport. Restore returned to left 521.5px, top 42px
 and width 540px. The overlapping-window icon was visible only when maximized.
 Screenshot: `verification/maximize-restore-1791319230697.jpg`.
+
+## Preserve window stacking order — 6 October 2026
+
+Focusing a desktop window now moves only that window to the front of a persistent
+stack. Other windows retain their relative order, including the launcher between
+the selected app and the other app. Repeated pointer/focus events are idempotent.
+
+The browser suite passes all existing 20 theme/viewport flows and geometry/icon
+checks. New checks cover all six stacking permutations on Windows, Mac and Ubuntu,
+108 selections through taskbar or Mac menu controls, repeated selection of the
+front window, and direct clicks on exposed app title bars. The untouched windows
+retain their order in every case. Syntax and diff checks also pass.
