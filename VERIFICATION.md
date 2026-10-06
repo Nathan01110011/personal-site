@@ -76,3 +76,9 @@ mobile theme transitions, tablet Settings at 960×1400 and 844×390, and blocked
 Spotify API fallback. No page script errors or horizontal overflow were found.
 The controlled API verifies UI behavior; actual Spotify audio is checked separately
 on the published site.
+
+Live verification after deployment: the official Spotify embed played a preview
+inside the independent Winamp window (observed 00:17). Opening and focusing CV
+left playback active. Both app windows and the launcher were moved independently.
+The custom playback group exposed one Pause control. Live screenshot:
+`verification/desktop-app-windows-1791318542004.jpg`.
