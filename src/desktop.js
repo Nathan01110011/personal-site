@@ -12,6 +12,7 @@
   const directory = document.querySelector('.directory');
   const profiles = document.querySelector('.profiles');
   const cvNotes = document.querySelector('.cv-notes');
+  const musicPlayer = document.querySelector('.music-player');
   const statusInfo = document.getElementById('status-info');
   let lastToggle = null;
   let activeView = 'home';
@@ -60,6 +61,7 @@
   function openWindow() {
     home.hidden = false;
     restore.setAttribute('aria-expanded', 'true');
+    document.dispatchEvent(new CustomEvent('nathan:windowopen'));
     home.focus({ preventScroll: true });
   }
   function hideWindow() {
@@ -79,27 +81,33 @@
   function themePath(view = activeView) {
     const paths = {
       home: { windows: 'C:\\Users\\Nathan\\Home', mac: 'Macintosh HD › Nathan › Home', ubuntu: '/home/nathan' },
-      cv: { windows: 'C:\\Users\\Nathan\\Documents\\CV Notes.txt', mac: 'Macintosh HD › Nathan › Documents › CV Notes', ubuntu: '/home/nathan/Documents/cv-notes.txt' }
+      cv: { windows: 'C:\\Users\\Nathan\\Documents\\CV Notes.txt', mac: 'Macintosh HD › Nathan › Documents › CV Notes', ubuntu: '/home/nathan/Documents/cv-notes.txt' },
+      music: { windows: 'C:\\Program Files\\Winamp\\nathan.m3u', mac: 'Macintosh HD › Nathan › Music', ubuntu: '/home/nathan/Music' }
     };
-    return (paths[view] || paths.home)[appearance.theme] || (view === 'cv' ? 'CV Notes' : 'Nathan');
+    return (paths[view] || paths.home)[appearance.theme] || ({ cv: 'CV Notes', music: 'Music' }[view] || 'Nathan');
   }
   function themeTitle(view = activeView) {
     if (view === 'cv') return appearance.theme === 'ubuntu' ? 'cv-notes.txt — Text Editor' : 'CV Notes';
+    if (view === 'music') return { windows: "Winamp — Nathan's Playlist", mac: "QuickTime Player — Nathan's Playlist", ubuntu: "Rhythmbox — Nathan's Playlist", android: 'Music', ios: 'Music' }[appearance.theme];
     return appearance.theme === 'ubuntu' ? 'nathan — File Browser' : "Nathan's home page";
   }
   function showView(view, focusTarget = true) {
-    activeView = view === 'cv' ? 'cv' : 'home';
+    const previousView = activeView;
+    activeView = ['cv', 'music'].includes(view) ? view : 'home';
     document.body.dataset.view = activeView;
     directory.dataset.view = activeView;
     profiles.hidden = activeView !== 'home';
     cvNotes.hidden = activeView !== 'cv';
+    musicPlayer.hidden = activeView !== 'music';
     document.querySelector('.path').textContent = themePath();
     document.querySelector('.window-title-text').textContent = themeTitle();
-    restore.textContent = activeView === 'cv' ? 'CV Notes' : "Nathan's home page";
-    restore.title = activeView === 'cv' ? 'Open CV notes' : 'Open home page';
-    statusInfo.textContent = activeView === 'cv' ? 'CV summary · last updated Oct 2026' : '3 shortcuts';
+    restore.textContent = { cv: 'CV Notes', music: 'Music' }[activeView] || "Nathan's home page";
+    restore.title = 'Open ' + ({ cv: 'CV notes', music: 'music player' }[activeView] || 'home page');
+    statusInfo.textContent = { cv: 'CV summary · last updated Oct 2026', music: 'Music · Spotify playlist' }[activeView] || (mobileTheme() ? '5 shortcuts' : '4 shortcuts');
+    document.dispatchEvent(new CustomEvent('nathan:viewchange', { detail: { view: activeView } }));
+    window.requestAnimationFrame(clampWindowOffset);
     if (!focusTarget) return;
-    const target = activeView === 'cv' ? cvNotes.querySelector('.cv-back') : directory.querySelector('[data-open-cv]');
+    const target = activeView === 'cv' ? cvNotes.querySelector('.cv-back') : activeView === 'music' ? musicPlayer.querySelector('.music-back') : directory.querySelector(previousView === 'music' ? '[data-open-music]' : '[data-open-cv]');
     target?.focus({ preventScroll: true });
   }
   function positionMenu() {
@@ -152,11 +160,14 @@
     document.querySelector('.path').textContent = themePath();
     document.querySelector('.path-label').textContent = appearance.theme === 'windows' ? 'Address' : 'Location';
     document.querySelector('.window-title-text').textContent = themeTitle();
+    statusInfo.textContent = { cv: 'CV summary · last updated Oct 2026', music: 'Music · Spotify playlist' }[activeView] || (mobileTheme() ? '5 shortcuts' : '4 shortcuts');
+    document.dispatchEvent(new CustomEvent('nathan:themechange', { detail: { theme: appearance.theme } }));
     document.querySelector('meta[name="theme-color"]').content = { windows: '#008080', mac: '#959595', ubuntu: '#75482e', android: '#111111', ios: '#364451' }[appearance.theme];
     resetWindowSize();
     home.hidden = false;
     restore.setAttribute('aria-expanded', 'true');
     syncPreferences();
+    document.dispatchEvent(new CustomEvent('nathan:windowopen'));
     window.requestAnimationFrame(() => {
       if (desktopTheme()) seedWindowOffset();
       else home.style.transform = '';
@@ -164,7 +175,7 @@
     if (announce) {
       document.getElementById('theme-announcement').textContent = 'Appearance: ' + labels[appearance.theme];
       const launcher = launchControl();
-      const focusTarget = launcher.getClientRects().length ? launcher : cvNotes.querySelector('.cv-back');
+      const focusTarget = launcher.getClientRects().length ? launcher : (activeView === 'music' ? musicPlayer.querySelector('.music-back') : cvNotes.querySelector('.cv-back'));
       focusTarget?.focus({ preventScroll: true });
     }
   }
@@ -191,10 +202,18 @@
     openWindow();
     showView('cv');
   }));
+  document.querySelectorAll('[data-open-music]').forEach(button => button.addEventListener('click', () => {
+    closeMenu(false);
+    openWindow();
+    showView('music');
+  }));
   document.querySelectorAll('[data-open-home-view]').forEach(button => button.addEventListener('click', () => showView('home')));
   restore.addEventListener('click', openWindow);
   document.getElementById('minimize').addEventListener('click', hideWindow);
-  document.getElementById('close').addEventListener('click', hideWindow);
+  document.getElementById('close').addEventListener('click', () => {
+    document.dispatchEvent(new CustomEvent('nathan:musicclose'));
+    hideWindow();
+  });
   maximize.addEventListener('click', () => {
     const expanded = home.classList.toggle('maximized');
     maximize.setAttribute('aria-pressed', String(expanded));

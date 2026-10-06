@@ -1,0 +1,153 @@
+/* Spotify keeps the live playlist and audio; the surrounding player belongs to each OS. */
+.music-player { width: 100%; min-width: 0; color: #222; }
+.music-toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 11px; }
+.music-back { min-height: 30px; padding: 4px 12px; }
+.music-app-name { font-weight: bold; }
+.music-spotify-link { margin-left: auto; color: inherit; white-space: nowrap; }
+.music-scroll { overflow: auto; max-height: min(70svh, 650px); overscroll-behavior: contain; }
+.music-console { padding: 14px; background: #ccc; border: 1px solid #777; }
+.music-display { display: flex; align-items: center; gap: 16px; }
+.music-readout { flex: 0 0 116px; display: grid; gap: 6px; padding: 8px; background: #131510; color: #9aef58; border: 2px inset #777; }
+.music-time { font: 30px/1 'Courier New', monospace; letter-spacing: -2px; }
+.music-spectrum { height: 22px; display: flex; align-items: flex-end; justify-content: space-between; gap: 3px; }
+.music-spectrum i { flex: 1; height: 3px; background: repeating-linear-gradient(to top, #77d84a 0 2px, transparent 2px 3px); }
+.is-playing .music-spectrum i { animation: music-meter 900ms ease-in-out infinite alternate; }
+.music-spectrum i:nth-child(3n) { animation-delay: -200ms; }
+.music-spectrum i:nth-child(3n + 1) { animation-delay: -600ms; }
+.music-spectrum i:nth-child(4n) { animation-duration: 550ms; }
+.music-description { min-width: 0; flex: 1; }
+.music-eyebrow { margin: 0 0 5px; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
+.music-player h2 { margin: 0; font-size: 19px; line-height: 1.2; overflow-wrap: anywhere; }
+.music-state { margin: 7px 0 0; min-height: 2.4em; font-size: 11px; line-height: 1.3; }
+.music-controls { display: flex; align-items: center; gap: 5px; margin-top: 14px; }
+.music-control, .music-reload { min-height: 32px; padding: 4px 9px; color: inherit; border: 1px solid; border-color: #fff #555 #555 #fff; box-shadow: inset 1px 1px #ddd, inset -1px -1px #888; background: linear-gradient(#e4e4e4, #b4b4b4); }
+.music-control { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-width: 44px; }
+.music-control > span:first-child { font: bold 17px/1 Arial, sans-serif; }
+.music-control:disabled { opacity: .45; cursor: default; }
+.music-control:active:not(:disabled), .music-reload:active { box-shadow: inset 1px 1px #666; }
+.music-control-label { font-size: 11px; }
+.music-reload { margin-left: auto; font-size: 11px; }
+.music-library { display: flex; margin-top: 8px; min-width: 0; }
+.music-sidebar { display: none; }
+.music-playlist { flex: 1; min-width: 0; border: 1px solid #777; background: #121212; }
+.music-playlist-heading { display: flex; justify-content: space-between; padding: 7px 10px; color: #ddd; background: #303030; font-size: 10px; letter-spacing: .08em; }
+.music-embed { width: 100%; min-width: 0; min-height: 352px; }
+.music-embed iframe { display: block; width: 100%; height: 352px; border: 0; border-radius: 0; background: #121212; }
+.music-footer { padding: 4px 8px 0; font-size: 11px; line-height: 1.4; }
+.music-footer p { margin: 8px 0; }
+.music-help a { color: inherit; }
+body[data-view="music"] .directory { padding: 0; border: 0; box-shadow: none; background: transparent; }
+body[data-view="music"] { grid-template-columns: minmax(0, 1fr); }
+body[data-view="music"] .window { min-width: 0; }
+body[data-view="music"] .window-content { padding: 10px; }
+.window.maximized .music-player { display: flex; flex: 1; flex-direction: column; min-height: 0; }
+.window.maximized .music-scroll { flex: 1; min-height: 0; max-height: none; }
+
+/* Winamp 2: dark steel, recessed green LED display and a playlist editor. */
+[data-theme="windows"] body[data-view="music"] .window { max-width: 540px; background: #34344b; border-color: #9b9baa #151520 #151520 #9b9baa; box-shadow: inset 1px 1px #686881, inset -1px -1px #1b1b2c, 2px 2px #004f4f; }
+[data-theme="windows"] body[data-view="music"] .title-bar { color: #ddd; background: repeating-linear-gradient(#44445a 0 2px, #252536 2px 4px); font: bold 11px/1.4 Tahoma, sans-serif; }
+[data-theme="windows"] body[data-view="music"] .window-title-text { background: #303045; padding-inline: 6px; }
+[data-theme="windows"] body[data-view="music"] .monitor-icon,
+[data-theme="windows"] body[data-view="music"] .path-bar,
+[data-theme="windows"] body[data-view="music"] .status-bar { display: none; }
+[data-theme="windows"] .music-player { color: #c7c7d5; font-family: Tahoma, Arial, sans-serif; }
+[data-theme="windows"] .music-app-name { text-transform: uppercase; letter-spacing: .16em; color: #d3c795; }
+[data-theme="windows"] .music-back { background: #a5a5b4; min-height: 26px; }
+[data-theme="windows"] .music-console { background: linear-gradient(135deg, #44445d, #29293d); border: 2px ridge #626277; padding: 12px; }
+[data-theme="windows"] .music-display { color: #9aef58; background: #11140e; border: 2px inset #787889; padding: 8px; gap: 12px; }
+[data-theme="windows"] .music-readout { border: 0; padding: 0; flex-basis: 100px; }
+[data-theme="windows"] .music-eyebrow { color: #b1bb8f; font-size: 9px; }
+[data-theme="windows"] .music-player h2 { font: bold 15px/1.25 'Courier New', monospace; }
+[data-theme="windows"] .music-state { font-family: 'Courier New', monospace; font-size: 10px; }
+[data-theme="windows"] .music-control, [data-theme="windows"] .music-reload { color: #15151e; border-color: #bdbdcc #14141d #14141d #bdbdcc; background: linear-gradient(#c1c1ca, #8e8e9c); }
+[data-theme="windows"] .music-control-label { display: none; }
+[data-theme="windows"] .music-playlist { border: 2px ridge #626277; }
+[data-theme="windows"] .music-playlist-heading { color: #d3c795; background: repeating-linear-gradient(#44445a 0 2px, #252536 2px 4px); font-weight: bold; }
+[data-theme="windows"] .music-footer { color: #bebecd; }
+
+/* QuickTime-era Classic Mac: silver controls and a clean monochrome display. */
+[data-theme="mac"] .music-console { border: 1px solid #555; background: linear-gradient(#eee, #b9b9b9); border-radius: 6px; box-shadow: inset 0 1px #fff; }
+[data-theme="mac"] .music-readout { color: #222; background: #c0c8bb; border: 1px solid #777; border-radius: 3px; box-shadow: inset 1px 1px #999; }
+[data-theme="mac"] .music-spectrum i { background: #657461; }
+[data-theme="mac"] .music-control { border: 1px solid #666; border-radius: 50%; min-width: 36px; min-height: 36px; background: linear-gradient(#fff, #aaa); box-shadow: inset 0 1px #fff, 0 1px #888; }
+[data-theme="mac"] .music-control-label { display: none; }
+[data-theme="mac"] .music-play { min-width: 42px; min-height: 42px; }
+[data-theme="mac"] .music-reload { border: 1px solid #666; border-radius: 4px; }
+[data-theme="mac"] .music-playlist-heading { color: #222; background: #ccc; border-bottom: 1px solid #777; }
+
+/* GNOME 2 Rhythmbox: a source list, warm GTK toolbar and library pane. */
+[data-theme="ubuntu"] .music-console { background: #e8decc; border-color: #b5a38b; border-radius: 4px; }
+[data-theme="ubuntu"] .music-readout { color: #693e25; background: #f8f3e9; border: 1px solid #b5a38b; border-radius: 4px; }
+[data-theme="ubuntu"] .music-spectrum i { background: #bc6d2d; }
+[data-theme="ubuntu"] .music-control, [data-theme="ubuntu"] .music-reload { color: #38271b; background: linear-gradient(#fffaf2, #dfd2bd); border: 1px solid #a58b6a; border-radius: 4px; box-shadow: inset 0 1px #fff; }
+[data-theme="ubuntu"] .music-playlist-heading { background: #dfd2bd; color: #4c3727; }
+[data-theme="ubuntu"] .music-playlist { border-color: #b5a38b; }
+[data-theme="ubuntu"] .music-sidebar { display: flex; flex-direction: column; flex: 0 0 125px; padding: 8px 0; margin-right: 6px; color: #3c2d21; background: #fffaf2; border: 1px solid #b5a38b; font-size: 11px; }
+.music-library-heading { padding: 8px 10px 5px; font-weight: bold; }
+.music-source { padding: 7px 10px; }
+.music-selected { padding: 9px 10px; color: #fff; background: #a96537; }
+
+/* The two mobile apps fill the screen, including when used as a tablet. */
+:is([data-theme="android"], [data-theme="ios"]) body[data-view="music"] { overflow: hidden; }
+:is([data-theme="android"], [data-theme="ios"]) body[data-view="music"] .window { position: fixed; inset: 29px 0 0; width: 100%; max-width: none; height: calc(100dvh - 29px); margin: 0; overflow: hidden; }
+:is([data-theme="android"], [data-theme="ios"]) body[data-view="music"] .window-content,
+:is([data-theme="android"], [data-theme="ios"]) body[data-view="music"] .directory { height: 100%; padding: 0; }
+:is([data-theme="android"], [data-theme="ios"]) .music-player { display: flex; flex-direction: column; height: 100%; }
+:is([data-theme="android"], [data-theme="ios"]) .music-toolbar { flex-shrink: 0; margin: 0; min-height: 50px; padding: 8px 12px; }
+:is([data-theme="android"], [data-theme="ios"]) .music-scroll { flex: 1; min-height: 0; max-height: none; padding: 16px 12px max(14px, env(safe-area-inset-bottom)); }
+:is([data-theme="android"], [data-theme="ios"]) .music-control { min-height: 44px; min-width: 48px; }
+:is([data-theme="android"], [data-theme="ios"]) .music-back { min-height: 34px; }
+[data-theme="android"] body[data-view="music"] .window { background: #171717; }
+[data-theme="android"] .music-player { color: #eee; }
+[data-theme="android"] .music-toolbar { color: #fff; background: linear-gradient(#383838, #1b1b1b); border-bottom: 3px solid var(--accent); }
+[data-theme="android"] .music-back { color: #eee; background: #333; border: 1px solid #666; box-shadow: none; }
+[data-theme="android"] .music-console { background: linear-gradient(#313131, #242424); border: 1px solid #444; }
+[data-theme="android"] .music-readout { background: #111; border: 1px solid #555; color: #a4ca39; }
+[data-theme="android"] .music-spectrum i { background: var(--accent); }
+[data-theme="android"] .music-control, [data-theme="android"] .music-reload { background: linear-gradient(#454545, #292929); color: #eee; border: 1px solid #666; border-radius: 3px; box-shadow: inset 0 1px #ffffff15; }
+[data-theme="android"] .music-play { color: #111; background: linear-gradient(#bce277, #79ac27); border-color: #8eb648; }
+[data-theme="android"] .music-playlist { border-color: #444; }
+[data-theme="android"] .music-playlist-heading { color: var(--accent); background: #242424; }
+[data-theme="ios"] body[data-view="music"] .window { background: #ededed; }
+[data-theme="ios"] .music-toolbar { color: #fff; text-shadow: 0 -1px #666; background: linear-gradient(#9b9b9b, #555); border-bottom: 1px solid #333; }
+[data-theme="ios"] .music-back { color: #fff; background: linear-gradient(#888, #444); border: 1px solid #444; border-radius: 6px; box-shadow: inset 0 1px #aaa; }
+[data-theme="ios"] .music-app-name { font-size: 17px; }
+[data-theme="ios"] .music-console { background: linear-gradient(#fafafa, #d1d1d1); border: 1px solid #b1b1b1; border-radius: 5px; box-shadow: 0 1px 3px #0002; }
+[data-theme="ios"] .music-readout { background: #373737; color: #eee; border: 1px solid #222; border-radius: 4px; }
+[data-theme="ios"] .music-spectrum i { background: #ea8727; }
+[data-theme="ios"] .music-control { color: #333; border: 1px solid #aaa; border-radius: 8px; background: linear-gradient(#fff, #c8c8c8); box-shadow: inset 0 1px #fff, 0 1px #fff; }
+[data-theme="ios"] .music-control-label { display: none; }
+[data-theme="ios"] .music-reload { border: 1px solid #aaa; border-radius: 5px; }
+[data-theme="ios"] .music-playlist-heading { color: #fff; background: linear-gradient(#777, #484848); }
+
+/* Original OS icon artwork, stored locally rather than redrawn. */
+[data-theme="windows"] .profile-icon.app-icon-music { background-image: url('../artwork/icons/windows-music.png'); background-size: 64px 64px; image-rendering: pixelated; }
+[data-theme="mac"] .profile-icon.app-icon-music { background-image: url('../artwork/icons/mac-music.png'); background-size: 64px 64px; image-rendering: pixelated; }
+[data-theme="ubuntu"] .profile-icon.app-icon-music { background-image: url('../artwork/icons/ubuntu-music.png'); }
+[data-theme="android"] .profile-icon.app-icon-music { background-image: url('../artwork/icons/android-music.png'); }
+[data-theme="ios"] .profile-icon.app-icon-music { background-image: url('../artwork/icons/ios-music.jpg'); background-size: cover; border-radius: 14px; width: 80px; height: 80px; }
+
+@media (min-width: 600px) {
+  :is([data-theme="windows"], [data-theme="mac"], [data-theme="ubuntu"]) .profiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (min-width: 768px) {
+  :is([data-theme="android"], [data-theme="ios"]) .profiles { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  :is([data-theme="android"], [data-theme="ios"]) .music-scroll { padding: 28px max(28px, calc((100vw - 900px) / 2)); }
+  :is([data-theme="android"], [data-theme="ios"]) .music-console { padding: 22px; }
+  :is([data-theme="android"], [data-theme="ios"]) .music-player h2 { font-size: 25px; }
+  [data-theme="android"] body[data-view="music"] .window { inset: 0 0 42px; height: calc(100dvh - 42px); }
+}
+@media (max-width: 479px) {
+  .music-display { gap: 10px; }
+  .music-console { padding: 10px; }
+  .music-readout { flex-basis: 95px; }
+  .music-time { font-size: 26px; }
+  .music-player h2 { font-size: 16px; }
+  .music-control-label { display: none; }
+  [data-theme="ubuntu"] .music-sidebar { display: none; }
+  .music-toolbar { gap: 7px; }
+  .music-spotify-link { font-size: 10px; }
+  .music-reload { padding-inline: 6px; }
+}
+@keyframes music-meter { from { height: 3px; } to { height: 22px; } }
+@media (prefers-reduced-motion: reduce) { .is-playing .music-spectrum i { animation: none; height: 10px; } }

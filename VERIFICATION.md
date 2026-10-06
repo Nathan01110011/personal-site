@@ -1,5 +1,31 @@
 # Verification
 
+## Music player — 2026-10-06
+
+`node scripts/test-themes.cjs` still passes 16 checks.
+`node scripts/test-music.cjs` passes 20 complete music flows: all five themes
+at 320×640, 390×844, 844×390 and 1366×900. These checks cover lazy Spotify
+loading, playback event handling, play/pause, restart, Back and returned focus,
+CV navigation, refreshed playlist embeds, no horizontal overflow, full-screen
+mobile layout, close/restore, maximize and the blocked-API fallback. Browser
+checks use a controlled Spotify API fixture; they do not claim to verify audio
+delivery by the external service. JavaScript syntax and `git diff --check` pass.
+
+The supplied public Spotify playlist and its three example tracks were read
+from Spotify's live embed. Real embed loading was also exercised, but the
+automated browser encountered an upstream Spotify React hydration error and
+did not reliably receive a ready/playback event. Actual listening therefore
+remains governed by Spotify and the visitor's browser/session. The normal
+Spotify playlist iframe and direct playlist link remain available independently
+of the optional custom controls.
+
+Spotify resources load only on entering Music. The site does not copy the
+playlist contents or use a Spotify API secret. The normal playlist embed is
+shown immediately while the optional iFrame control API loads; a visitor who
+has already focused that embed keeps it, avoiding interruption of playback.
+
+## Earlier theme verification
+
 Retro OS appearances checked on 2026-10-01. The homepage still contains Nathan's
 two original GitHub and LinkedIn shortcuts and the original unmodified artwork.
 

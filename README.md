@@ -35,6 +35,7 @@ GitHub Pages source folder works.
 - `src/base.css` and `src/styles/`: the five appearances and responsive layouts.
 - `src/theme-bootstrap.js`: OS detection and the saved preference, before paint.
 - `src/desktop.js`: menu, window, clock, theme switching and pointer behavior.
+- `src/music.js` and `src/styles/music.css`: live Spotify playlist and five OS music player shells.
 - `artwork/icons/`: separate transparent WebP icons for each appearance.
 - `artwork/`: original generated PNGs and the hand-authored cursor SVG.
 - `scripts/build.py`: copies assets and builds both HTML entrypoints with versioned CSS and JavaScript URLs.
@@ -46,11 +47,32 @@ GitHub Pages source folder works.
 ```sh
 python3 scripts/build.py
 node scripts/test-themes.cjs
+node scripts/test-music.cjs # optional browser checks; requires Playwright/Chromium
 ```
 
 Commit the changed source files, artwork, and rebuilt `assets/`, `docs/`, and HTML files.
 Pushes to `main` publish the committed website automatically. The Python build
 runs locally, not on the hosting server.
+
+## Music
+
+The Music shortcut opens Nathan's Spotify playlist
+`4J8Zno4WdUbklWUBffoirT`. Spotify supplies the current track list and playback,
+so editing that playlist requires no site rebuild. `Reload playlist` refreshes
+the embed during a visit. To select a different playlist, update its URL in
+`src/music.js` and `src/index.template.html`, then rebuild.
+
+Windows uses Winamp 2 styling, Classic Mac a QuickTime-era player, Ubuntu a
+GNOME 2 Rhythmbox-style library, and Android/iOS their period Music styling.
+The official Spotify player remains visible inside each shell. Play/pause and
+restart use Spotify's iFrame API; if it is blocked, a plain Spotify embed and
+direct playlist link remain available. Playback is user initiated, and may be
+full tracks or previews depending on Spotify and the visitor's browser/session.
+Returning home or closing the app stops playback; minimizing retains it.
+The Spotify script and iframe load only when Music is first opened.
+
+Music icon source credits and relevant licenses are in
+`artwork/icons/music-sources/`.
 
 ## GitHub Pages setup
 
