@@ -111,3 +111,7 @@ checks. New checks cover all six stacking permutations on Windows, Mac and Ubunt
 108 selections through taskbar or Mac menu controls, repeated selection of the
 front window, and direct clicks on exposed app title bars. The untouched windows
 retain their order in every case. Syntax and diff checks also pass.
+
+Live Windows check: starting with Music < CV < Home, clicking the exposed CV
+title bar produced Music < Home < CV. DOM hit testing confirmed CV covers Home
+and Home still covers Music. Screenshot: `verification/window-order-1791319985241.jpg`.
