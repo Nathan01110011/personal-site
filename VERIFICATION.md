@@ -11,13 +11,14 @@ mobile layout, close/restore, maximize and the blocked-API fallback. Browser
 checks use a controlled Spotify API fixture; they do not claim to verify audio
 delivery by the external service. JavaScript syntax and `git diff --check` pass.
 
-The supplied public Spotify playlist and its three example tracks were read
-from Spotify's live embed. Real embed loading was also exercised, but the
-automated browser encountered an upstream Spotify React hydration error and
-did not reliably receive a ready/playback event. Actual listening therefore
-remains governed by Spotify and the visitor's browser/session. The normal
-Spotify playlist iframe and direct playlist link remain available independently
-of the optional custom controls.
+The deployed site was verified in the live Chrome browser at `https://nathan.wtf/`.
+The playlist displayed all three example tracks. Starting playback through the
+custom Play button produced Spotify playback events, the “Playing from Spotify”
+status, an advancing timer observed at 00:21, and the animated player display.
+Pause and playlist reload were also exercised. This browser received Spotify
+previews; full-track availability remains determined by Spotify and the visitor's
+browser/session. Windows and Classic Mac shells were inspected with the live
+Spotify player. A Winamp verification screenshot is saved in `verification/`.
 
 Spotify resources load only on entering Music. The site does not copy the
 playlist contents or use a Spotify API secret. The normal playlist embed is
