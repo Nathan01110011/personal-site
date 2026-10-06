@@ -70,3 +70,10 @@ button:focus-visible, a:focus-visible { outline-offset: -3px; }
 [data-theme="mac"] [data-window-action="close"] svg { visibility: hidden; }
 [data-theme="mac"] [data-window-action="close"]::after { content: ''; position: absolute; inset: 4px; border: 1px solid #555; background: #bbb; }
 [data-theme="mac"] .title-bar > .window-title { min-width: 0; }
+
+/* Maximized geometry takes precedence over each skin’s normal window width. */
+[data-theme] .window.maximized { width: auto; max-width: none; }
+
+.window-maximize-icon .restore-symbol,
+.window-control[aria-pressed="true"] .maximize-symbol { display: none; }
+.window-control[aria-pressed="true"] .restore-symbol { display: block; }

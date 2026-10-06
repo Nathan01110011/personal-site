@@ -139,7 +139,13 @@
     bar.addEventListener('pointercancel', finishDrag);
   }
   function placeApp(app) {
-    if (!desktopTheme() || app.shell.hidden || app.shell.classList.contains('maximized')) return;
+    if (!desktopTheme() || app.shell.hidden) return;
+    if (app.shell.classList.contains('maximized')) {
+      // Desktop insets own the maximized position; retain x/y for restore.
+      app.shell.style.removeProperty('left');
+      app.shell.style.removeProperty('top');
+      return;
+    }
     const top = appearance.theme === 'windows' ? 8 : 43;
     const bottom = appearance.theme === 'mac' ? 8 : 50;
     const bounds = app.shell.getBoundingClientRect();

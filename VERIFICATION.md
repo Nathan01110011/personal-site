@@ -82,3 +82,15 @@ inside the independent Winamp window (observed 00:17). Opening and focusing CV
 left playback active. Both app windows and the launcher were moved independently.
 The custom playback group exposed one Pause control. Live screenshot:
 `verification/desktop-app-windows-1791318542004.jpg`.
+
+## Maximize geometry and restore icon repair — 6 October 2026
+
+Maximizing an app now removes its inline drag coordinates so the desktop insets
+position every edge. Normal theme width limits no longer constrain maximized
+windows. Restoring reapplies the saved app position. The control switches between
+a single-window maximize symbol and overlapping-window restore symbol.
+
+The existing 20 music/theme/viewport flows pass. New regression checks verify
+all four actual window bounds, restored position and dimensions, and both icon
+states for the launcher, CV and Music on Windows, Mac and Ubuntu at 1366×900 and
+390×844 (18 maximize/restore flows). JavaScript syntax and diff checks pass.

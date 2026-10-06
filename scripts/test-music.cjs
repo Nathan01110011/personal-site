@@ -145,6 +145,38 @@ const mockEmbed = '<html><body style="margin:0;padding:24px;background:#121212;c
       await page.waitForFunction(() => !document.querySelector('[data-music-action="toggle"]').disabled);
       assert.equal(await page.locator('#spotify-player-host iframe').count(), 1, 'Theme change keeps a usable single player');
     }
+    // Check actual geometry, including restored drag positions, rather than
+    // only checking whether the maximized class was applied.
+    for (const theme of ['windows', 'mac', 'ubuntu']) {
+      for (const [width, height] of [[1366, 900], [390, 844]]) {
+        await page.setViewportSize({ width, height });
+        await page.goto(url);
+        await page.evaluate(theme => document.querySelector('[data-theme-choice="' + theme + '"]').click(), theme);
+        for (const view of ['home', 'cv', 'music']) {
+          if (view !== 'home') await page.locator('.profiles [data-open-' + view + ']').click();
+          if (view === 'music') await page.waitForFunction(() => !document.querySelector('[data-music-action="toggle"]').disabled);
+          const shell = page.locator('#' + view + '-window');
+          const zoom = shell.locator(view === 'home' ? '#maximize' : '[data-window-action="maximize"]');
+          const original = await shell.boundingBox();
+          await zoom.click();
+          assert.equal(await zoom.locator('.restore-symbol').isVisible(), true, 'Maximized button shows restore icon');
+          assert.equal(await zoom.locator('.maximize-symbol').isVisible(), false);
+          const expanded = await shell.boundingBox();
+          const top = { windows: 8, mac: 42, ubuntu: 43 }[theme];
+          const bottom = { windows: 50, mac: 8, ubuntu: 47 }[theme];
+          assert.equal(Math.round(expanded.x), 8, theme + ' ' + view + ': maximize moves left edge');
+          assert.equal(Math.round(expanded.y), top, theme + ' ' + view + ': maximize moves top edge');
+          assert.equal(Math.round(expanded.width), width - 16, theme + ' ' + view + ': maximize fills width');
+          assert.equal(Math.round(expanded.height), height - top - bottom, theme + ' ' + view + ': maximize fills height');
+          await zoom.click();
+          assert.equal(await zoom.locator('.maximize-symbol').isVisible(), true, 'Restored button shows maximize icon');
+          assert.equal(await zoom.locator('.restore-symbol').isVisible(), false);
+          const restored = await shell.boundingBox();
+          for (const key of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(original[key] - restored[key]) < 1, theme + ' ' + view + ': restore ' + key);
+          if (view !== 'home') await shell.locator('[data-window-action="close"]').click();
+        }
+      }
+    }
     // The iPad Settings sidebar must fill the entire remaining screen.
     for (const [width, height] of [[960, 1400], [844, 390]]) {
       await page.setViewportSize({ width, height });
