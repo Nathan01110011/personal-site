@@ -94,3 +94,8 @@ The existing 20 music/theme/viewport flows pass. New regression checks verify
 all four actual window bounds, restored position and dimensions, and both icon
 states for the launcher, CV and Music on Windows, Mac and Ubuntu at 1366×900 and
 390×844 (18 maximize/restore flows). JavaScript syntax and diff checks pass.
+
+Live Winamp bounds verified after deployment: left/top 8px, right 1355px and
+bottom 886px on a 1363×936 viewport. Restore returned to left 521.5px, top 42px
+and width 540px. The overlapping-window icon was visible only when maximized.
+Screenshot: `verification/maximize-restore-1791319230697.jpg`.
