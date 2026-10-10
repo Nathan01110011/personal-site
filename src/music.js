@@ -2,7 +2,8 @@
   'use strict';
   // Keep the playlist live: Spotify owns the track list, artwork and playback.
   const playlistUrl = 'https://open.spotify.com/playlist/4J8Zno4WdUbklWUBffoirT';
-  const embedUrl = 'https://open.spotify.com/embed/playlist/4J8Zno4WdUbklWUBffoirT?theme=0';
+  const embedTheme = () => ['mac', 'ubuntu', 'ios'].includes(document.documentElement.dataset.theme) ? '1' : '0';
+  const embedUrl = () => playlistUrl.replace('/playlist/', '/embed/playlist/') + '?theme=' + embedTheme();
   const player = document.querySelector('.music-player');
   const host = document.getElementById('spotify-player-host');
   const status = player.querySelector('.music-state');
@@ -19,6 +20,7 @@
   let currentView = 'home';
   let readyTimer;
   let fallbackTouched = false;
+  let loadedEmbedTheme = null;
 
   function enableControls(enabled) {
     controls.forEach(button => { button.disabled = !enabled; });
@@ -65,6 +67,7 @@
     fallbackFrame = null;
     fallbackTouched = false;
     initialized = false;
+    loadedEmbedTheme = null;
     host.replaceChildren();
     enableControls(false);
     updatePlayback();
@@ -77,7 +80,7 @@
     }
     enableControls(false);
     fallbackFrame = document.createElement('iframe');
-    fallbackFrame.src = embedUrl;
+    fallbackFrame.src = embedUrl();
     fallbackFrame.title = "Nathan's Spotify playlist";
     fallbackFrame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
     fallbackFrame.setAttribute('allowfullscreen', '');
@@ -90,6 +93,7 @@
   async function loadPlaylist() {
     if (initialized) return;
     initialized = true;
+    loadedEmbedTheme = embedTheme();
     const loadAttempt = ++attempt;
     // Show the ordinary player immediately while the optional control API loads.
     useFallback(loadAttempt);
@@ -103,7 +107,7 @@
     host.replaceChildren(mount);
     readyTimer = window.setTimeout(() => useFallback(loadAttempt), 30000);
     try {
-      api.createController(mount, { url: playlistUrl + '?theme=0', width: '100%', height: 352 }, created => {
+      api.createController(mount, { url: playlistUrl + '?theme=' + loadedEmbedTheme, width: '100%', height: 560 }, created => {
         if (loadAttempt !== attempt || fallbackFrame) { created.destroy(); return; }
         controller = created;
         const iframe = host.querySelector('iframe');
@@ -173,5 +177,11 @@
     player.querySelector('.music-app-name').textContent = {
       windows: 'Winamp', mac: 'QuickTime Player', ubuntu: 'Rhythmbox', android: 'Music', ios: 'Music'
     }[event.detail.theme];
+    // The Spotify iframe theme is chosen at creation time, so update it only
+    // when switching between light and dark OS appearances.
+    if (initialized && loadedEmbedTheme !== embedTheme()) {
+      destroyPlayer();
+      if (currentView === 'music') loadPlaylist();
+    }
   });
 })();

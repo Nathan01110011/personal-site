@@ -1,15 +1,15 @@
 /* Spotify keeps the live playlist and audio; the surrounding player belongs to each OS. */
 .music-player { width: 100%; min-width: 0; color: #222; }
-.music-toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 11px; }
+.music-toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 11px; }
 .music-back { min-height: 30px; padding: 4px 12px; }
 .music-app-name { font-weight: bold; }
 .music-spotify-link { margin-left: auto; color: inherit; white-space: nowrap; }
-.music-scroll { overflow: auto; max-height: min(70svh, 650px); overscroll-behavior: contain; }
-.music-console { padding: 14px; background: #ccc; border: 1px solid #777; }
+.music-scroll { overflow: auto; max-height: min(84svh, 790px); overscroll-behavior: contain; }
+.music-console { padding: 10px 12px; background: #ccc; border: 1px solid #777; }
 .music-display { display: flex; align-items: center; gap: 16px; }
-.music-readout { flex: 0 0 116px; display: grid; gap: 6px; padding: 8px; background: #131510; color: #9aef58; border: 2px inset #777; }
-.music-time { font: 30px/1 'Courier New', monospace; letter-spacing: -2px; }
-.music-spectrum { height: 22px; display: flex; align-items: flex-end; justify-content: space-between; gap: 3px; }
+.music-readout { flex: 0 0 106px; display: grid; gap: 4px; padding: 6px; background: #131510; color: #9aef58; border: 2px inset #777; }
+.music-time { font: 27px/1 'Courier New', monospace; letter-spacing: -2px; }
+.music-spectrum { height: 18px; display: flex; align-items: flex-end; justify-content: space-between; gap: 3px; }
 .music-spectrum i { flex: 1; height: 3px; background: repeating-linear-gradient(to top, #77d84a 0 2px, transparent 2px 3px); }
 .is-playing .music-spectrum i { animation: music-meter 900ms ease-in-out infinite alternate; }
 .music-spectrum i:nth-child(3n) { animation-delay: -200ms; }
@@ -18,9 +18,9 @@
 .music-description { min-width: 0; flex: 1; }
 .music-eyebrow { margin: 0 0 5px; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
 .music-player h2 { margin: 0; font-size: 19px; line-height: 1.2; overflow-wrap: anywhere; }
-.music-state { margin: 7px 0 0; min-height: 2.4em; font-size: 11px; line-height: 1.3; }
-.music-controls { display: flex; align-items: center; gap: 5px; margin-top: 14px; }
-.music-control, .music-reload { min-height: 32px; padding: 4px 9px; color: inherit; border: 1px solid; border-color: #fff #555 #555 #fff; box-shadow: inset 1px 1px #ddd, inset -1px -1px #888; background: linear-gradient(#e4e4e4, #b4b4b4); }
+.music-state { margin: 5px 0 0; min-height: 1.4em; font-size: 11px; line-height: 1.3; }
+.music-controls { display: flex; align-items: center; gap: 5px; margin-top: 8px; }
+.music-control, .music-reload { min-height: 30px; padding: 3px 9px; color: inherit; border: 1px solid; border-color: #fff #555 #555 #fff; box-shadow: inset 1px 1px #ddd, inset -1px -1px #888; background: linear-gradient(#e4e4e4, #b4b4b4); }
 .music-control { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-width: 44px; }
 .music-control > span:first-child { font: bold 17px/1 Arial, sans-serif; }
 .music-control:disabled { opacity: .45; cursor: default; }
@@ -31,17 +31,21 @@
 .music-sidebar { display: none; }
 .music-playlist { flex: 1; min-width: 0; border: 1px solid #777; background: #121212; }
 .music-playlist-heading { display: flex; justify-content: space-between; padding: 7px 10px; color: #ddd; background: #303030; font-size: 10px; letter-spacing: .08em; }
-.music-embed { width: 100%; min-width: 0; min-height: 352px; }
-.music-embed iframe { display: block; width: 100%; height: 352px; border: 0; border-radius: 0; background: #121212; }
+.music-embed { width: 100%; min-width: 0; height: clamp(405px, 58svh, 560px); min-height: 0; overflow: hidden; }
+.music-embed iframe { display: block; width: 100% !important; height: 100% !important; border: 0; border-radius: 0; background: #121212; }
 .music-footer { padding: 4px 8px 0; font-size: 11px; line-height: 1.4; }
-.music-footer p { margin: 8px 0; }
+.music-footer p { margin: 5px 0; }
 .music-help a { color: inherit; }
 body[data-view="music"] .directory { padding: 0; border: 0; box-shadow: none; background: transparent; }
 body[data-view="music"] { grid-template-columns: minmax(0, 1fr); }
 body[data-view="music"] .window { min-width: 0; }
 body[data-view="music"] .window-content { padding: 10px; }
 .window.maximized .music-player { display: flex; flex: 1; flex-direction: column; min-height: 0; }
-.window.maximized .music-scroll { flex: 1; min-height: 0; max-height: none; }
+.window.maximized .music-scroll { display: flex; flex: 1; flex-direction: column; min-height: 0; max-height: none; overflow: hidden; }
+.window.maximized .music-library { flex: 1; min-height: 0; }
+.window.maximized .music-playlist { display: flex; flex-direction: column; min-height: 0; }
+.window.maximized .music-playlist-heading { flex: 0 0 auto; }
+.window.maximized .music-embed { flex: 1; height: auto; min-height: 0; }
 
 /* Winamp 2: dark steel, recessed green LED display and a playlist editor. */
 [data-theme="windows"] .music-window { max-width: 540px; background: #34344b; border-color: #9b9baa #151520 #151520 #9b9baa; box-shadow: inset 1px 1px #686881, inset -1px -1px #1b1b2c, 2px 2px #004f4f; }
@@ -53,7 +57,7 @@ body[data-view="music"] .window-content { padding: 10px; }
 [data-theme="windows"] .music-player { color: #c7c7d5; font-family: Tahoma, Arial, sans-serif; }
 [data-theme="windows"] .music-app-name { text-transform: uppercase; letter-spacing: .16em; color: #d3c795; }
 [data-theme="windows"] .music-back { background: #a5a5b4; min-height: 26px; }
-[data-theme="windows"] .music-console { background: linear-gradient(135deg, #44445d, #29293d); border: 2px ridge #626277; padding: 12px; }
+[data-theme="windows"] .music-console { background: linear-gradient(135deg, #44445d, #29293d); border: 2px ridge #626277; padding: 9px; }
 [data-theme="windows"] .music-display { color: #9aef58; background: #11140e; border: 2px inset #787889; padding: 8px; gap: 12px; }
 [data-theme="windows"] .music-readout { border: 0; padding: 0; flex-basis: 100px; }
 [data-theme="windows"] .music-eyebrow { color: #b1bb8f; font-size: 9px; }

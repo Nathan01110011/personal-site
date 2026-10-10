@@ -9,7 +9,7 @@ window.__musicCalls = [];
 window.onSpotifyIframeApiReady({ createController(element, options, callback) {
   window.__musicCalls.push(['create', options.url]);
   const frame = document.createElement('iframe');
-  frame.src = 'https://open.spotify.com/embed/playlist/4J8Zno4WdUbklWUBffoirT?theme=0';
+  frame.src = 'https://open.spotify.com/embed/playlist/4J8Zno4WdUbklWUBffoirT?theme=' + new URL(options.url).searchParams.get('theme');
   element.replaceWith(frame);
   const listeners = {};
   let paused = true, position = 0;
@@ -53,6 +53,10 @@ const mockEmbed = '<html><body style="margin:0;padding:24px;background:#121212;c
         await page.locator('.profiles [data-open-music]').click();
         await page.waitForFunction(() => !document.querySelector('[data-music-action="toggle"]').disabled);
         assert.equal(await page.locator('.music-player').isVisible(), true);
+        const desiredTheme = ['mac', 'ubuntu', 'ios'].includes(theme) ? '1' : '0';
+        const currentPlayer = await page.locator('#spotify-player-host iframe').evaluate(el => ({ theme: new URL(el.src).searchParams.get('theme'), height: el.getBoundingClientRect().height }));
+        assert.equal(currentPlayer.theme, desiredTheme, theme + ': Spotify embed matches OS palette');
+        assert.ok(currentPlayer.height >= 400, theme + ': normal music player is tall enough for more tracks');
         const desktop = ['windows', 'mac', 'ubuntu'].includes(theme);
         assert.equal(await page.locator('.profiles').isVisible(), desktop);
         const bounds = await page.evaluate(() => {
@@ -197,6 +201,11 @@ const mockEmbed = '<html><body style="margin:0;padding:24px;background:#121212;c
           assert.equal(await zoom.locator('.restore-symbol').isVisible(), true, 'Maximized button shows restore icon');
           assert.equal(await zoom.locator('.maximize-symbol').isVisible(), false);
           const expanded = await shell.boundingBox();
+          if (view === 'music') {
+            const frame = await shell.locator('#spotify-player-host iframe').boundingBox();
+            assert.ok(frame.height >= 400, theme + ': maximized playlist grows with window');
+            assert.ok(frame.y + frame.height <= expanded.y + expanded.height, theme + ': maximized playlist stays inside window');
+          }
           const top = { windows: 8, mac: 42, ubuntu: 43 }[theme];
           const bottom = { windows: 50, mac: 8, ubuntu: 47 }[theme];
           assert.equal(Math.round(expanded.x), 8, theme + ' ' + view + ': maximize moves left edge');
