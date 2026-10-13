@@ -48,6 +48,6 @@ html[data-theme="ubuntu"] { --accent: #a45622; --surface: #e8dfd1; }
 
 /* Independent alpha-preserving assets; no sprite offsets or colour-key removal. */
 [data-theme="ubuntu"] .profile-icon.app-icon-github { background-image: url("../artwork/icons/ubuntu-github.webp"); }
-[data-theme="ubuntu"] .profile-icon.app-icon-linkedin { background-image: url("../artwork/icons/ubuntu-linkedin.webp"); }
+[data-theme="ubuntu"] .profile-icon.app-icon-linkedin { background-image: url("../artwork/icons/ubuntu-linkedin-badge.webp"); }
 [data-theme="ubuntu"] .profile-icon.app-icon-cv { background-image: url("../artwork/icons/ubuntu-cv.webp"); }
 [data-theme="ubuntu"] .profile-icon.app-icon-settings { background-image: url("../artwork/icons/ubuntu-settings.webp"); }

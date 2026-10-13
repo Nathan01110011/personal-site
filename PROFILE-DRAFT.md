@@ -12,8 +12,8 @@ Android and iOS use their full-screen Contacts layout.
 
 Portrait styles use the same original photo:
 
-- Windows: a 32×40 pixel bitmap, reduced to the classic 16-color palette.
-- Classic Mac: a 64×80 black-and-white ordered-dither bitmap.
+- Windows: a 64×80 pixel bitmap using Windows high-colour (RGB565) tones.
+- Classic Mac: a 96×120 grayscale bitmap with eight grey tones and subtle ordered dithering.
 - Ubuntu: a regular photograph with slightly muted colors.
 - Android / iOS: the unchanged photograph.
 

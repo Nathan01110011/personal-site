@@ -144,3 +144,15 @@ The 20 profile viewport/theme flows pass with the real portrait and nested sport
 list. The offline review file loads the portrait without network access in all
 five themes; actual bitmap pixels confirm the Windows 32×40 16-color rendering
 and Mac 64×80 monochrome dither. Android and iOS display the original image.
+
+## Release refinements — 13 October 2026
+
+Windows now uses a 64×80 bitmap with natural high-colour tones, replacing the
+coarse 32×40 system-palette portrait. Classic Mac now uses 96×120 with eight
+grey shades and restrained dithering, retaining the monochrome style while
+making facial features easier to see. Mobile portraits remain unchanged.
+Ubuntu LinkedIn is a blue [in] badge, clearly distinct from Profile's address book.
+
+The 20 profile flows, 20 music flows, stacking/maximize checks and 16 OS checks
+pass. Additional checks use Nathan's actual portrait to verify both new bitmap
+resolutions and colour ranges. The Ubuntu launcher loads the new badge asset.

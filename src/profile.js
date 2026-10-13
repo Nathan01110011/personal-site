@@ -7,12 +7,6 @@
   const context = bitmap.getContext('2d');
   let original;
   let generation = 0;
-  const palette = [
-    [0, 0, 0], [128, 128, 128], [192, 192, 192], [255, 255, 255],
-    [128, 0, 0], [255, 0, 0], [128, 128, 0], [255, 255, 0],
-    [0, 128, 0], [0, 255, 0], [0, 128, 128], [0, 255, 255],
-    [0, 0, 128], [0, 0, 255], [128, 0, 128], [255, 0, 255]
-  ];
   const bayer = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
   function render(theme = document.documentElement.dataset.theme) {
     if (!original) return;
@@ -22,9 +16,10 @@
     initials.hidden = true;
     if (!retro) return;
     // A real low-resolution bitmap, rather than a sharp image with a pixelated hint.
-    bitmap.width = theme === 'windows' ? 32 : 64;
-    bitmap.height = theme === 'windows' ? 40 : 80;
-    context.imageSmoothingEnabled = false;
+    bitmap.width = theme === 'windows' ? 64 : 96;
+    bitmap.height = theme === 'windows' ? 80 : 120;
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = 'high';
     const scale = Math.max(bitmap.width / original.naturalWidth, bitmap.height / original.naturalHeight);
     const width = original.naturalWidth * scale, height = original.naturalHeight * scale;
     context.drawImage(original, (bitmap.width - width) / 2, (bitmap.height - height) / 2, width, height);
@@ -35,15 +30,13 @@
         if (theme === 'mac') {
           const x = (i / 4) % bitmap.width, y = Math.floor(i / 4 / bitmap.width);
           const gray = .299 * r + .587 * g + .114 * b;
-          const shade = gray > (bayer[(y % 4) * 4 + x % 4] + .5) * 16 ? 255 : 0;
+          // Eight grey tones preserve features; a small ordered pattern keeps the era's texture.
+          const texture = (bayer[(y % 4) * 4 + x % 4] - 7.5) * 1.5;
+          const shade = Math.round(Math.max(0, Math.min(255, gray + texture)) / (255 / 7)) * (255 / 7);
           pixels.data.set([shade, shade, shade], i);
         } else {
-          let closest = palette[0], distance = Infinity;
-          for (const color of palette) {
-            const candidate = (r - color[0]) ** 2 + (g - color[1]) ** 2 + (b - color[2]) ** 2;
-            if (candidate < distance) { closest = color; distance = candidate; }
-          }
-          pixels.data.set(closest, i);
+          // Windows high-colour mode keeps natural skin tones while the bitmap stays crisp.
+          pixels.data.set([Math.round(r / 255 * 31) * 255 / 31, Math.round(g / 255 * 63) * 255 / 63, Math.round(b / 255 * 31) * 255 / 31], i);
         }
       }
       context.putImageData(pixels, 0, 0);

@@ -58,8 +58,8 @@ const {chromium}=require('playwright');
    const rendering=await page.locator('.contact-avatar').evaluate(el=>{const c=el.querySelector('canvas'),img=el.querySelector('img');return {width:c.width,height:c.height,bitmap:!c.hidden,photo:!img.hidden,values:[...c.getContext('2d').getImageData(0,0,c.width,c.height).data]};});
    assert.equal(rendering.bitmap,['windows','mac'].includes(theme));
    assert.equal(rendering.photo,!['windows','mac'].includes(theme));
-   if(theme==='windows'){assert.equal(rendering.width,32);assert.equal(rendering.height,40);assert.ok(rendering.values.every((v,i)=>i%4===3||[0,128,192,255].includes(v)));}
-   if(theme==='mac'){assert.equal(rendering.width,64);assert.equal(rendering.height,80);assert.ok(rendering.values.every((v,i)=>i%4===3||v===0||v===255));}
+   if(theme==='windows'){assert.equal(rendering.width,64);assert.equal(rendering.height,80);assert.ok(rendering.values.every((v,i)=>i%4===3||Array.from({length:i%4===1?64:32},(_,n)=>Math.round(n*255/(i%4===1?63:31))).includes(v)));}
+   if(theme==='mac'){assert.equal(rendering.width,96);assert.equal(rendering.height,120);assert.ok(rendering.values.every((v,i)=>i%4===3||[0,36,73,109,146,182,219,255].includes(v)));}
   }
   await page.evaluate(()=>window.NathanProfile.setPortrait(''));
   assert.equal(await page.locator('.contact-initials').isVisible(),true);
