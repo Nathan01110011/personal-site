@@ -34,6 +34,7 @@ const fs = require('node:fs');
       assert.ok((await page.locator('.pint-canvas').boundingBox()).height>100);
       await page.locator('#pint-tilt').evaluate(el=>{el.value='85';el.dispatchEvent(new Event('input',{bubbles:true}));});
       await page.waitForFunction(()=>Number(document.querySelector('.pint-canvas').dataset.fill)<.85);
+      assert.ok(Number(await page.locator('.pint-canvas').getAttribute('data-glass-rotation'))>0,'Manual control rotates the glass');
       await holdFill();
       // Drag pours while held; release levels the glass, holding fills gradually.
       const canvasBox=await page.locator('.pint-canvas').boundingBox();
@@ -62,6 +63,7 @@ const fs = require('node:fs');
     assert.equal(await page.locator('.pint-motion').isVisible(),false);
     await page.evaluate(()=>window.dispatchEvent(new DeviceOrientationEvent('deviceorientation',{gamma:90,beta:20})));
     await page.waitForFunction(()=>Number(document.querySelector('.pint-canvas').dataset.fill)<.9);
+    assert.equal(await page.locator('.pint-canvas').getAttribute('data-glass-rotation'),'0.0','Sensor tilt leaves glass attached to screen');
     await page.locator('.pint-back').click();const stopped=await level();
     await page.evaluate(()=>window.dispatchEvent(new DeviceOrientationEvent('deviceorientation',{gamma:90,beta:160})));
     await page.waitForTimeout(250);assert.equal(await level(),stopped,'Closed app stops simulation');

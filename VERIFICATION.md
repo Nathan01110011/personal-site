@@ -198,3 +198,15 @@ resolutions and colour ranges. The Ubuntu launcher loads the new badge asset.
   filling still update the liquid level within the glass.
 - Automatic/no-permission-API, previously allowed readings, denial/grant and
   lifecycle covered by the browser checks, alongside existing physics tests.
+
+
+## Pocket Pint mobile size and manual glass rotation
+
+- Phone glass uses up to 90% of stage width and nearly all stage height; mobile
+  branding is hidden and controls compacted to leave space for the glass.
+- Manual slider/drag rotates the glass with the liquid remaining level in the
+  screen frame. Rotation scales to fit the canvas, keeping the glass visible.
+- Sensor input leaves glass attached to the physical screen. An active manual
+  angle takes precedence until returning to neutral; drag release levels it.
+- Existing five viewport/physics/permission flows verify manual rotation and
+  sensor-fixed glass alongside filling, overflow, Back and theme changes.

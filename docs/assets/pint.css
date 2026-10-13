@@ -32,3 +32,11 @@
 }
 .pint-canvas { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
 .pint-refill { touch-action: none; user-select: none; -webkit-user-select: none; }
+
+/* On phones, give the glass the stage instead of reserving space for branding. */
+@media (max-width: 767px), (max-height: 500px) {
+  .pint-brand { display: none; }
+  .pint-controls { padding: 6px 12px max(8px,env(safe-area-inset-bottom)); }
+  .pint-hint { margin-bottom: 5px; font-size: 12px; }
+  .pint-slider-label { margin-top: 5px; }
+}

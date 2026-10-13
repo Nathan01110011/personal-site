@@ -110,6 +110,9 @@ controls. Rotation is adjusted for portrait and both landscape directions, with 
 flat devices ignored to avoid an unstable screen gravity direction.
 The canvas simulation and sensor listener stop on Back, a theme change, or
 when the page is backgrounded. Reduced motion removes ambient bubbles/slosh.
+On phones the glass fills most of the view. Manual slider/drag rotates the
+glass, scaling it to stay visible; sensor-driven tilt keeps the glass fixed to
+the physical screen. A manual angle takes precedence until returned to neutral.
 No sensor readings leave the browser and no third-party assets are loaded by
 this app. `src/pint.js` and `src/styles/pint.css` own the simulation and UI;
 `scripts/test-pint-physics.cjs` checks retained volume, rim overflow and sensor

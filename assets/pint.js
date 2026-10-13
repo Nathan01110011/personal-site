@@ -11,9 +11,10 @@
   const motionAvailable = window.isSecureContext && typeof window.DeviceOrientationEvent === 'function';
   const permissionRequired = motionAvailable && typeof DeviceOrientationEvent.requestPermission === 'function';
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const mobileLayout = window.matchMedia('(max-width: 767px), (max-height: 500px)');
   let active = false, frame = 0, lastTime = 0, fill = 1, tilt = 0, targetTilt = 0;
   let motionEnabled = false, motionListening = false, motionTimer = 0, permissionAttempt = 0;
-  let width = 0, height = 0, pointer = null, foam = 0, slosh = 0, filling = false, fillPulse = 0;
+  let width = 0, height = 0, pointer = null, foam = 0, slosh = 0, filling = false, fillPulse = 0, manualTilt = false;
   const bubbles = Array.from({ length: 65 }, (_, i) => ({ x: (i * .6180339) % 1, y: (i * .381966) % 1, r: 1 + i % 3 * .6, speed: .07 + i % 7 * .017 }));
   const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 
@@ -27,9 +28,10 @@
     ctx.closePath();
   }
   function glassSize() {
-    const h = Math.min(height * .78, 540);
-    const w = Math.min(width * .69, h * .60, 320);
-    return { h, w, x: (width - w) / 2, y: height - h - Math.max(16, height * .045) };
+    const mobile = mobileLayout.matches;
+    const h = mobile ? Math.max(0, height - 28) : Math.min(height * .78, 540);
+    const w = mobile ? Math.min(width * .90, h * .82) : Math.min(width * .69, h * .60, 320);
+    return { h, w, x: (width - w) / 2, y: mobile ? 12 : height - h - Math.max(16, height * .045) };
   }
   function draw(now, dt) {
     ctx.clearRect(0, 0, width, height);
@@ -39,6 +41,12 @@
     table.addColorStop(0, '#79502c'); table.addColorStop(1, '#301c10');
     ctx.fillStyle = table; ctx.fillRect(0, height - 20, width, 20);
     ctx.fillStyle = '#0005'; ctx.beginPath(); ctx.ellipse(width / 2, y + h + 5, w * .66, 12, 0, 0, Math.PI * 2); ctx.fill();
+    const rotation = manualTilt ? tilt * Math.PI / 180 : 0;
+    const rotatedWidth = w * Math.abs(Math.cos(rotation)) + h * Math.abs(Math.sin(rotation));
+    const rotatedHeight = h * Math.abs(Math.cos(rotation)) + w * Math.abs(Math.sin(rotation));
+    const scale = manualTilt ? Math.min(1, (width - 16) / rotatedWidth, (height - 24) / rotatedHeight) : 1;
+    const cx = x + w / 2, cy = y + h / 2;
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(rotation); ctx.scale(scale, scale); ctx.translate(-cx, -cy);
     glassPath(x, y, w, h);
     ctx.fillStyle = '#ecf6f51a'; ctx.fill();
     ctx.save(); ctx.clip();
@@ -80,6 +88,8 @@
     ctx.restore(); glassPath(x, y, w, h); ctx.strokeStyle = '#ecf6f5a6'; ctx.lineWidth = 2; ctx.stroke();
     ctx.beginPath(); ctx.ellipse(width / 2, y, w / 2, Math.max(3, w * .026), 0, 0, Math.PI * 2); ctx.strokeStyle = '#fff9'; ctx.stroke();
     ctx.beginPath(); ctx.ellipse(width / 2, y + h - 7, w * .32, 4, 0, 0, Math.PI * 2); ctx.strokeStyle = '#fff5'; ctx.lineWidth = 4; ctx.stroke();
+    ctx.restore();
+    canvas.dataset.glassRotation = (manualTilt ? tilt : 0).toFixed(1);
     canvas.dataset.fill = fill.toFixed(3);
     canvas.dataset.tilt = tilt.toFixed(1);
     canvas.dataset.rim = liquid.rim.toFixed(5);
@@ -107,8 +117,9 @@
     if (!reduced.matches || Math.abs(tilt - targetTilt) > .01 || adding || fill > liquid.capacity + .00001) frame = requestAnimationFrame(tick);
   }
   function animate() { if (active && !document.hidden && !frame) { lastTime = 0; frame = requestAnimationFrame(tick); } }
-  function setTilt(value) {
+  function setTilt(value, manual = true) {
     if (!Number.isFinite(value)) return;
+    manualTilt = manual;
     foam = clamp(foam + Math.abs(value - targetTilt) * .06, 0, 15);
     slosh = clamp(slosh + Math.abs(value - targetTilt) * .12, 0, 10);
     targetTilt = clamp(Math.abs(value) < .6 ? 0 : value, -95, 95);
@@ -136,11 +147,11 @@
     if (!Number.isFinite(event.beta) || !Number.isFinite(event.gamma)) return;
     // Existing permission can provide events without another request.
     motionEnabled = true; motionButton.hidden = true; clearTimeout(motionTimer);
-    if (pointer?.moved) return;
+    if (pointer?.moved || manualTilt && Math.abs(targetTilt) > .6) return;
     const angle = window.screen.orientation?.angle ?? window.orientation ?? 0;
     const value = physics.orientationTilt(event.beta, event.gamma, angle);
     if (value === null) return;
-    clearTimeout(motionTimer); if (!filling) status.textContent = 'Tilt your phone to pour. Hold to fill.'; setTilt(value);
+    clearTimeout(motionTimer); if (!filling) status.textContent = 'Tilt your phone to pour. Hold to fill.'; setTilt(value, false);
   }
   function listenMotion() {
     if (!motionAvailable || motionListening || !active || document.hidden) return;
@@ -196,7 +207,7 @@
     if (!pointer || pointer.id !== e.pointerId) return;
     const dragged = pointer.moved; pointer = null; stopFill();
     if (canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
-    if (dragged && !motionEnabled) setTilt(0);
+    if (dragged) setTilt(0);
   }
   canvas.addEventListener('pointerup', release); canvas.addEventListener('pointercancel', release);
   canvas.addEventListener('lostpointercapture', () => { pointer = null; stopFill(); });
