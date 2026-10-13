@@ -26,9 +26,12 @@ const {chromium}=require('playwright');
     const bounds=await page.locator(desktop?'#profile-window':'#home-window').boundingBox();
     assert.ok(bounds.x>=-1&&bounds.x+bounds.width<=width+1,'Profile fits horizontally');
     if(!desktop){assert.equal(Math.round(bounds.y),theme==='android'&&width>=768?0:29);assert.equal(Math.round(bounds.y+bounds.height),theme==='android'&&width>=768?height-42:height);}
-    await page.locator('.contact-links a').last().scrollIntoViewIfNeeded();
-    assert.equal(await page.locator('.contact-links a').last().isVisible(),true);
-    for(const link of await page.locator('.contact-links a').all()) assert.equal(await link.getAttribute('target'),'_blank');
+    assert.equal(await page.locator('.profile-card .contact-links').count(),0,'Profile has no duplicate links');
+    assert.deepEqual(await page.locator('.contact-interest-group li').allTextContents(),['Manchester United','Ulster','New York Giants']);
+    assert.equal(await page.locator('.profile-card').getByText(/Warhammer|Rangers/).count(),0);
+    await page.locator('.contact-interests > ul > li').last().scrollIntoViewIfNeeded();
+    assert.equal(await page.locator('.contact-interests > ul > li').last().isVisible(),true);
+    await page.waitForFunction(()=>document.querySelector('.contact-initials').hidden);
     await page.locator('.contact-scroll').evaluate(el=>{el.scrollTop=0;});
     if(width===(desktop?1366:390)) await page.locator(desktop?'#profile-window':'.profile-card').screenshot({path:path.join(out,theme+'-card.png')});
     if(desktop){

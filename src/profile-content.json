@@ -1,16 +1,24 @@
 {
   "name": "Nathan Orr",
-  "initials": "NO",
   "role": "Security Engineering Manager",
   "company": "Apex Fintech Solutions",
   "location": "Austin, Texas",
   "from": "Northern Ireland",
-  "bio": "[Short bio]",
-  "focus": "[Work focus]",
+  "bio": "Originally from Northern Ireland, now living in Austin. I work in security engineering and enjoy building useful tools and side projects. Outside work, I’m usually following sport, reading books, comics or manga, gaming, or finding somewhere new to explore.",
+  "focus": "Threat detection and hunting, cloud security, WAFs, and automation. Previously a threat researcher; now leading a security engineering team.",
   "interests": [
-    "[Interest 1]",
-    "[Interest 2]",
-    "[Interest 3]"
+    {
+      "label": "Sports",
+      "items": [
+        "Manchester United",
+        "Ulster",
+        "New York Giants"
+      ]
+    },
+    "Gaming",
+    "Reading books, comics & manga",
+    "Music & live gigs",
+    "Travel & exploring new places"
   ],
-  "portrait": ""
+  "portrait": "artwork/portraits/nathan.jpg"
 }

@@ -132,3 +132,15 @@ A synthetic gradient fixture verifies both bitmap resolutions and palettes and
 normal mobile rendering. The standalone photo picker and all five treatments
 also pass. Existing 20 music flows, window stacking/geometry checks and 16 OS
 preference checks pass against the latest main. No script errors were observed.
+
+## Approved profile copy and portrait — 13 October 2026
+
+Added Nathan's supplied portrait and the reviewed bio, work focus and interests.
+Removed duplicated profile links and the initials content field. Sports now has
+an indented list of Manchester United, Ulster and New York Giants; Rangers and
+Warhammer are absent. Reading is books, comics and manga.
+
+The 20 profile viewport/theme flows pass with the real portrait and nested sports
+list. The offline review file loads the portrait without network access in all
+five themes; actual bitmap pixels confirm the Windows 32×40 16-color rendering
+and Mac 64×80 monochrome dither. Android and iOS display the original image.

@@ -126,19 +126,19 @@
           <div class="contact-layout">
             <aside class="contact-sidebar" aria-label="Contact list">
               <div class="contact-group">All contacts</div>
-              <div class="contact-selected"><span class="contact-mini-avatar" aria-hidden="true">@@PROFILE_INITIALS@@</span><span>@@PROFILE_NAME@@<small>My card</small></span></div>
+              <div class="contact-selected"><span class="contact-mini-avatar" aria-hidden="true"><img src="@@PROFILE_PORTRAIT@@" alt=""></span><span>@@PROFILE_NAME@@<small>My card</small></span></div>
               <span class="contact-count">1 contact</span>
             </aside>
             <div class="contact-scroll">
               <div class="contact-identity">
                 <div class="contact-avatar" data-portrait="@@PROFILE_PORTRAIT@@">
-                  <span class="contact-initials" aria-label="Photo placeholder">@@PROFILE_INITIALS@@</span>
+                  <span class="contact-initials" aria-label="Photo placeholder">Photo</span>
                   <img class="contact-photo" alt="Portrait of @@PROFILE_NAME@@" hidden>
                   <canvas class="contact-bitmap" role="img" aria-label="Retro portrait of @@PROFILE_NAME@@" hidden></canvas>
                 </div>
                 <div><h2 id="profile-name">@@PROFILE_NAME@@</h2><p class="contact-role">@@PROFILE_ROLE@@</p><p class="contact-location">@@PROFILE_LOCATION@@</p></div>
               </div>
-              <section class="contact-section contact-about"><h3>About</h3><p class="contact-placeholder" data-profile-field="bio">@@PROFILE_BIO@@</p>
+              <section class="contact-section contact-about"><h3>About</h3><p data-profile-field="bio">@@PROFILE_BIO@@</p>
                 <dl class="contact-fields">
                   <div><dt>Based in</dt><dd>@@PROFILE_LOCATION@@</dd></div>
                   <div><dt>From</dt><dd>@@PROFILE_FROM@@</dd></div>
@@ -148,11 +148,10 @@
                 <dl class="contact-fields">
                   <div><dt>Role</dt><dd>@@PROFILE_ROLE@@</dd></div>
                   <div><dt>Company</dt><dd>@@PROFILE_COMPANY@@</dd></div>
-                  <div><dt>Focus</dt><dd class="contact-placeholder" data-profile-field="focus">@@PROFILE_FOCUS@@</dd></div>
+                  <div><dt>Focus</dt><dd data-profile-field="focus">@@PROFILE_FOCUS@@</dd></div>
                 </dl>
               </section>
               <section class="contact-section contact-interests"><h3>Interests</h3><ul data-profile-field="interests">@@PROFILE_INTERESTS@@</ul></section>
-              <section class="contact-section"><h3>Links</h3><nav class="contact-links" aria-label="Nathan's links"><a href="https://github.com/Nathan01110011" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/nathan-scott-orr" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a></nav></section>
             </div>
           </div>
         </article>

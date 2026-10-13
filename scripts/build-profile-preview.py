@@ -2,7 +2,7 @@
 from pathlib import Path
 import base64, mimetypes, re, html, json
 root=Path(__file__).resolve().parent.parent
-out=root.parent/'profile-section-preview.html'
+out=root.parent/'profile-with-photo-preview.html'
 def data_uri(path):
  return 'data:'+ (mimetypes.guess_type(path.name)[0] or 'application/octet-stream')+';base64,'+base64.b64encode(path.read_bytes()).decode()
 def inline_css(match):
@@ -21,6 +21,9 @@ def inline_js(match):
  content=content.replace("'nathan.appearance.v1'","'nathan-profile-review-appearance'")
  return '<script>'+content+'</script>'
 site=(root/'index.html').read_text()
+portrait=json.loads((root/'src/profile-content.json').read_text()).get('portrait')
+if portrait:
+ site=site.replace(html.escape(portrait,quote=True), data_uri(root/portrait))
 site=re.sub(r'<link rel="stylesheet" href="([^"]+)">',inline_css,site)
 site=re.sub(r'<script src="([^"]+)"></script>',inline_js,site)
 site=site.replace('</body>', '''<script>

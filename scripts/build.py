@@ -13,8 +13,14 @@ def build(asset_prefix=""):
     for key, value in profile.items():
         if isinstance(value, str):
             html = html.replace("@@PROFILE_" + key.upper() + "@@", escape(value, quote=True))
-    html = html.replace("@@PROFILE_INTERESTS@@", "".join(
-        '<li class="contact-placeholder">' + escape(value) + '</li>' for value in profile["interests"]))
+    interests = []
+    for value in profile["interests"]:
+        if isinstance(value, dict):
+            children = "".join("<li>" + escape(item) + "</li>" for item in value["items"])
+            interests.append('<li class="contact-interest-group">' + escape(value["label"]) + '<ul>' + children + '</ul></li>')
+        else:
+            interests.append("<li>" + escape(value) + "</li>")
+    html = html.replace("@@PROFILE_INTERESTS@@", "".join(interests))
     for source in [root / "src/base.css", root / "src/theme-bootstrap.js", root / "src/desktop.js", root / "src/music.js", root / "src/profile.js", *sorted((root / "src/styles").glob("*.css"))]:
         version = sha256(source.read_bytes()).hexdigest()[:12]
         html = html.replace(f'assets/{source.name}"', f'assets/{source.name}?v={version}"')
