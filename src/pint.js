@@ -123,7 +123,8 @@
     foam = clamp(foam + Math.abs(value - targetTilt) * .06, 0, 15);
     slosh = clamp(slosh + Math.abs(value - targetTilt) * .12, 0, 10);
     targetTilt = clamp(Math.abs(value) < .6 ? 0 : value, -95, 95);
-    slider.value = String(Math.round(targetTilt)); animate();
+    slider.value = String(Math.round(targetTilt));
+    slider.style.setProperty('--tilt-progress', ((targetTilt + 95) / 190 * 100) + '%'); animate();
   }
   function startFill() {
     if (!active) return;

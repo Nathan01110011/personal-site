@@ -6,37 +6,35 @@
 [data-theme="ios"] body[data-view="pint"] #home-window { position: fixed; inset: 29px 0 0; width: 100%; max-width: none; height: calc(100dvh - 29px); margin: 0; overflow: hidden; }
 [data-theme="ios"] body[data-view="pint"] :is(.window-content,.directory) { height: 100%; }
 .pint-app { height: 100%; display: flex; flex-direction: column; color: #fff; background: #20140d; font-family: Helvetica, Arial, sans-serif; }
-.pint-toolbar { display: grid; grid-template-columns: 72px 1fr 72px; gap: 8px; align-items: center; min-height: 50px; padding: 8px 12px; flex-shrink: 0; background: linear-gradient(#b1c0d3,#8097b3 50%,#6b85a5 51%,#4d6d94); border-bottom: 1px solid #344961; text-shadow: 0 -1px #324a68; }
-.pint-toolbar h2 { margin: 0; font: bold 20px Helvetica,Arial,sans-serif; text-align: center; }
+.pint-toolbar { display: flex; justify-content: space-between; gap: 8px; align-items: center; min-height: 44px; padding: 5px 10px; flex-shrink: 0; background: linear-gradient(#b1c0d3,#8097b3 50%,#6b85a5 51%,#4d6d94); border-bottom: 1px solid #344961; text-shadow: 0 -1px #324a68; }
 .pint-app button { color: #fff; font: bold 13px Helvetica,Arial,sans-serif; text-shadow: 0 -1px #0007; border: 1px solid #354d6e; border-radius: 6px; min-height: 34px; padding: 6px 10px; background: linear-gradient(#8ba4c2,#4b6b94); box-shadow: inset 0 1px #c9daea8a,0 1px #fff2; }
 .pint-app button:active { background: #395778; }
 .pint-app button:focus-visible, .pint-canvas:focus-visible { outline: 3px solid #f9cc60; outline-offset: 2px; }
 .pint-stage { flex: 1; min-height: 0; position: relative; overflow: hidden; background: radial-gradient(ellipse at 50% 45%,#593820,#170f0b 85%); }
 .pint-canvas { width: 100%; height: 100%; display: block; touch-action: none; }
-.pint-brand { pointer-events: none; position: absolute; top: 18px; left: 0; width: 100%; text-align: center; font: bold 11px Georgia,serif; letter-spacing: .26em; color: #efd4a8; text-shadow: 0 2px 2px #000; }
-.pint-brand span { display: block; margin: 5px 0; font-size: 23px; letter-spacing: .13em; }
-.pint-brand small { font: 8px Helvetica,Arial,sans-serif; letter-spacing: .23em; opacity: .6; }
-.pint-controls { flex-shrink: 0; padding: 10px 16px max(12px,env(safe-area-inset-bottom)); border-top: 1px solid #725436; background: linear-gradient(#32271f,#19130e); color: #e3d7c8; text-shadow: 0 -1px #000; }
-.pint-hint { text-align: center; margin: 0 0 9px; font: italic 14px Georgia,serif; }
-.pint-control-row { display: flex; align-items: center; gap: 12px; max-width: 520px; margin: auto; }
-.pint-status { font-size: 12px; flex: 1; }
-.pint-slider-label { display: flex; align-items: center; gap: 14px; max-width: 520px; margin: 10px auto 0; font-size: 11px; }
-.pint-slider-label input { flex: 1; min-width: 0; accent-color: #d49b3a; }
+/* iOS 6 UIToolbar: cool silver chrome, recessed blue slider and metal thumb. */
+.pint-controls { flex-shrink: 0; padding: 7px 15px max(9px,env(safe-area-inset-bottom)); border-top: 1px solid #68788f; background: linear-gradient(#f1f4f9,#dce3ed 48%,#c7d1df 49%,#aebed2); color: #344762; box-shadow: inset 0 1px #fff; text-shadow: 0 1px #fff9; }
+.pint-control-row { display: flex; align-items: center; justify-content: center; gap: 12px; max-width: 520px; min-height: 22px; margin: 3px auto 0; }
+.pint-status { font-size: 12px; text-align: center; line-height: 1.3; }
+.pint-slider-label { display: flex; align-items: center; gap: 15px; max-width: 520px; min-height: 30px; margin: 0 auto; }
+.pint-tilt-icon { width: 17px; height: 23px; flex-shrink: 0; fill: none; stroke: #5b6f8b; stroke-width: 1.5; filter: drop-shadow(0 1px #fff9); }
+.pint-tilt-left { transform: rotate(-25deg); }
+.pint-tilt-right { transform: rotate(25deg); }
+.pint-slider-label input { --tilt-progress: 50%; -webkit-appearance: none; appearance: none; flex: 1; min-width: 0; height: 30px; margin: 0; background: transparent; cursor: pointer; }
+.pint-slider-label input::-webkit-slider-runnable-track { height: 7px; border: 1px solid #6c7c91; border-radius: 5px; background: linear-gradient(to right,#3279cb 0 var(--tilt-progress),#a4b0c0 var(--tilt-progress) 100%); box-shadow: inset 0 1px 2px #20324a80,0 1px #fff9; }
+.pint-slider-label input::-webkit-slider-thumb { -webkit-appearance: none; width: 23px; height: 23px; margin-top: -9px; border: 1px solid #7b8798; border-radius: 50%; background: linear-gradient(#fff,#e3e7ee 48%,#c9d0dc 51%,#edf0f5); box-shadow: inset 0 1px 2px #fff,0 2px 3px #44556b70; }
+.pint-slider-label input::-moz-range-track { height: 5px; border: 1px solid #6c7c91; border-radius: 5px; background: #a4b0c0; box-shadow: inset 0 1px 2px #20324a80,0 1px #fff9; }
+.pint-slider-label input::-moz-range-progress { height: 5px; border-radius: 5px; background: #3279cb; }
+.pint-slider-label input::-moz-range-thumb { width: 22px; height: 22px; border: 1px solid #7b8798; border-radius: 50%; background: linear-gradient(#fff,#d5dce7,#edf0f5); box-shadow: inset 0 1px #fff,0 2px 3px #44556b70; }
+.pint-slider-label input:focus-visible { outline: 2px solid #3279cb; outline-offset: 3px; border-radius: 5px; }
 @media (max-height: 500px) {
   .pint-toolbar { min-height: 42px; padding-block: 4px; }
   .pint-controls { padding-block: 5px; }
-  .pint-hint { display: none; }
-  .pint-slider-label { margin-top: 4px; }
-  .pint-brand { top: 7px; left: 10px; width: auto; font-size: 8px; }
-  .pint-brand span { font-size: 13px; }
 }
 .pint-canvas { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
 .pint-refill { touch-action: none; user-select: none; -webkit-user-select: none; }
 
-/* On phones, give the glass the stage instead of reserving space for branding. */
+/* Keep the toolbar compact on phones. */
 @media (max-width: 767px), (max-height: 500px) {
-  .pint-brand { display: none; }
   .pint-controls { padding: 6px 12px max(8px,env(safe-area-inset-bottom)); }
-  .pint-hint { margin-bottom: 5px; font-size: 12px; }
-  .pint-slider-label { margin-top: 5px; }
 }

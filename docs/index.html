@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="assets/scroll.css?v=10bcccc830e1">
   <link rel="stylesheet" href="assets/music.css?v=7f5840bb4842">
   <link rel="stylesheet" href="assets/profile.css?v=8c8e6e99c639">
-  <link rel="stylesheet" href="assets/pint.css?v=6edbe56f862a">
+  <link rel="stylesheet" href="assets/pint.css?v=1d81d17c58a1">
 </head>
 <body>
   <svg class="icon-sprite" aria-hidden="true" focusable="false">
@@ -127,17 +127,20 @@
         <article class="pint-app" data-view="pint" hidden aria-labelledby="pint-title">
           <header class="pint-toolbar">
             <button class="pint-back" data-open-home-view type="button">Back</button>
-            <h2 id="pint-title">Pocket Pint</h2>
+            <h2 id="pint-title" class="visually-hidden">Pocket Pint</h2>
             <button class="pint-refill" type="button">Refill</button>
           </header>
           <div class="pint-stage">
             <canvas class="pint-canvas" role="img" aria-label="A virtual pint of golden beer. Hold to fill, drag to tip it, or use the tilt slider below."></canvas>
-            <span class="pint-brand" aria-hidden="true">NATHAN’S<span>POCKET PINT</span><small>ON TAP SINCE 2008</small></span>
           </div>
           <footer class="pint-controls">
-            <p class="pint-hint">Tip to sip. Hold the glass or Refill to fill.</p>
+            <label class="pint-slider-label" for="pint-tilt">
+              <span class="visually-hidden">Tilt the glass</span>
+              <svg class="pint-tilt-icon pint-tilt-left" viewBox="0 0 20 26" aria-hidden="true"><rect x="3" y="2" width="14" height="22" rx="3"/><path d="M6 6h8v13H6z"/><circle cx="10" cy="21.5" r=".6"/></svg>
+              <input id="pint-tilt" type="range" min="-95" max="95" value="0" step="1">
+              <svg class="pint-tilt-icon pint-tilt-right" viewBox="0 0 20 26" aria-hidden="true"><rect x="3" y="2" width="14" height="22" rx="3"/><path d="M6 6h8v13H6z"/><circle cx="10" cy="21.5" r=".6"/></svg>
+            </label>
             <div class="pint-control-row"><button class="pint-motion" type="button" hidden>Allow motion</button><span class="pint-status" role="status">Hold to fill. Drag to pour.</span></div>
-            <label class="pint-slider-label" for="pint-tilt">Tilt the glass <input id="pint-tilt" type="range" min="-95" max="95" value="0" step="1"></label>
           </footer>
         </article>
         <article class="profile-card" data-view="profile" hidden aria-labelledby="profile-name">
@@ -315,6 +318,6 @@
   <script src="assets/profile.js?v=86433b2276de"></script>
   <script src="assets/desktop.js?v=9e28d1ce8c7f"></script>
   <script src="assets/pint-physics.js?v=c15e50706f4f"></script>
-  <script src="assets/pint.js?v=8a8fe702f679"></script>
+  <script src="assets/pint.js?v=3e32b6585376"></script>
 </body>
 </html>

@@ -210,3 +210,11 @@ resolutions and colour ranges. The Ubuntu launcher loads the new badge asset.
   angle takes precedence until returning to neutral; drag release levels it.
 - Existing five viewport/physics/permission flows verify manual rotation and
   sensor-fixed glass alongside filling, overflow, Back and theme changes.
+
+## Pocket Pint iOS toolbar polish
+
+- Replaced pub-brown footer with iOS 6 silver-blue toolbar chrome, blue slider
+  track, metal thumb and small orientation glyphs. Removed duplicate hint text.
+- Removed visible navigation title and stage branding; accessible app name kept.
+- Four viewport checks (320×640, 390×844, 844×390, 1366×900) confirm controls fit,
+  keyboard slider and blue progress update, Back navigation and no script errors.
