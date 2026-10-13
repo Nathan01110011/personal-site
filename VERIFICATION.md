@@ -185,3 +185,16 @@ resolutions and colour ranges. The Ubuntu launcher loads the new badge asset.
   Back/theme lifecycle and reduced motion; no JavaScript errors.
 - Unit physics checks and 16 OS/preference checks pass. Real phone tilt still
   needs on-device verification.
+
+
+## Pocket Pint automatic motion and simpler rendering
+
+- Subscribe on app open without requesting permission; usable existing readings
+  immediately drive tilt, including previously granted browser access.
+- Allow motion is visible only where an explicit requestPermission API is
+  present and permission/readings are not yet available. It disappears after
+  grant or existing readings; absent sensors retain manual drag/slider.
+- Removed outgoing and incoming stream drawings; overflow and gradual held
+  filling still update the liquid level within the glass.
+- Automatic/no-permission-API, previously allowed readings, denial/grant and
+  lifecycle covered by the browser checks, alongside existing physics tests.

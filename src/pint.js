@@ -8,10 +8,12 @@
   const status = app.querySelector('.pint-status');
   const physics = window.NathanPintPhysics;
   const refillButton = app.querySelector('.pint-refill');
+  const motionAvailable = window.isSecureContext && typeof window.DeviceOrientationEvent === 'function';
+  const permissionRequired = motionAvailable && typeof DeviceOrientationEvent.requestPermission === 'function';
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   let active = false, frame = 0, lastTime = 0, fill = 1, tilt = 0, targetTilt = 0;
   let motionEnabled = false, motionListening = false, motionTimer = 0, permissionAttempt = 0;
-  let width = 0, height = 0, pointer = null, foam = 0, slosh = 0, filling = false, fillPulse = 0, spill = 0;
+  let width = 0, height = 0, pointer = null, foam = 0, slosh = 0, filling = false, fillPulse = 0;
   const bubbles = Array.from({ length: 65 }, (_, i) => ({ x: (i * .6180339) % 1, y: (i * .381966) % 1, r: 1 + i % 3 * .6, speed: .07 + i % 7 * .017 }));
   const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 
@@ -70,18 +72,6 @@
       for (let i = 0; i < 30; i++) { const xx = x + w * ((i * .618) % 1); ctx.beginPath(); ctx.arc(xx, surface(xx) - head * (.2 + ((i * .37) % .6)), 1.5 + i % 3, 0, Math.PI * 2); ctx.fill(); }
     }
     ctx.restore();
-    if (spill > .003) {
-      const side = tilt >= 0 ? 1 : -1;
-      const edge = side > 0 ? x + w : x;
-      ctx.beginPath(); ctx.moveTo(edge, y + 1);
-      ctx.bezierCurveTo(edge + side * 16, y + 22, edge + side * 30, y + h * .5, edge + side * 50, y + h);
-      ctx.strokeStyle = '#efba4580'; ctx.lineWidth = Math.min(8, 2 + spill * 30); ctx.stroke();
-    }
-    if ((filling || fillPulse > 0) && fill < .999) {
-      const streamX = x + w * .45;
-      ctx.beginPath(); ctx.moveTo(streamX, Math.max(0,y - 45)); ctx.lineTo(streamX, clamp(surface(streamX),y,y+h));
-      ctx.strokeStyle = '#ffd570b3'; ctx.lineWidth = 5; ctx.stroke();
-    }
     // Reflections stay fixed on the glass while the contents respond to tilt.
     ctx.save(); glassPath(x, y, w, h); ctx.clip();
     const reflection = ctx.createLinearGradient(x, 0, x + w, 0);
@@ -110,7 +100,6 @@
     const { w, h } = glassSize();
     const liquid = physics.geometry(tilt, w / h, fill);
     const remaining = physics.retained(fill, liquid.capacity, dt);
-    spill = dt ? (fill - remaining) / dt : 0;
     fill = remaining;
     if (fill < .0005 && liquid.capacity === 0) { fill = 0; status.textContent = 'Empty! Hold the glass to fill.'; }
     foam = Math.max(0, foam - dt * 2); slosh = Math.max(0, slosh - dt * 4);
@@ -143,7 +132,10 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); animate();
   }
   function orientation(event) {
-    if (!active || !motionEnabled || document.hidden) return;
+    if (!active || document.hidden) return;
+    if (!Number.isFinite(event.beta) || !Number.isFinite(event.gamma)) return;
+    // Existing permission can provide events without another request.
+    motionEnabled = true; motionButton.hidden = true; clearTimeout(motionTimer);
     if (pointer?.moved) return;
     const angle = window.screen.orientation?.angle ?? window.orientation ?? 0;
     const value = physics.orientationTilt(event.beta, event.gamma, angle);
@@ -151,7 +143,7 @@
     clearTimeout(motionTimer); if (!filling) status.textContent = 'Tilt your phone to pour. Hold to fill.'; setTilt(value);
   }
   function listenMotion() {
-    if (!motionEnabled || motionListening || !active || document.hidden) return;
+    if (!motionAvailable || motionListening || !active || document.hidden) return;
     window.addEventListener('deviceorientation', orientation); motionListening = true;
     motionTimer = window.setTimeout(() => { if (active) status.textContent = 'No tilt data yet. Try dragging the glass.'; }, 2500);
   }
@@ -159,18 +151,15 @@
     window.removeEventListener('deviceorientation', orientation); motionListening = false; clearTimeout(motionTimer);
   }
   motionButton.addEventListener('click', async () => {
-    if (motionEnabled) {
-      motionEnabled = false; stopMotion(); motionButton.textContent = 'Enable tilt'; motionButton.setAttribute('aria-pressed', 'false');
-      setTilt(0); status.textContent = 'Hold to fill. Drag to pour.'; return;
-    }
-    if (!window.isSecureContext || !window.DeviceOrientationEvent) { status.textContent = 'Tilt unavailable here. Drag the glass instead.'; return; }
+    if (!permissionRequired || motionEnabled) return;
     const attempt = ++permissionAttempt;
     motionButton.disabled = true;
     try {
       const result = typeof DeviceOrientationEvent.requestPermission === 'function' ? await DeviceOrientationEvent.requestPermission() : 'granted';
       if (attempt !== permissionAttempt || !active) return;
       if (result !== 'granted') { status.textContent = 'Tilt permission declined. Drag still works.'; return; }
-      motionEnabled = true; motionButton.textContent = 'Disable tilt'; motionButton.setAttribute('aria-pressed', 'true');
+      motionEnabled = true; motionButton.hidden = true;
+      if (document.activeElement === motionButton) slider.focus({ preventScroll: true });
       status.textContent = 'Tilt your phone to pour. Hold to fill.'; listenMotion();
     } catch (_) { if (active) status.textContent = 'Tilt unavailable here. Drag the glass instead.'; }
     finally { motionButton.disabled = false; }
@@ -221,5 +210,6 @@
   document.addEventListener('visibilitychange', () => { if (document.hidden) { filling = false; fillPulse = 0; pointer = null; stopMotion(); if (frame) cancelAnimationFrame(frame); frame = 0; lastTime = 0; } else sync(); });
   window.addEventListener('blur', () => { filling = false; fillPulse = 0; pointer = null; });
   window.addEventListener('resize', resize, { passive: true }); reduced.addEventListener('change', animate);
+  motionButton.hidden = !permissionRequired;
   sync();
 })();

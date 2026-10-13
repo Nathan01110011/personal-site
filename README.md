@@ -100,8 +100,11 @@ beer simulators. Drag the glass or use the keyboard-accessible tilt slider to
 pour. Hold the glass or Refill to fill gradually; release to stop. Beer only
 leaves when the liquid reaches the downhill rim, retaining the rest at a fixed
 angle. Gravity projection and smoothing keep phone tilt stable and correctly
-orient the surface. Enable tilt requests
-orientation permission from that button only, on supported HTTPS browsers.
+orient the surface. Available orientation readings start automatically when
+the app opens. An Allow motion button appears only on browsers with an explicit
+permission API; it disappears once permission or valid readings are available.
+Permission requests are triggered by that button only. Pour/fill stream drawings
+are omitted; the beer level changes within the glass.
 Declined permission, missing sensors and unsupported browsers retain manual
 controls. Rotation is adjusted for portrait and both landscape directions, with nearly
 flat devices ignored to avoid an unstable screen gravity direction.
