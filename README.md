@@ -92,3 +92,18 @@ https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-gi
 
 Upload `index.html`, `assets/`, and `artwork/` together into
 the domain's document root on shared / cPanel hosting.
+
+## Pocket Pint
+
+The iOS appearance has an exclusive Pocket Pint app, inspired by early iPhone
+beer simulators. Drag the glass or use the keyboard-accessible tilt slider to
+pour, then tap the glass or Refill for another pint. Enable tilt requests
+orientation permission from that button only, on supported HTTPS browsers.
+Declined permission, missing sensors and unsupported browsers retain manual
+controls. Rotation is adjusted for portrait and both landscape directions.
+The canvas simulation and sensor listener stop on Back, a theme change, or
+when the page is backgrounded. Reduced motion removes ambient bubbles/slosh.
+No sensor readings leave the browser and no third-party assets are loaded by
+this app. `src/pint.js` and `src/styles/pint.css` own the simulation and UI;
+`scripts/test-pint.cjs` checks viewports, pouring/refill, permission paths,
+simulated orientation events, lifecycle and reduced motion.

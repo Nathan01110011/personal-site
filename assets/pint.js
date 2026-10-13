@@ -1,0 +1,197 @@
+(() => {
+  'use strict';
+  const app = document.querySelector('.pint-app');
+  const canvas = app.querySelector('canvas');
+  const ctx = canvas.getContext('2d');
+  const slider = document.getElementById('pint-tilt');
+  const motionButton = app.querySelector('.pint-motion');
+  const status = app.querySelector('.pint-status');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let active = false, frame = 0, lastTime = 0, fill = 1, tilt = 0, targetTilt = 0;
+  let motionEnabled = false, motionListening = false, motionTimer = 0, permissionAttempt = 0;
+  let width = 0, height = 0, pointer = null, foam = 0, slosh = 0;
+  const bubbles = Array.from({ length: 65 }, (_, i) => ({ x: (i * .6180339) % 1, y: (i * .381966) % 1, r: 1 + i % 3 * .6, speed: .07 + i % 7 * .017 }));
+  const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+
+  function glassPath(x, y, w, h) {
+    ctx.beginPath();
+    ctx.moveTo(x, y); ctx.lineTo(x + w, y);
+    ctx.lineTo(x + w * .87, y + h - 12);
+    ctx.quadraticCurveTo(x + w * .86, y + h, x + w * .78, y + h);
+    ctx.lineTo(x + w * .22, y + h);
+    ctx.quadraticCurveTo(x + w * .14, y + h, x + w * .13, y + h - 12);
+    ctx.closePath();
+  }
+  function draw(now, dt) {
+    ctx.clearRect(0, 0, width, height);
+    const h = Math.min(height * .78, 540);
+    const w = Math.min(width * .69, h * .60, 320);
+    const x = (width - w) / 2, y = height - h - Math.max(16, height * .045);
+    // Table and the soft shadow beneath the glass.
+    const table = ctx.createLinearGradient(0, height - 22, 0, height);
+    table.addColorStop(0, '#79502c'); table.addColorStop(1, '#301c10');
+    ctx.fillStyle = table; ctx.fillRect(0, height - 20, width, 20);
+    ctx.fillStyle = '#0005'; ctx.beginPath(); ctx.ellipse(width / 2, y + h + 5, w * .66, 12, 0, 0, Math.PI * 2); ctx.fill();
+    glassPath(x, y, w, h);
+    ctx.fillStyle = '#ecf6f51a'; ctx.fill();
+    ctx.save(); ctx.clip();
+    const slope = Math.tan(tilt * Math.PI / 180) * .8;
+    // Solve the horizontal liquid plane for the retained volume, including
+    // the tapered glass. This prevents the beer growing when the phone tilts.
+    function liquidArea(level) {
+      let area = 0;
+      for (let i = 0; i < 60; i++) {
+        const yy = (i + .5) / 60 * h;
+        const inset = .13 * yy / h * w;
+        const left = x + inset, right = x + w - inset;
+        const cut = width / 2 + (yy - level) / (slope || .000001);
+        const wet = Math.abs(slope) < .001 ? (yy >= level ? right - left : 0) : slope > 0 ? clamp(cut - left, 0, right - left) : clamp(right - cut, 0, right - left);
+        area += wet * h / 60;
+      }
+      return area;
+    }
+    let lo = -w * Math.abs(slope), hi = h + w * Math.abs(slope);
+    const wanted = w * h * .87 * fill * .92;
+    for (let i = 0; i < 15; i++) {
+      const mid = (lo + hi) / 2;
+      if (liquidArea(mid) > wanted) lo = mid; else hi = mid;
+    }
+    const level = (lo + hi) / 2;
+    const wave = reduced.matches ? 0 : Math.sin(now / 260) * slosh;
+    const surface = xx => y + level + (xx - width / 2) * slope + wave * Math.sin((xx - x) / w * Math.PI * 2 + now / 300);
+    const beer = ctx.createLinearGradient(x, y, x + w, y + h);
+    beer.addColorStop(0, '#ffe47b'); beer.addColorStop(.24, '#fbbb29'); beer.addColorStop(.7, '#d88506'); beer.addColorStop(1, '#8c4605');
+    ctx.beginPath(); ctx.moveTo(x - 2, y + h + 3);
+    for (let i = 0; i <= 40; i++) { const xx = x - 2 + (w + 4) * i / 40; ctx.lineTo(xx, surface(xx)); }
+    ctx.lineTo(x + w + 2, y + h + 3); ctx.closePath(); ctx.fillStyle = beer; ctx.fill();
+    if (fill > .01) {
+      ctx.save(); ctx.clip();
+      for (const b of bubbles) {
+        if (!reduced.matches) b.y = (b.y + dt * b.speed) % 1;
+        const bx = x + w * (.08 + b.x * .84), by = y + h * (1 - b.y);
+        ctx.strokeStyle = '#fff1b77a'; ctx.lineWidth = .7;
+        ctx.beginPath(); ctx.arc(bx, by, b.r, 0, Math.PI * 2); ctx.stroke();
+      }
+      ctx.restore();
+      // Creamy foam follows the liquid plane and is clipped by the rim.
+      const head = Math.min(h * .07 + foam, h * .16);
+      ctx.beginPath(); ctx.moveTo(x - 2, surface(x - 2));
+      for (let i = 0; i <= 40; i++) { const xx = x - 2 + (w + 4) * i / 40; ctx.lineTo(xx, surface(xx) - head + Math.sin(i * 1.9) * 2); }
+      for (let i = 40; i >= 0; i--) { const xx = x - 2 + (w + 4) * i / 40; ctx.lineTo(xx, surface(xx) + 2); }
+      ctx.closePath(); const cream = ctx.createLinearGradient(0, y + level - head, 0, y + level + 2);
+      cream.addColorStop(0, '#fffef0'); cream.addColorStop(1, '#e6c987'); ctx.fillStyle = cream; ctx.fill();
+      ctx.fillStyle = '#fff8';
+      for (let i = 0; i < 30; i++) { const xx = x + w * ((i * .618) % 1); ctx.beginPath(); ctx.arc(xx, surface(xx) - head * (.2 + ((i * .37) % .6)), 1.5 + i % 3, 0, Math.PI * 2); ctx.fill(); }
+    }
+    ctx.restore();
+    // Reflections stay fixed on the glass while the contents respond to tilt.
+    ctx.save(); glassPath(x, y, w, h); ctx.clip();
+    const reflection = ctx.createLinearGradient(x, 0, x + w, 0);
+    reflection.addColorStop(0, '#fff5'); reflection.addColorStop(.08, '#fff0'); reflection.addColorStop(.16, '#fff5'); reflection.addColorStop(.25, '#fff0'); reflection.addColorStop(.78, '#fff0'); reflection.addColorStop(.91, '#fff4'); reflection.addColorStop(1, '#fff1');
+    ctx.fillStyle = reflection; ctx.fillRect(x, y, w, h);
+    ctx.restore(); glassPath(x, y, w, h); ctx.strokeStyle = '#ecf6f5a6'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(width / 2, y, w / 2, Math.max(3, w * .026), 0, 0, Math.PI * 2); ctx.strokeStyle = '#fff9'; ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(width / 2, y + h - 7, w * .32, 4, 0, 0, Math.PI * 2); ctx.strokeStyle = '#fff5'; ctx.lineWidth = 4; ctx.stroke();
+    canvas.dataset.fill = fill.toFixed(3);
+    canvas.dataset.tilt = tilt.toFixed(1);
+  }
+  function tick(now) {
+    frame = 0;
+    if (!active || document.hidden) return;
+    const dt = lastTime ? Math.min((now - lastTime) / 1000, .05) : 0;
+    lastTime = now;
+    tilt += (targetTilt - tilt) * (reduced.matches ? 1 : Math.min(1, dt * 10));
+    const speed = Math.max(0, Math.abs(tilt) - 42) / 43;
+    if (speed > 0 && fill > 0) {
+      fill = Math.max(0, fill - dt * speed * .48);
+      if (fill === 0) status.textContent = 'Empty! Tap the glass for another.';
+    }
+    foam = Math.max(0, foam - dt * 2); slosh = Math.max(0, slosh - dt * 4);
+    draw(now, dt);
+    if (!reduced.matches || Math.abs(tilt - targetTilt) > .1 || speed > 0 && fill > 0) frame = requestAnimationFrame(tick);
+  }
+  function animate() { if (active && !document.hidden && !frame) { lastTime = 0; frame = requestAnimationFrame(tick); } }
+  function setTilt(value) {
+    if (!Number.isFinite(value)) return;
+    foam = clamp(foam + Math.abs(value - targetTilt) * .06, 0, 15);
+    slosh = clamp(slosh + Math.abs(value - targetTilt) * .12, 0, 10);
+    targetTilt = clamp(value, -85, 85);
+    slider.value = String(Math.round(targetTilt)); animate();
+  }
+  function refill() {
+    fill = 1; foam = 6; targetTilt = tilt = 0; slider.value = '0';
+    status.textContent = motionEnabled ? 'Tilt your phone to pour.' : 'Drag the glass to pour.';
+    animate();
+  }
+  function resize() {
+    if (!active) return;
+    const rect = canvas.getBoundingClientRect();
+    width = rect.width; height = rect.height;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); animate();
+  }
+  function orientation(event) {
+    if (!active || !motionEnabled || document.hidden) return;
+    const rawAngle = window.screen.orientation?.angle ?? window.orientation ?? 0;
+    const angle = rawAngle === 270 ? -90 : rawAngle;
+    const value = Math.abs(angle) === 90 ? (angle === 90 ? -event.beta : event.beta) : angle === 180 ? -event.gamma : event.gamma;
+    if (value === null || !Number.isFinite(value)) return;
+    clearTimeout(motionTimer); status.textContent = 'Tilt your phone to pour.'; setTilt(value);
+  }
+  function listenMotion() {
+    if (!motionEnabled || motionListening || !active || document.hidden) return;
+    window.addEventListener('deviceorientation', orientation); motionListening = true;
+    motionTimer = window.setTimeout(() => { if (active) status.textContent = 'No tilt data yet. Try dragging the glass.'; }, 2500);
+  }
+  function stopMotion() {
+    window.removeEventListener('deviceorientation', orientation); motionListening = false; clearTimeout(motionTimer);
+  }
+  motionButton.addEventListener('click', async () => {
+    if (motionEnabled) {
+      motionEnabled = false; stopMotion(); motionButton.textContent = 'Enable tilt'; motionButton.setAttribute('aria-pressed', 'false');
+      setTilt(0); status.textContent = 'Drag the glass to pour.'; return;
+    }
+    if (!window.isSecureContext || !window.DeviceOrientationEvent) { status.textContent = 'Tilt unavailable here. Drag the glass instead.'; return; }
+    const attempt = ++permissionAttempt;
+    motionButton.disabled = true;
+    try {
+      const result = typeof DeviceOrientationEvent.requestPermission === 'function' ? await DeviceOrientationEvent.requestPermission() : 'granted';
+      if (attempt !== permissionAttempt || !active) return;
+      if (result !== 'granted') { status.textContent = 'Tilt permission declined. Drag still works.'; return; }
+      motionEnabled = true; motionButton.textContent = 'Disable tilt'; motionButton.setAttribute('aria-pressed', 'true');
+      status.textContent = 'Tilt your phone to pour.'; listenMotion();
+    } catch (_) { if (active) status.textContent = 'Tilt unavailable here. Drag the glass instead.'; }
+    finally { motionButton.disabled = false; }
+  });
+  slider.addEventListener('input', () => setTilt(Number(slider.value)));
+  app.querySelector('.pint-refill').addEventListener('click', refill);
+  canvas.addEventListener('pointerdown', e => {
+    if (e.button !== 0) return;
+    pointer = { id: e.pointerId, x: e.clientX, y: e.clientY, tilt: targetTilt, moved: false };
+    canvas.setPointerCapture(e.pointerId);
+  });
+  canvas.addEventListener('pointermove', e => {
+    if (!pointer || e.pointerId !== pointer.id) return;
+    const distance = e.clientX - pointer.x;
+    if (Math.abs(distance) > 8 || Math.abs(e.clientY - pointer.y) > 8) pointer.moved = true;
+    if (pointer.moved) setTilt(pointer.tilt + distance / Math.max(width * .28, 80) * 85);
+  });
+  function release(e) {
+    if (!pointer || pointer.id !== e.pointerId) return;
+    const tap = !pointer.moved && e.type === 'pointerup'; pointer = null;
+    if (canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
+    if (tap) refill(); else setTilt(0);
+  }
+  canvas.addEventListener('pointerup', release); canvas.addEventListener('pointercancel', release);
+  function sync() {
+    const next = document.documentElement.dataset.theme === 'ios' && document.body.dataset.view === 'pint' && !document.getElementById('home-window').hidden;
+    if (!next) { active = false; permissionAttempt++; stopMotion(); if (frame) cancelAnimationFrame(frame); frame = 0; lastTime = 0; pointer = null; return; }
+    active = true; resize(); listenMotion(); animate();
+  }
+  document.addEventListener('nathan:viewchange', sync); document.addEventListener('nathan:themechange', sync);
+  document.addEventListener('nathan:windowopen', sync);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) { stopMotion(); if (frame) cancelAnimationFrame(frame); frame = 0; lastTime = 0; } else sync(); });
+  window.addEventListener('resize', resize, { passive: true }); reduced.addEventListener('change', animate);
+  sync();
+})();

@@ -156,3 +156,14 @@ Ubuntu LinkedIn is a blue [in] badge, clearly distinct from Profile's address bo
 The 20 profile flows, 20 music flows, stacking/maximize checks and 16 OS checks
 pass. Additional checks use Nathan's actual portrait to verify both new bitmap
 resolutions and colour ranges. The Ubuntu launcher loads the new badge asset.
+
+## Pocket Pint (iOS exclusive)
+
+- Five viewport flows: 320×640, 390×844, 844×390, 1024×768, 1366×900.
+- Full-screen app below status bar; no horizontal page overflow.
+- Slider and held drag drain beer; release levels the glass; tap/Refill restore.
+- Permission is user initiated, denial preserves dragging; simulated granted
+  orientation input pours. Real phone sensors require an on-device check.
+- Back restores launcher focus, stops animation/sensors; switching away from
+  iOS hides the app and restores the launcher. Reduced motion retains pouring.
+- Browser test records no JavaScript errors.

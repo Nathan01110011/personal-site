@@ -1,0 +1,32 @@
+.ios-only-app { display: none; }
+[data-theme="ios"] .ios-only-app { display: block; }
+[data-theme="ios"] .pint-icon { background: radial-gradient(ellipse at top, #805332, #24160e); display: grid; place-items: center; }
+[data-theme="ios"] .pint-icon > span { width: 36px; height: 55px; border: 3px solid #fffc; border-top-width: 2px; border-radius: 3px 3px 9px 9px; transform: perspective(80px) rotateX(-9deg); background: linear-gradient(#fffce9 0 18%, #f4c848 19%, #ce730b 92%, #eee9 93%); box-shadow: 0 3px 5px #0009, inset 5px 0 4px #fff7; }
+[data-theme="ios"] body[data-view="pint"] { overflow: hidden; }
+[data-theme="ios"] body[data-view="pint"] #home-window { position: fixed; inset: 29px 0 0; width: 100%; max-width: none; height: calc(100dvh - 29px); margin: 0; overflow: hidden; }
+[data-theme="ios"] body[data-view="pint"] :is(.window-content,.directory) { height: 100%; }
+.pint-app { height: 100%; display: flex; flex-direction: column; color: #fff; background: #20140d; font-family: Helvetica, Arial, sans-serif; }
+.pint-toolbar { display: grid; grid-template-columns: 72px 1fr 72px; gap: 8px; align-items: center; min-height: 50px; padding: 8px 12px; flex-shrink: 0; background: linear-gradient(#b1c0d3,#8097b3 50%,#6b85a5 51%,#4d6d94); border-bottom: 1px solid #344961; text-shadow: 0 -1px #324a68; }
+.pint-toolbar h2 { margin: 0; font: bold 20px Helvetica,Arial,sans-serif; text-align: center; }
+.pint-app button { color: #fff; font: bold 13px Helvetica,Arial,sans-serif; text-shadow: 0 -1px #0007; border: 1px solid #354d6e; border-radius: 6px; min-height: 34px; padding: 6px 10px; background: linear-gradient(#8ba4c2,#4b6b94); box-shadow: inset 0 1px #c9daea8a,0 1px #fff2; }
+.pint-app button:active { background: #395778; }
+.pint-app button:focus-visible, .pint-canvas:focus-visible { outline: 3px solid #f9cc60; outline-offset: 2px; }
+.pint-stage { flex: 1; min-height: 0; position: relative; overflow: hidden; background: radial-gradient(ellipse at 50% 45%,#593820,#170f0b 85%); }
+.pint-canvas { width: 100%; height: 100%; display: block; touch-action: none; }
+.pint-brand { pointer-events: none; position: absolute; top: 18px; left: 0; width: 100%; text-align: center; font: bold 11px Georgia,serif; letter-spacing: .26em; color: #efd4a8; text-shadow: 0 2px 2px #000; }
+.pint-brand span { display: block; margin: 5px 0; font-size: 23px; letter-spacing: .13em; }
+.pint-brand small { font: 8px Helvetica,Arial,sans-serif; letter-spacing: .23em; opacity: .6; }
+.pint-controls { flex-shrink: 0; padding: 10px 16px max(12px,env(safe-area-inset-bottom)); border-top: 1px solid #725436; background: linear-gradient(#32271f,#19130e); color: #e3d7c8; text-shadow: 0 -1px #000; }
+.pint-hint { text-align: center; margin: 0 0 9px; font: italic 14px Georgia,serif; }
+.pint-control-row { display: flex; align-items: center; gap: 12px; max-width: 520px; margin: auto; }
+.pint-status { font-size: 12px; flex: 1; }
+.pint-slider-label { display: flex; align-items: center; gap: 14px; max-width: 520px; margin: 10px auto 0; font-size: 11px; }
+.pint-slider-label input { flex: 1; min-width: 0; accent-color: #d49b3a; }
+@media (max-height: 500px) {
+  .pint-toolbar { min-height: 42px; padding-block: 4px; }
+  .pint-controls { padding-block: 5px; }
+  .pint-hint { display: none; }
+  .pint-slider-label { margin-top: 4px; }
+  .pint-brand { top: 7px; left: 10px; width: auto; font-size: 8px; }
+  .pint-brand span { font-size: 13px; }
+}
