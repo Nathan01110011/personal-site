@@ -97,13 +97,18 @@ the domain's document root on shared / cPanel hosting.
 
 The iOS appearance has an exclusive Pocket Pint app, inspired by early iPhone
 beer simulators. Drag the glass or use the keyboard-accessible tilt slider to
-pour, then tap the glass or Refill for another pint. Enable tilt requests
+pour. Hold the glass or Refill to fill gradually; release to stop. Beer only
+leaves when the liquid reaches the downhill rim, retaining the rest at a fixed
+angle. Gravity projection and smoothing keep phone tilt stable and correctly
+orient the surface. Enable tilt requests
 orientation permission from that button only, on supported HTTPS browsers.
 Declined permission, missing sensors and unsupported browsers retain manual
-controls. Rotation is adjusted for portrait and both landscape directions.
+controls. Rotation is adjusted for portrait and both landscape directions, with nearly
+flat devices ignored to avoid an unstable screen gravity direction.
 The canvas simulation and sensor listener stop on Back, a theme change, or
 when the page is backgrounded. Reduced motion removes ambient bubbles/slosh.
 No sensor readings leave the browser and no third-party assets are loaded by
 this app. `src/pint.js` and `src/styles/pint.css` own the simulation and UI;
-`scripts/test-pint.cjs` checks viewports, pouring/refill, permission paths,
+`scripts/test-pint-physics.cjs` checks retained volume, rim overflow and sensor
+coordinates; `scripts/test-pint.cjs` checks viewports, pouring/refill, permission paths,
 simulated orientation events, lifecycle and reduced motion.

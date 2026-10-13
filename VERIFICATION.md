@@ -167,3 +167,21 @@ resolutions and colour ranges. The Ubuntu launcher loads the new badge asset.
 - Back restores launcher focus, stops animation/sensors; switching away from
   iOS hides the app and restores the launcher. Reduced motion retains pouring.
 - Browser test records no JavaScript errors.
+
+
+## Pocket Pint physics and hold-to-fill refinement
+
+- Exact tapered-glass polygon volume replaces the angle-only drain threshold.
+  Below-rim volume stays fixed; an overflowing glass retains beer once its
+  surface reaches the downhill rim. Mirrored angles retain equal amounts.
+- Gravity projection handles upright-device gamma discontinuities, both
+  landscape frames, and missing/flat sensor data. Surface direction matches
+  downhill gravity. Smoothed tilt is limited to 80 degrees per second.
+- Canvas and Refill press/hold add beer at 24% of a pint per second, with
+  release/cancel/blur/Back/background stopping fill. Keyboard hold supported;
+  accessible activation adds a small animated dose. No snap-to-full or pose reset.
+- Five browser viewport flows pass: gradual partial fill, release stop, slider
+  and drag pour, rim retention, permission denial/grant, simulated sensor input,
+  Back/theme lifecycle and reduced motion; no JavaScript errors.
+- Unit physics checks and 16 OS/preference checks pass. Real phone tilt still
+  needs on-device verification.

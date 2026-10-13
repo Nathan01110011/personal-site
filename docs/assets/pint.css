@@ -30,3 +30,5 @@
   .pint-brand { top: 7px; left: 10px; width: auto; font-size: 8px; }
   .pint-brand span { font-size: 13px; }
 }
+.pint-canvas { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.pint-refill { touch-action: none; user-select: none; -webkit-user-select: none; }

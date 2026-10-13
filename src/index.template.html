@@ -131,13 +131,13 @@
             <button class="pint-refill" type="button">Refill</button>
           </header>
           <div class="pint-stage">
-            <canvas class="pint-canvas" role="img" aria-label="A virtual pint of golden beer. Drag to tip it, or use the tilt slider below."></canvas>
+            <canvas class="pint-canvas" role="img" aria-label="A virtual pint of golden beer. Hold to fill, drag to tip it, or use the tilt slider below."></canvas>
             <span class="pint-brand" aria-hidden="true">NATHAN’S<span>POCKET PINT</span><small>ON TAP SINCE 2008</small></span>
           </div>
           <footer class="pint-controls">
-            <p class="pint-hint">Tip to sip. Tap the glass to refill.</p>
-            <div class="pint-control-row"><button class="pint-motion" type="button" aria-pressed="false">Enable tilt</button><span class="pint-status" role="status">Drag the glass to pour.</span></div>
-            <label class="pint-slider-label" for="pint-tilt">Tilt the glass <input id="pint-tilt" type="range" min="-85" max="85" value="0" step="1"></label>
+            <p class="pint-hint">Tip to sip. Hold the glass or Refill to fill.</p>
+            <div class="pint-control-row"><button class="pint-motion" type="button" aria-pressed="false">Enable tilt</button><span class="pint-status" role="status">Hold to fill. Drag to pour.</span></div>
+            <label class="pint-slider-label" for="pint-tilt">Tilt the glass <input id="pint-tilt" type="range" min="-95" max="95" value="0" step="1"></label>
           </footer>
         </article>
         <article class="profile-card" data-view="profile" hidden aria-labelledby="profile-name">
@@ -314,6 +314,7 @@
   <script src="@@ASSET_PREFIX@@assets/music.js"></script>
   <script src="@@ASSET_PREFIX@@assets/profile.js"></script>
   <script src="@@ASSET_PREFIX@@assets/desktop.js"></script>
+  <script src="@@ASSET_PREFIX@@assets/pint-physics.js"></script>
   <script src="@@ASSET_PREFIX@@assets/pint.js"></script>
 </body>
 </html>
