@@ -115,3 +115,20 @@ retain their order in every case. Syntax and diff checks also pass.
 Live Windows check: starting with Music < CV < Home, clicking the exposed CV
 title bar produced Music < Home < CV. DOM hit testing confirmed CV covers Home
 and Home still covers Music. Screenshot: `verification/window-order-1791319985241.jpg`.
+
+## Profile branch draft — 13 October 2026
+
+Profile is the first launcher item and first desktop menu shortcut in all five
+OS themes. About, Work, Interests and Links replace the earlier prose and hobby
+list; content is editable in src/profile-content.json. Bio, focus and interests
+are placeholders. Portraits are unset until a real source photo is supplied.
+The review page can read a local photo without uploading it: Windows renders a
+32×40 16-color bitmap, Classic Mac a 64×80 monochrome dither, and mobile themes
+retain the original photograph. Ubuntu uses a slightly muted photo treatment.
+
+Checks: 20 profile theme/viewport flows, first-app ordering, desktop maximize,
+close/Back, theme transitions, external link destinations and photo clear/reset.
+A synthetic gradient fixture verifies both bitmap resolutions and palettes and
+normal mobile rendering. The standalone photo picker and all five treatments
+also pass. Existing 20 music flows, window stacking/geometry checks and 16 OS
+preference checks pass against the latest main. No script errors were observed.

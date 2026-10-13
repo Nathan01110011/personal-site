@@ -13,6 +13,7 @@
   const profiles = document.querySelector('.profiles');
   const cvNotes = document.querySelector('.cv-notes');
   const musicPlayer = document.querySelector('.music-player');
+  const profileCard = document.querySelector('.profile-card');
   const statusInfo = document.getElementById('status-info');
   let lastToggle = null;
   let activeView = 'home';
@@ -69,7 +70,7 @@
   }
   home.addEventListener('pointerdown', () => focusWindow(home));
   home.addEventListener('focusin', () => focusWindow(home));
-  for (const [view, article] of Object.entries({ cv: cvNotes, music: musicPlayer })) {
+  for (const [view, article] of Object.entries({ cv: cvNotes, music: musicPlayer, profile: profileCard })) {
     const shell = document.createElement('section');
     shell.id = view + '-window';
     shell.className = 'window app-window ' + view + '-window';
@@ -95,7 +96,7 @@
     task.className = 'bevel-button task-button app-task';
     task.type = 'button';
     task.dataset.restoreApp = view;
-    task.textContent = view === 'cv' ? 'CV Notes' : 'Music';
+    task.textContent = { cv: 'CV Notes', music: 'Music', profile: 'Profile' }[view];
     task.setAttribute('aria-controls', shell.id);
     task.hidden = true;
     restore.after(task);
@@ -236,36 +237,39 @@
   }
   function themePath(view = activeView) {
     const paths = {
+      profile: { windows: 'Address Book › Nathan Orr', mac: 'Macintosh HD › Nathan › My Card', ubuntu: '/home/nathan/Contacts/nathan.vcf' },
       home: { windows: 'C:\\Users\\Nathan\\Home', mac: 'Macintosh HD › Nathan › Home', ubuntu: '/home/nathan' },
       cv: { windows: 'C:\\Users\\Nathan\\Documents\\CV Notes.txt', mac: 'Macintosh HD › Nathan › Documents › CV Notes', ubuntu: '/home/nathan/Documents/cv-notes.txt' },
       music: { windows: 'C:\\Program Files\\Winamp\\nathan.m3u', mac: 'Macintosh HD › Nathan › Music', ubuntu: '/home/nathan/Music' }
     };
-    return (paths[view] || paths.home)[appearance.theme] || ({ cv: 'CV Notes', music: 'Music' }[view] || 'Nathan');
+    return (paths[view] || paths.home)[appearance.theme] || ({ cv: 'CV Notes', music: 'Music', profile: 'Profile' }[view] || 'Nathan');
   }
   function themeTitle(view = activeView) {
+    if (view === 'profile') return { windows: 'Nathan Orr — Address Book', mac: 'Nathan Orr — Contact Card', ubuntu: 'Nathan Orr — Address Book', android: 'Contacts', ios: 'Contacts' }[appearance.theme];
     if (view === 'cv') return appearance.theme === 'ubuntu' ? 'cv-notes.txt — Text Editor' : 'CV Notes';
     if (view === 'music') return { windows: "Winamp — Nathan's Playlist", mac: "QuickTime Player — Nathan's Playlist", ubuntu: "Rhythmbox — Nathan's Playlist", android: 'Music', ios: 'Music' }[appearance.theme];
     return appearance.theme === 'ubuntu' ? 'nathan — File Browser' : "Nathan's home page";
   }
   function showView(view, focusTarget = true) {
     const previousView = activeView;
-    activeView = ['cv', 'music'].includes(view) ? view : 'home';
+    activeView = ['cv', 'music', 'profile'].includes(view) ? view : 'home';
     document.body.dataset.view = activeView;
     directory.dataset.view = activeView;
     profiles.hidden = activeView !== 'home';
     if (!desktopTheme()) {
       cvNotes.hidden = activeView !== 'cv';
       musicPlayer.hidden = activeView !== 'music';
+      profileCard.hidden = activeView !== 'profile';
     }
     document.querySelector('.path').textContent = themePath();
     document.querySelector('.window-title-text').textContent = themeTitle();
-    restore.textContent = { cv: 'CV Notes', music: 'Music' }[activeView] || "Nathan's home page";
-    restore.title = 'Open ' + ({ cv: 'CV notes', music: 'music player' }[activeView] || 'home page');
-    statusInfo.textContent = { cv: 'CV summary · last updated Oct 2026', music: 'Music · Spotify playlist' }[activeView] || (mobileTheme() ? '5 shortcuts' : '4 shortcuts');
+    restore.textContent = { cv: 'CV Notes', music: 'Music', profile: 'Profile' }[activeView] || "Nathan's home page";
+    restore.title = 'Open ' + ({ cv: 'CV notes', music: 'music player', profile: 'profile card' }[activeView] || 'home page');
+    statusInfo.textContent = { cv: 'CV summary · last updated Oct 2026', music: 'Music · Spotify playlist', profile: 'Profile · My card' }[activeView] || (mobileTheme() ? '6 shortcuts' : '5 shortcuts');
     if (!desktopTheme()) document.dispatchEvent(new CustomEvent('nathan:viewchange', { detail: { view: activeView } }));
     window.requestAnimationFrame(clampWindowOffset);
     if (!focusTarget) return;
-    const target = activeView === 'cv' ? cvNotes.querySelector('.cv-back') : activeView === 'music' ? musicPlayer.querySelector('.music-back') : directory.querySelector(previousView === 'music' ? '[data-open-music]' : '[data-open-cv]');
+    const target = activeView === 'profile' ? profileCard.querySelector('.contact-back') : activeView === 'cv' ? cvNotes.querySelector('.cv-back') : activeView === 'music' ? musicPlayer.querySelector('.music-back') : directory.querySelector('[data-open-' + (['cv', 'music', 'profile'].includes(previousView) ? previousView : 'cv') + ']');
     target?.focus({ preventScroll: true });
   }
   function positionMenu() {
@@ -329,7 +333,8 @@
     document.querySelector('.path').textContent = themePath();
     document.querySelector('.path-label').textContent = appearance.theme === 'windows' ? 'Address' : 'Location';
     document.querySelector('.window-title-text').textContent = themeTitle();
-    statusInfo.textContent = { cv: 'CV summary · last updated Oct 2026', music: 'Music · Spotify playlist' }[activeView] || (mobileTheme() ? '5 shortcuts' : '4 shortcuts');
+    statusInfo.textContent = { cv: 'CV summary · last updated Oct 2026', music: 'Music · Spotify playlist', profile: 'Profile · My card' }[activeView] || (mobileTheme() ? '6 shortcuts' : '5 shortcuts');
+    profileCard.querySelector('.contact-app-label').textContent = { windows: 'Address Book', mac: 'Contact Card', ubuntu: 'Address Book', android: 'Contacts', ios: 'Contacts' }[appearance.theme];
     document.dispatchEvent(new CustomEvent('nathan:themechange', { detail: { theme: appearance.theme } }));
     document.querySelector('meta[name="theme-color"]').content = { windows: '#008080', mac: '#959595', ubuntu: '#75482e', android: '#111111', ios: '#364451' }[appearance.theme];
     resetWindowSize();
@@ -344,7 +349,7 @@
     if (announce) {
       document.getElementById('theme-announcement').textContent = 'Appearance: ' + labels[appearance.theme];
       const launcher = launchControl();
-      const focusTarget = launcher.getClientRects().length ? launcher : (activeView === 'music' ? musicPlayer.querySelector('.music-back') : cvNotes.querySelector('.cv-back'));
+      const focusTarget = launcher.getClientRects().length ? launcher : (activeView === 'profile' ? profileCard.querySelector('.contact-back') : activeView === 'music' ? musicPlayer.querySelector('.music-back') : cvNotes.querySelector('.cv-back'));
       focusTarget?.focus({ preventScroll: true });
     }
   }
@@ -369,6 +374,10 @@
   document.querySelectorAll('[data-open-cv]').forEach(button => button.addEventListener('click', () => {
     closeMenu(false);
     launchApp('cv');
+  }));
+  document.querySelectorAll('[data-open-profile]').forEach(button => button.addEventListener('click', () => {
+    closeMenu(false);
+    launchApp('profile');
   }));
   document.querySelectorAll('[data-open-music]').forEach(button => button.addEventListener('click', () => {
     closeMenu(false);

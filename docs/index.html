@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="assets/responsive.css?v=680de46ec71a">
   <link rel="stylesheet" href="assets/scroll.css?v=10bcccc830e1">
   <link rel="stylesheet" href="assets/music.css?v=7f5840bb4842">
+  <link rel="stylesheet" href="assets/profile.css?v=103194ceecc4">
 </head>
 <body>
   <svg class="icon-sprite" aria-hidden="true" focusable="false">
@@ -80,6 +81,12 @@
       <nav class="directory" aria-label="Find me online" data-view="home">
         <ul class="profiles">
           <li>
+            <button class="profile profile-button" data-open-profile type="button" aria-label="Open Nathan's profile card">
+              <span class="profile-icon app-icon app-icon-profile" aria-hidden="true"></span>
+              <span class="profile-label">Profile</span>
+            </button>
+          </li>
+          <li>
             <a class="profile" href="https://github.com/Nathan01110011" target="_blank" rel="me noopener" aria-label="Nathan on GitHub (opens in a new tab)">
               <span class="profile-icon app-icon app-icon-github" aria-hidden="true"></span>
               <span class="profile-label">GitHub</span>
@@ -110,6 +117,45 @@
             </button>
           </li>
         </ul>
+        <article class="profile-card" data-view="profile" hidden aria-labelledby="profile-name">
+          <header class="contact-toolbar">
+            <button class="bevel-button contact-back" data-open-home-view type="button">Back</button>
+            <span class="contact-app-label">Address Book</span>
+            <span class="contact-card-label">My card</span>
+          </header>
+          <div class="contact-layout">
+            <aside class="contact-sidebar" aria-label="Contact list">
+              <div class="contact-group">All contacts</div>
+              <div class="contact-selected"><span class="contact-mini-avatar" aria-hidden="true">NO</span><span>Nathan Orr<small>My card</small></span></div>
+              <span class="contact-count">1 contact</span>
+            </aside>
+            <div class="contact-scroll">
+              <div class="contact-identity">
+                <div class="contact-avatar" data-portrait="">
+                  <span class="contact-initials" aria-label="Photo placeholder">NO</span>
+                  <img class="contact-photo" alt="Portrait of Nathan Orr" hidden>
+                  <canvas class="contact-bitmap" role="img" aria-label="Retro portrait of Nathan Orr" hidden></canvas>
+                </div>
+                <div><h2 id="profile-name">Nathan Orr</h2><p class="contact-role">Security Engineering Manager</p><p class="contact-location">Austin, Texas</p></div>
+              </div>
+              <section class="contact-section contact-about"><h3>About</h3><p class="contact-placeholder" data-profile-field="bio">[Short bio]</p>
+                <dl class="contact-fields">
+                  <div><dt>Based in</dt><dd>Austin, Texas</dd></div>
+                  <div><dt>From</dt><dd>Northern Ireland</dd></div>
+                </dl>
+              </section>
+              <section class="contact-section"><h3>Work</h3>
+                <dl class="contact-fields">
+                  <div><dt>Role</dt><dd>Security Engineering Manager</dd></div>
+                  <div><dt>Company</dt><dd>Apex Fintech Solutions</dd></div>
+                  <div><dt>Focus</dt><dd class="contact-placeholder" data-profile-field="focus">[Work focus]</dd></div>
+                </dl>
+              </section>
+              <section class="contact-section contact-interests"><h3>Interests</h3><ul data-profile-field="interests"><li class="contact-placeholder">[Interest 1]</li><li class="contact-placeholder">[Interest 2]</li><li class="contact-placeholder">[Interest 3]</li></ul></section>
+              <section class="contact-section"><h3>Links</h3><nav class="contact-links" aria-label="Nathan's links"><a href="https://github.com/Nathan01110011" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/nathan-scott-orr" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a></nav></section>
+            </div>
+          </div>
+        </article>
         <article class="cv-notes" data-view="cv" hidden aria-labelledby="cv-title">
           <header class="cv-toolbar">
             <button class="bevel-button cv-back" data-open-home-view type="button">Back</button>
@@ -216,10 +262,11 @@
     <div class="menu-brand" aria-hidden="true"><span class="menu-brand-name">Windows 98</span></div>
     <div class="menu-body">
       <div class="menu-links">
+        <button class="menu-link" data-open-profile type="button">Profile</button>
         <button class="menu-link" data-open-home type="button"><svg aria-hidden="true" focusable="false"><use href="#home-symbol"/></svg>Nathan's home page</button>
         <button class="menu-link" data-open-cv type="button">CV Notes</button>
         <button class="menu-link" data-open-music type="button">Music</button>
-        <a class="menu-link" href="https://github.com/Nathan01110011" target="_blank" rel="me noopener" aria-label="GitHub (opens in a new tab)">GitHub</a>
+                <a class="menu-link" href="https://github.com/Nathan01110011" target="_blank" rel="me noopener" aria-label="GitHub (opens in a new tab)">GitHub</a>
         <a class="menu-link" href="https://www.linkedin.com/in/nathan-scott-orr" target="_blank" rel="me noopener" aria-label="LinkedIn (opens in a new tab)">LinkedIn</a>
       </div>
       <header class="menu-titlebar">
@@ -243,6 +290,7 @@
   <p class="visually-hidden" id="theme-announcement" aria-live="polite"></p>
   <div id="cursor-trails" aria-hidden="true"></div>
   <script src="assets/music.js?v=fdb80825bece"></script>
-  <script src="assets/desktop.js?v=86dc8c524c72"></script>
+  <script src="assets/profile.js?v=a3af820b16bc"></script>
+  <script src="assets/desktop.js?v=3f7ffcb95a03"></script>
 </body>
 </html>

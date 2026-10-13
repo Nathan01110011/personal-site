@@ -1,0 +1,16 @@
+{
+  "name": "Nathan Orr",
+  "initials": "NO",
+  "role": "Security Engineering Manager",
+  "company": "Apex Fintech Solutions",
+  "location": "Austin, Texas",
+  "from": "Northern Ireland",
+  "bio": "[Short bio]",
+  "focus": "[Work focus]",
+  "interests": [
+    "[Interest 1]",
+    "[Interest 2]",
+    "[Interest 3]"
+  ],
+  "portrait": ""
+}
