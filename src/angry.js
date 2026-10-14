@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const {Engine,Bodies,Body,Composite,Events,Vector} = window.Matter;
+  const {Engine,Bodies,Body,Composite,Events,Vector,Sleeping} = window.Matter;
   const app = document.querySelector('.angry-app'), canvas = app.querySelector('canvas'), ctx = canvas.getContext('2d');
   const status=app.querySelector('.angry-state'), scoreLabel=app.querySelector('.angry-score'), shotsLabel=app.querySelector('.angry-shots');
   const fireButton=app.querySelector('.angry-fire'), nextButton=app.querySelector('.angry-next'), banner=app.querySelector('.angry-banner');
@@ -73,7 +73,8 @@
   function fire(velocity) {
     if(!active||launched||shots<1||won||!head)return;
     shots--;launched=true;shotTime=0;settledTime=0;drag=null;
-    Body.setStatic(head,false);Body.setVelocity(head,velocity);Body.setAngularVelocity(head,.04);
+    // The parked head can fall asleep while aiming. Making it dynamic does not wake it.
+    Body.setStatic(head,false);Sleeping.set(head,false);Body.setVelocity(head,velocity);Body.setAngularVelocity(head,.04);
     fireButton.disabled=true;status.textContent='Incoming Nathan!';updateHud();animate();
   }
   function aimFire() {
@@ -98,10 +99,11 @@
   function circle(x,y,r,color) {ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();}
   function drawHead(body) {
     ctx.save();ctx.translate(body.position.x,body.position.y);ctx.rotate(body.angle);
-    circle(0,0,33,'#75391e');ctx.save();ctx.beginPath();ctx.arc(0,0,30,0,Math.PI*2);ctx.clip();
-    if(portrait.complete&&portrait.naturalWidth)ctx.drawImage(portrait,portrait.naturalWidth*.24,portrait.naturalHeight*.07,portrait.naturalWidth*.45,portrait.naturalHeight*.59,-31,-31,62,62);
-    else {circle(0,0,30,'#f1c49c');ctx.fillStyle='#553521';ctx.font='bold 21px Arial';ctx.textAlign='center';ctx.fillText('N',0,7);}
-    ctx.restore();ctx.strokeStyle='#fff7';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,30,0,Math.PI*2);ctx.stroke();ctx.restore();
+    if(portrait.complete&&portrait.naturalWidth){
+      const height=78,width=height*portrait.naturalWidth/portrait.naturalHeight;
+      ctx.drawImage(portrait,-width/2,-height/2,width,height);
+    } else {ctx.fillStyle='#553521';ctx.font='bold 21px Arial';ctx.textAlign='center';ctx.fillText('N',0,7);}
+    ctx.restore();
   }
   function drawBody(b) {
     if(b.plugin.type==='head'){drawHead(b);return;}if(b.plugin.type==='ground')return;
