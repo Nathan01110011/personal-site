@@ -144,10 +144,24 @@
   function resize() {
     if(!active)return;
     const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
-    viewW=rect.width;viewH=rect.height;const nextW=rect.width<rect.height?600:1000,nextH=rect.height/rect.width*nextW;
-    const changed=Math.abs(nextW-W)>1||Math.abs(nextH-H)>1;W=nextW;H=nextH;scale=viewW/W;
+    viewW=rect.width;viewH=rect.height;const nextW=innerWidth<innerHeight?600:1000,nextH=rect.height/rect.width*nextW;
+    const orientationChanged=nextW!==W,shiftY=nextH-H;W=nextW;H=nextH;scale=viewW/W;
     const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(viewW*dpr);canvas.height=Math.round(viewH*dpr);
-    if(changed||!head)reset();else draw();animate();
+    if(orientationChanged||!head)reset();
+    else {
+      // Browser bars change the available height. Move the scene with its floor,
+      // preserving the shot, score and physics instead of restarting the level.
+      if(Math.abs(shiftY)>.001){
+        anchor.y+=shiftY;
+        for(const body of Composite.allBodies(engine.world)){
+          Body.translate(body,{x:0,y:shiftY});
+          if(body.plugin.home)body.plugin.home.y+=shiftY;
+        }
+        for(const point of [...trail,...particles])point.y+=shiftY;
+      }
+      draw();
+    }
+    animate();
   }
   function point(e){const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.x)/scale,y:(e.clientY-r.y)/scale};}
   canvas.addEventListener('pointerdown',e=>{

@@ -267,6 +267,10 @@
     }
     pintApp.hidden = activeView !== 'pint' || !mobileTheme();
     angryApp.hidden = activeView !== 'angry' || !mobileTheme();
+    if (mobileTheme()) {
+      window.scrollTo(0, 0);
+      home.scrollTop = 0;
+    }
     document.querySelector('.path').textContent = themePath();
     document.querySelector('.window-title-text').textContent = themeTitle();
     restore.textContent = { cv: 'CV Notes', music: 'Music', profile: 'Profile' }[activeView] || "Nathan's home page";
