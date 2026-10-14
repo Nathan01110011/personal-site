@@ -1,0 +1,59 @@
+/* Shared launcher geometry. Image offsets remove transparent source margins in CSS. */
+:is([data-theme="ios"], [data-theme="android"]) .profiles { --app-icon-size: 72px; align-items: start; }
+:is([data-theme="ios"], [data-theme="android"]) .profiles .profile {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: var(--app-icon-size) auto;
+  justify-items: center;
+  align-items: start;
+  align-content: start;
+  gap: 10px;
+  font-family: inherit;
+  line-height: 1.3;
+}
+:is([data-theme="ios"], [data-theme="android"]) .profiles .profile-icon {
+  display: grid;
+  place-items: center;
+  width: var(--app-icon-size);
+  height: var(--app-icon-size);
+  min-width: var(--app-icon-size);
+  max-width: var(--app-icon-size);
+  min-height: var(--app-icon-size);
+  max-height: var(--app-icon-size);
+  padding: 0;
+  flex: none;
+}
+:is([data-theme="ios"], [data-theme="android"]) .profiles .profile-label {
+  align-self: start;
+  max-width: 100%;
+  margin: 0;
+  line-height: 1.3;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+:is([data-theme="ios"], [data-theme="android"]) .profiles .profile-icon.app-icon {
+  background-origin: border-box;
+  background-repeat: no-repeat;
+  background-size: calc(var(--app-icon-size) * var(--icon-art-width, 1)) calc(var(--app-icon-size) * var(--icon-art-height, 1));
+  background-position: calc(var(--app-icon-size) * var(--icon-art-x, 0)) calc(var(--app-icon-size) * var(--icon-art-y, 0));
+}
+/* Normalize the opaque artwork bounds; keep the original high resolution files. */
+[data-theme="ios"] .profiles .app-icon-github { --icon-art-width: 1.11304348; --icon-art-height: 1.11304348; --icon-art-x: -0.05652174; --icon-art-y: -0.05652174; }
+[data-theme="ios"] .profiles .app-icon-linkedin { --icon-art-width: 1.11304348; --icon-art-height: 1.11304348; --icon-art-x: -0.05652174; --icon-art-y: -0.05652174; }
+[data-theme="ios"] .profiles .app-icon-cv { --icon-art-width: 1.11304348; --icon-art-height: 1.11304348; --icon-art-x: -0.05652174; --icon-art-y: -0.05652174; }
+[data-theme="ios"] .profiles .app-icon-settings { --icon-art-width: 1.11304348; --icon-art-height: 1.11304348; --icon-art-x: -0.05652174; --icon-art-y: -0.05652174; }
+[data-theme="ios"] .profiles .app-icon-profile { --icon-art-width: 1.00000000; --icon-art-height: 1.00000000; --icon-art-x: 0.00000000; --icon-art-y: 0.00000000; }
+[data-theme="ios"] .profiles .app-icon-music { --icon-art-width: 1.00000000; --icon-art-height: 1.00000000; --icon-art-x: 0.00000000; --icon-art-y: 0.00000000; }
+[data-theme="android"] .profiles .app-icon-github { --icon-art-width: 1.12280702; --icon-art-height: 1.12280702; --icon-art-x: -0.05701754; --icon-art-y: -0.06140351; }
+[data-theme="android"] .profiles .app-icon-linkedin { --icon-art-width: 1.12775330; --icon-art-height: 1.12280702; --icon-art-x: -0.06167401; --icon-art-y: -0.06140351; }
+[data-theme="android"] .profiles .app-icon-cv { --icon-art-width: 1.12775330; --icon-art-height: 1.12280702; --icon-art-x: -0.06607930; --icon-art-y: -0.06140351; }
+[data-theme="android"] .profiles .app-icon-settings { --icon-art-width: 1.12280702; --icon-art-height: 1.12280702; --icon-art-x: -0.06140351; --icon-art-y: -0.06140351; }
+[data-theme="android"] .profiles .app-icon-profile { --icon-art-width: 1.20000000; --icon-art-height: 1.24137931; --icon-art-x: -0.10000000; --icon-art-y: -0.13793103; }
+[data-theme="android"] .profiles .app-icon-music { --icon-art-width: 1.20000000; --icon-art-height: 1.18032787; --icon-art-x: -0.10000000; --icon-art-y: -0.09836066; }
+
+@media (max-width: 359px) {
+  :is([data-theme="ios"], [data-theme="android"]) .profiles { --app-icon-size: 64px; }
+}
+@media (min-width: 768px) {
+  :is([data-theme="ios"], [data-theme="android"]) .profiles { --app-icon-size: 80px; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 20px; }
+}
