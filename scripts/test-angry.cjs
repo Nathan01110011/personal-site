@@ -44,6 +44,23 @@ const assert=require('node:assert/strict'),{chromium}=require('playwright'),{pat
    const fallenY=await page.evaluate(()=>Matter.Composite.allBodies(window.__angryTestEngine.world).find(b=>b.plugin.type==='server'&&b.plugin.w===42).position.y);
    assert.ok(fallenY>supportedY+80,'Settled server falls when the wood underneath is removed');
    await page.locator('.angry-reset').click();
+   // Bugs on every level must also drop when their settled supports are knocked away.
+   for(let level=1;level<=3;level++){
+    if(level>1)await page.locator('.angry-next').evaluate(e=>e.click());
+    await page.waitForTimeout(2000);
+    const bugY=await page.evaluate(()=>{
+     const bodies=Matter.Composite.allBodies(window.__angryTestEngine.world);
+     window.__unsupportedBug=bodies.filter(b=>b.plugin.type==='bug').sort((a,b)=>a.position.y-b.position.y)[0];
+     for(const support of bodies.filter(b=>['wood','server'].includes(b.plugin.type)))Matter.Body.translate(support,{x:600,y:0});
+     return window.__unsupportedBug.position.y;
+    });
+    await page.waitForTimeout(1000);
+    const droppedBug=await page.evaluate(()=>({y:window.__unsupportedBug.position.y,sleeping:window.__unsupportedBug.isSleeping,static:window.__unsupportedBug.isStatic}));
+    assert.ok(droppedBug.y>bugY+80,'Level '+level+' bug falls after its supports are knocked away');
+    assert.equal(droppedBug.sleeping,false);assert.equal(droppedBug.static,false);
+   }
+   // Cycle back to level one for the remaining launch and navigation checks.
+   await page.locator('.angry-next').evaluate(e=>e.click());
   }
   if(width===390){await page.waitForTimeout(150);await page.screenshot({path:path.resolve(__dirname,'../verification/angry-'+theme+'-phone.png')});}
   await page.locator('.angry-back').click();assert.equal(await page.locator('.profiles').isVisible(),true);assert.equal(await page.locator('[data-open-angry]').evaluate(e=>e===document.activeElement),true);
@@ -85,5 +102,5 @@ const assert=require('node:assert/strict'),{chromium}=require('playwright'),{pat
   await touchPage.waitForTimeout(250);assert.ok(Number(await touchPage.locator('.angry-canvas').getAttribute('data-head-x'))>x+20,'Idle touch launch moves the head');
  }
  await touchPage.close();
- assert.deepEqual(errors,[]);console.log('Passed support-removal gravity on both mobile themes, eight game/Pint layouts, idle mouse/touch/keyboard launches, collision score, level completion, retry, Back/focus, theme transitions and stopped physics.');
+ assert.deepEqual(errors,[]);console.log('Passed server support removal and bug gravity across all three levels on both mobile themes, eight game/Pint layouts, idle mouse/touch/keyboard launches, collision score, level completion, retry, Back/focus, theme transitions and stopped physics.');
 }finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});
