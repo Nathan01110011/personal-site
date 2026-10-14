@@ -15,9 +15,9 @@
 .angry-app :is(button,input,canvas):focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
 .angry-stage { flex: 1; min-height: 0; position: relative; overflow: hidden; }
 .angry-canvas { width: 100%; height: 100%; display: block; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
-.angry-banner { position: absolute; inset: 13% 12% auto; text-align: center; padding: 16px; color: #523913; background: #fff4cfeb; border: 2px solid #a97834; border-radius: 12px; box-shadow: 0 4px 0 #0002; pointer-events: none; }
-.angry-banner strong { display: block; font: bold 27px Georgia,serif; margin-bottom: 6px; }
-.angry-banner span { font-size: 12px; }
+.angry-banner { position: absolute; inset: 13% 12% auto; text-align: center; padding: 19px 12px 17px; color: #663610; background: linear-gradient(#fff38c,#ffd44c); border: 3px solid #c06a20; border-radius: 20px; box-shadow: inset 0 2px #fff9,0 5px 0 #8c481e,0 9px 16px #422e3038; pointer-events: none; transform: rotate(-2deg); }
+.angry-banner strong { display: block; font: 900 38px/1.1 "Arial Rounded MT Bold","Trebuchet MS",Helvetica,Arial,sans-serif; letter-spacing: -1px; color: #be4a1d; text-shadow: 0 2px #fff6af; margin-bottom: 9px; }
+.angry-banner span { display: inline-block; font: bold 13px/1.4 "Trebuchet MS",Helvetica,Arial,sans-serif; background: #fff6b8; border-radius: 14px; padding: 5px 12px; }
 .angry-controls { flex-shrink: 0; color: #344762; padding: 7px 12px max(9px,env(safe-area-inset-bottom)); background: linear-gradient(#f1f4f9,#dce3ed 48%,#c7d1df 49%,#aebed2); border-top: 1px solid #68788f; box-shadow: inset 0 1px #fff; text-shadow: 0 1px #fff9; }
 .angry-state { margin: 0 0 5px; text-align: center; font-size: 12px; line-height: 1.4; }
 .angry-aim { display: flex; gap: 14px; margin: 0 auto 5px; max-width: 560px; }

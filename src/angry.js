@@ -61,7 +61,7 @@
     if(!bugs.length) {
       won=true;fireButton.disabled=true;fireButton.hidden=true;nextButton.hidden=false;
       nextButton.textContent=level===2?'Play again':'Next level';banner.hidden=false;
-      banner.querySelector('strong').textContent='Bugs squashed!';banner.querySelector('span').textContent='Nathan 1 · Production 0';
+      banner.querySelector('strong').textContent='Get in!';banner.querySelector('span').textContent=score+' points · All bugs squashed.';
       status.textContent='Lovely. '+score+' points. '+(level===2?'You cleared all three levels.':'On to the next disaster?');updateHud();
     } else status.textContent='Bug squashed! '+bugs.length+' to go.';
   }

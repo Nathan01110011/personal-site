@@ -37,6 +37,10 @@ const assert=require('node:assert/strict'),{chromium}=require('playwright'),{pat
  await page.locator('.angry-power').evaluate(e=>{e.value='55';e.dispatchEvent(new Event('input'));});await page.locator('.angry-fire').click();
  await page.waitForFunction(()=>Number(document.querySelector('.angry-canvas').dataset.score)>0,{},{timeout:7000});
  assert.ok(Number(await page.locator('.angry-canvas').getAttribute('data-targets'))<2,'Shot smashes a bug');
+ await page.waitForFunction(()=>document.querySelector('.angry-canvas').dataset.won==='true',{},{timeout:7000});
+ assert.equal(await page.locator('.angry-banner strong').textContent(),'Get in!');
+ assert.equal(await page.locator('.angry-banner span').textContent(),'200 points · All bugs squashed.');
+ await page.screenshot({path:path.resolve(__dirname,'../verification/angry-ios-win.png')});
  await page.locator('.angry-reset').click();await page.waitForTimeout(1500);
  const keyboardX=Number(await page.locator('.angry-canvas').getAttribute('data-head-x'));
  await page.locator('.angry-canvas').press('Space');assert.equal(await page.locator('.angry-canvas').getAttribute('data-shots'),'3','Keyboard fires');
