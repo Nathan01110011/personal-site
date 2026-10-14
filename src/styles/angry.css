@@ -1,0 +1,33 @@
+:is([data-theme="ios"],[data-theme="android"]) .angry-icon { position: relative; overflow: hidden; padding: 0; background: radial-gradient(#fff0ad,#ec9835 75%); border: 1px solid #ae6327; box-shadow: inset 0 1px #fff9,0 2px 5px #0007; }
+[data-theme="ios"] .angry-icon { border-radius: 17px; }
+[data-theme="android"] .angry-icon { border-radius: 6px; }
+:is([data-theme="ios"],[data-theme="android"]) .angry-icon img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 24%; transform: scale(1.9); }
+:is([data-theme="ios"],[data-theme="android"]) body[data-view="angry"] { overflow: hidden; }
+:is([data-theme="ios"],[data-theme="android"]) body[data-view="angry"] #home-window { position: fixed; inset: 29px 0 0; width: 100%; max-width: none; height: calc(100dvh - 29px); margin: 0; overflow: hidden; }
+:is([data-theme="ios"],[data-theme="android"]) body[data-view="angry"] :is(.window-content,.directory) { height: 100%; }
+.angry-app { height: 100%; display: flex; flex-direction: column; color: #fff; background: #8ad3e7; font-family: Helvetica,Arial,sans-serif; }
+.angry-toolbar { display: grid; grid-template-columns: 64px 1fr 64px; gap: 8px; align-items: center; flex-shrink: 0; min-height: 46px; padding: 6px 10px; background: linear-gradient(#b1c0d3,#8097b3 50%,#6b85a5 51%,#4d6d94); border-bottom: 1px solid #344961; text-shadow: 0 -1px #324a68; }
+.angry-toolbar h2 { font: bold 18px Helvetica,Arial,sans-serif; text-align: center; margin: 0; }
+.angry-score { text-align: right; font-size: 13px; font-weight: bold; }
+.angry-app button { color: #fff; font: bold 13px Helvetica,Arial,sans-serif; text-shadow: 0 -1px #0007; border: 1px solid #354d6e; border-radius: 6px; min-height: 34px; padding: 6px 11px; background: linear-gradient(#8ba4c2,#4b6b94); box-shadow: inset 0 1px #c9daea8a,0 1px #fff2; }
+.angry-app button:disabled { opacity: .45; }
+.angry-app button:active { background: #395778; }
+.angry-app :is(button,input,canvas):focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+.angry-stage { flex: 1; min-height: 0; position: relative; overflow: hidden; }
+.angry-canvas { width: 100%; height: 100%; display: block; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.angry-banner { position: absolute; inset: 13% 12% auto; text-align: center; padding: 16px; color: #523913; background: #fff4cfeb; border: 2px solid #a97834; border-radius: 12px; box-shadow: 0 4px 0 #0002; pointer-events: none; }
+.angry-banner strong { display: block; font: bold 27px Georgia,serif; margin-bottom: 6px; }
+.angry-banner span { font-size: 12px; }
+.angry-controls { flex-shrink: 0; color: #344762; padding: 7px 12px max(9px,env(safe-area-inset-bottom)); background: linear-gradient(#f1f4f9,#dce3ed 48%,#c7d1df 49%,#aebed2); border-top: 1px solid #68788f; box-shadow: inset 0 1px #fff; text-shadow: 0 1px #fff9; }
+.angry-state { margin: 0 0 5px; text-align: center; font-size: 12px; line-height: 1.4; }
+.angry-aim { display: flex; gap: 14px; margin: 0 auto 5px; max-width: 560px; }
+.angry-aim label { display: flex; align-items: center; gap: 7px; flex: 1; min-width: 0; font-size: 11px; }
+.angry-aim input { width: 100%; min-width: 0; accent-color: #3979bb; }
+.angry-buttons { display: flex; align-items: center; justify-content: space-between; gap: 8px; max-width: 560px; margin: auto; }
+.angry-shots { font-size: 12px; font-weight: bold; }
+[data-theme="android"] .angry-toolbar { background: linear-gradient(#393939,#202020); border-bottom: 3px solid var(--accent); }
+[data-theme="android"] .angry-controls { background: linear-gradient(#303030,#141414); color: #ddd; border-color: #555; box-shadow: inset 0 1px #fff2; text-shadow: 0 -1px #000; }
+[data-theme="android"] .angry-app button { border-radius: 3px; border-color: #666; background: linear-gradient(#545454,#2e2e2e); box-shadow: inset 0 1px #fff2; }
+[data-theme="android"] .angry-aim input { accent-color: #8db749; }
+@media (max-height: 500px) { .angry-toolbar { min-height: 40px; padding-block: 3px; } .angry-controls { padding-block: 4px; } .angry-state { margin-bottom: 2px; } .angry-aim { margin-bottom: 2px; } }
+@media (min-width: 768px) { [data-theme="android"] body[data-view="angry"] #home-window { inset: 0 0 42px; height: calc(100dvh - 42px); } }

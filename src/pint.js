@@ -213,7 +213,7 @@
   canvas.addEventListener('pointerup', release); canvas.addEventListener('pointercancel', release);
   canvas.addEventListener('lostpointercapture', () => { pointer = null; stopFill(); });
   function sync() {
-    const next = document.documentElement.dataset.theme === 'ios' && document.body.dataset.view === 'pint' && !document.getElementById('home-window').hidden;
+    const next = ['ios', 'android'].includes(document.documentElement.dataset.theme) && document.body.dataset.view === 'pint' && !document.getElementById('home-window').hidden;
     if (!next) { active = false; filling = false; fillPulse = 0; permissionAttempt++; stopMotion(); if (frame) cancelAnimationFrame(frame); frame = 0; lastTime = 0; pointer = null; return; }
     active = true; resize(); listenMotion(); animate();
   }

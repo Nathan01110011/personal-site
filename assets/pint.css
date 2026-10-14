@@ -1,10 +1,10 @@
-.ios-only-app { display: none; }
-[data-theme="ios"] .ios-only-app { display: block; }
+.mobile-only-app { display: none; }
+:is([data-theme="ios"], [data-theme="android"]) .mobile-only-app { display: block; }
 [data-theme="ios"] .pint-icon { background: radial-gradient(ellipse at top, #805332, #24160e); display: grid; place-items: center; }
 [data-theme="ios"] .pint-icon > span { width: 36px; height: 55px; border: 3px solid #fffc; border-top-width: 2px; border-radius: 3px 3px 9px 9px; transform: perspective(80px) rotateX(-9deg); background: linear-gradient(#fffce9 0 18%, #f4c848 19%, #ce730b 92%, #eee9 93%); box-shadow: 0 3px 5px #0009, inset 5px 0 4px #fff7; }
-[data-theme="ios"] body[data-view="pint"] { overflow: hidden; }
-[data-theme="ios"] body[data-view="pint"] #home-window { position: fixed; inset: 29px 0 0; width: 100%; max-width: none; height: calc(100dvh - 29px); margin: 0; overflow: hidden; }
-[data-theme="ios"] body[data-view="pint"] :is(.window-content,.directory) { height: 100%; }
+:is([data-theme="ios"], [data-theme="android"]) body[data-view="pint"] { overflow: hidden; }
+:is([data-theme="ios"], [data-theme="android"]) body[data-view="pint"] #home-window { position: fixed; inset: 29px 0 0; width: 100%; max-width: none; height: calc(100dvh - 29px); margin: 0; overflow: hidden; }
+:is([data-theme="ios"], [data-theme="android"]) body[data-view="pint"] :is(.window-content,.directory) { height: 100%; }
 .pint-app { height: 100%; display: flex; flex-direction: column; color: #fff; background: #20140d; font-family: Helvetica, Arial, sans-serif; }
 .pint-toolbar { display: flex; justify-content: space-between; gap: 8px; align-items: center; min-height: 44px; padding: 5px 10px; flex-shrink: 0; background: linear-gradient(#b1c0d3,#8097b3 50%,#6b85a5 51%,#4d6d94); border-bottom: 1px solid #344961; text-shadow: 0 -1px #324a68; }
 .pint-app button { color: #fff; font: bold 13px Helvetica,Arial,sans-serif; text-shadow: 0 -1px #0007; border: 1px solid #354d6e; border-radius: 6px; min-height: 34px; padding: 6px 10px; background: linear-gradient(#8ba4c2,#4b6b94); box-shadow: inset 0 1px #c9daea8a,0 1px #fff2; }
@@ -37,4 +37,17 @@
 /* Keep the toolbar compact on phones. */
 @media (max-width: 767px), (max-height: 500px) {
   .pint-controls { padding: 6px 12px max(8px,env(safe-area-inset-bottom)); }
+}
+
+[data-theme="android"] .pint-icon { display: grid; place-items: center; border-radius: 6px; background: radial-gradient(#5b5040,#1c1c1c); box-shadow: inset 0 1px #fff3,0 2px 4px #0009; }
+[data-theme="android"] .pint-icon > span { width: 36px; height: 55px; border: 3px solid #fffc; border-radius: 3px 3px 9px 9px; background: linear-gradient(#fffce9 0 18%,#f4c848 19%,#ce730b 92%,#eee9 93%); box-shadow: inset 5px 0 4px #fff7; }
+[data-theme="android"] .pint-toolbar { background: linear-gradient(#393939,#202020); border-bottom: 3px solid var(--accent); }
+[data-theme="android"] .pint-controls { background: linear-gradient(#303030,#141414); color: #ddd; border-top: 1px solid #555; box-shadow: inset 0 1px #ffffff12; text-shadow: 0 -1px #000; }
+[data-theme="android"] .pint-app button { border-radius: 3px; border-color: #666; background: linear-gradient(#545454,#2e2e2e); box-shadow: inset 0 1px #fff2; }
+[data-theme="android"] .pint-tilt-icon { stroke: #aaa; filter: none; }
+[data-theme="android"] .pint-slider-label input::-webkit-slider-runnable-track { background: linear-gradient(to right,#8db749 0 var(--tilt-progress),#555 var(--tilt-progress) 100%); border-color: #171717; box-shadow: inset 0 1px 2px #000,0 1px #fff2; }
+[data-theme="android"] .pint-slider-label input::-webkit-slider-thumb { background: linear-gradient(#b5ce80,#6e992b); border-color: #435f20; }
+[data-theme="android"] .pint-slider-label input::-moz-range-progress { background: #8db749; }
+@media (min-width: 768px) {
+  [data-theme="android"] body[data-view="pint"] #home-window { inset: 0 0 42px; height: calc(100dvh - 42px); }
 }

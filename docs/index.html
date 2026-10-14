@@ -24,7 +24,8 @@
   <link rel="stylesheet" href="assets/scroll.css?v=10bcccc830e1">
   <link rel="stylesheet" href="assets/music.css?v=7f5840bb4842">
   <link rel="stylesheet" href="assets/profile.css?v=8c8e6e99c639">
-  <link rel="stylesheet" href="assets/pint.css?v=1d81d17c58a1">
+  <link rel="stylesheet" href="assets/pint.css?v=fb5419b3b060">
+  <link rel="stylesheet" href="assets/angry.css?v=9efaea1accf9">
 </head>
 <body>
   <svg class="icon-sprite" aria-hidden="true" focusable="false">
@@ -117,13 +118,35 @@
               <span class="profile-label">Music</span>
             </button>
           </li>
-          <li class="ios-only-app">
+          <li class="mobile-only-app">
             <button class="profile profile-button" data-open-pint type="button" aria-label="Open Pocket Pint">
               <span class="profile-icon pint-icon" aria-hidden="true"><span></span></span>
               <span class="profile-label">Pocket Pint</span>
             </button>
           </li>
+          <li class="mobile-only-app">
+            <button class="profile profile-button" data-open-angry type="button" aria-label="Open Angry Nathan">
+              <span class="profile-icon angry-icon" aria-hidden="true"><img src="artwork/portraits/nathan.jpg" alt=""></span>
+              <span class="profile-label">Angry Nathan</span>
+            </button>
+          </li>
         </ul>
+        <article class="angry-app" data-view="angry" hidden aria-labelledby="angry-title">
+          <header class="angry-toolbar">
+            <button class="angry-back" data-open-home-view type="button">Back</button>
+            <h2 id="angry-title">Angry Nathan</h2>
+            <span class="angry-score" aria-label="Score">0</span>
+          </header>
+          <div class="angry-stage">
+            <canvas class="angry-canvas" data-portrait="artwork/portraits/nathan.jpg" tabindex="0" role="img" aria-label="Slingshot game. Drag Nathan's head back and release to smash the bugs. Arrow keys adjust aim and power; Space fires."></canvas>
+            <div class="angry-banner" hidden><strong></strong><span></span></div>
+          </div>
+          <footer class="angry-controls">
+            <p class="angry-state" role="status">Drag your head back. Release to cause problems.</p>
+            <div class="angry-aim"><label>Angle <input class="angry-angle" type="range" min="5" max="70" value="30"></label><label>Power <input class="angry-power" type="range" min="30" max="100" value="55"></label></div>
+            <div class="angry-buttons"><button class="angry-reset" type="button">Retry</button><span class="angry-shots">4 heads left</span><button class="angry-fire" type="button">Fling!</button><button class="angry-next" type="button" hidden>Next level</button></div>
+          </footer>
+        </article>
         <article class="pint-app" data-view="pint" hidden aria-labelledby="pint-title">
           <header class="pint-toolbar">
             <button class="pint-back" data-open-home-view type="button">Back</button>
@@ -316,8 +339,10 @@
   <div id="cursor-trails" aria-hidden="true"></div>
   <script src="assets/music.js?v=fdb80825bece"></script>
   <script src="assets/profile.js?v=86433b2276de"></script>
-  <script src="assets/desktop.js?v=9e28d1ce8c7f"></script>
+  <script src="assets/desktop.js?v=05737c3f2961"></script>
   <script src="assets/pint-physics.js?v=c15e50706f4f"></script>
-  <script src="assets/pint.js?v=3e32b6585376"></script>
+  <script src="assets/pint.js?v=bd25c2b111b2"></script>
+  <script src="assets/matter.min.js?v=72d30be0f579"></script>
+  <script src="assets/angry.js?v=1a05cf7aa84d"></script>
 </body>
 </html>

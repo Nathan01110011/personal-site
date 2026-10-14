@@ -21,7 +21,7 @@ def build(asset_prefix=""):
         else:
             interests.append("<li>" + escape(value) + "</li>")
     html = html.replace("@@PROFILE_INTERESTS@@", "".join(interests))
-    for source in [root / "src/base.css", root / "src/theme-bootstrap.js", root / "src/desktop.js", root / "src/music.js", root / "src/profile.js", root / "src/pint.js", root / "src/pint-physics.js", *sorted((root / "src/styles").glob("*.css"))]:
+    for source in [root / "src/base.css", root / "src/theme-bootstrap.js", root / "src/desktop.js", root / "src/music.js", root / "src/profile.js", root / "src/pint.js", root / "src/pint-physics.js", root / "src/angry.js", root / "src/vendor/matter.min.js", *sorted((root / "src/styles").glob("*.css"))]:
         version = sha256(source.read_bytes()).hexdigest()[:12]
         html = html.replace(f'assets/{source.name}"', f'assets/{source.name}?v={version}"')
     for token, filename in [
@@ -42,7 +42,7 @@ for directory, html in outputs:
     directory.mkdir(exist_ok=True)
     assets = directory / "assets"
     assets.mkdir(exist_ok=True)
-    sources = [root / "src/base.css", root / "src/theme-bootstrap.js", root / "src/desktop.js", root / "src/music.js", root / "src/profile.js", root / "src/pint.js", root / "src/pint-physics.js"]
+    sources = [root / "src/base.css", root / "src/theme-bootstrap.js", root / "src/desktop.js", root / "src/music.js", root / "src/profile.js", root / "src/pint.js", root / "src/pint-physics.js", root / "src/angry.js", root / "src/vendor/matter.min.js"]
     sources.extend(sorted((root / "src/styles").glob("*.css")))
     for source in sources:
         content = source.read_text()
@@ -52,6 +52,7 @@ for directory, html in outputs:
     if directory != root:
         from shutil import copytree
         copytree(root / "artwork", directory / "artwork", dirs_exist_ok=True)
+    (assets / "MATTER-LICENSE.txt").write_text((root / "src/vendor/MATTER-LICENSE.txt").read_text())
     (directory / "index.html").write_text(html)
     (directory / ".nojekyll").touch()
     print(f"Built {directory.relative_to(root) if directory != root else '.'}/index.html ({len(html.encode()):,} bytes)")

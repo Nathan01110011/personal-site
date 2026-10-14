@@ -218,3 +218,20 @@ resolutions and colour ranges. The Ubuntu launcher loads the new badge asset.
 - Removed visible navigation title and stage branding; accessible app name kept.
 - Four viewport checks (320×640, 390×844, 844×390, 1366×900) confirm controls fit,
   keyboard slider and blue progress update, Back navigation and no script errors.
+
+
+## Angry Nathan and shared mobile toys
+
+- Pocket Pint and Angry Nathan visible in iOS and Android launchers; hidden in
+  Windows/Mac/Ubuntu. Android beer app uses GNOME-era mobile black/green chrome.
+- Eight game/Pint layouts: both themes at 320×640, 390×844, 844×390, 1024×768.
+  Phone full-screen bounds and Honeycomb bottom-bar insets fit; no overflow.
+- Drag/button/keyboard launch consumes a head; real projectile collisions score
+  and remove targets. Retry restores ammo, Back returns focus and stops physics.
+- Game has original photo-as-projectile, three puzzles, breakable stacks and
+  locally bundled MIT-licensed Matter.js. Sensor/Pint permission tests pass.
+- Existing 20 Music flows/stacking, 20 Profile flows and 16 theme checks pass.
+- No browser JavaScript errors in the game checks.
+- Real UI play-through clears all three puzzles within four shots, advances
+  Next level, and returns to level 1 through Play again. Final puzzle verified
+  with a high shot followed by lower shots; victory and ammo flow work.

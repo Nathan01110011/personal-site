@@ -53,7 +53,7 @@ const fs = require('node:fs');
       if(width===390){fs.mkdirSync(path.resolve(__dirname,'../verification'),{recursive:true});await page.screenshot({path:path.resolve(__dirname,'../verification/pocket-pint-phone.png')});}
       await page.locator('.pint-back').click();assert.equal(await page.locator('.profiles').isVisible(),true);
       assert.equal(await page.locator('[data-open-pint]').evaluate(el=>el===document.activeElement),true);
-      for(const t of ['windows','mac','ubuntu','android']) {await choose(t); assert.equal(await page.locator('[data-open-pint]').isVisible(),false);assert.equal(await page.locator('.pint-app').isVisible(),false);}
+      for(const t of ['windows','mac','ubuntu']) {await choose(t); assert.equal(await page.locator('[data-open-pint]').isVisible(),false);assert.equal(await page.locator('.pint-app').isVisible(),false);}
     }
     await choose('ios');await page.locator('[data-open-pint]').click();
     await page.evaluate(()=>window.permissionResult='denied');await page.locator('.pint-motion').click();
@@ -70,7 +70,9 @@ const fs = require('node:fs');
     await page.locator('[data-open-pint]').click();
     assert.equal(await page.locator('.pint-motion').isVisible(),false,'Granted permission remains available on reopen');
     await page.locator('.pint-back').click();await page.goto(url);await choose('ios');await page.locator('[data-open-pint]').click();
-    await choose('android');assert.equal(await page.locator('.profiles').isVisible(),true,'Switching away restores launcher');
+    await choose('android');assert.equal(await page.locator('.pint-app').isVisible(),true,'Pint remains open across mobile themes');
+    await page.locator('.pint-back').click();
+    await choose('windows');assert.equal(await page.locator('.profiles').isVisible(),true,'Desktop restores launcher');
     await choose('ios');await page.locator('[data-open-pint]').click();
     await page.emulateMedia({reducedMotion:'reduce'});await holdFill();
     await page.locator('#pint-tilt').evaluate(el=>{el.value='85';el.dispatchEvent(new Event('input',{bubbles:true}));});

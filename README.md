@@ -95,7 +95,7 @@ the domain's document root on shared / cPanel hosting.
 
 ## Pocket Pint
 
-The iOS appearance has an exclusive Pocket Pint app, inspired by early iPhone
+The iOS and Android appearances share a Pocket Pint app, inspired by early iPhone
 beer simulators. Drag the glass or use the keyboard-accessible tilt slider to
 pour. Hold the glass or Refill to fill gradually; release to stop. Beer only
 leaves when the liquid reaches the downhill rim, retaining the rest at a fixed
@@ -118,3 +118,21 @@ this app. `src/pint.js` and `src/styles/pint.css` own the simulation and UI;
 `scripts/test-pint-physics.cjs` checks retained volume, rim overflow and sensor
 coordinates; `scripts/test-pint.cjs` checks viewports, pouring/refill, permission paths,
 simulated orientation events, lifecycle and reduced motion.
+
+
+## Angry Nathan
+
+Both mobile appearances also include Angry Nathan: drag Nathan’s photo head
+back from the slingshot and release to knock down server/crate towers and
+squash bugs. There are three levels and four heads per attempt. Angle/power
+sliders and Fling provide an alternative; arrow keys aim and Space launches.
+Retry resets the level, and Next level appears after clearing all bugs. The
+iOS and Android toolbars use their respective era styling. Back/backgrounding
+stops the simulation; changing the canvas dimensions resets the current puzzle.
+
+Physics uses locally bundled Matter.js 0.20.0, under the MIT license in
+`src/vendor/MATTER-LICENSE.txt` and the built assets. The game renders the existing
+portrait into a head circle, without modifying or generating a replacement photo.
+The artwork is drawn in canvas; no Angry Birds art or game code is included.
+`src/angry.js`, `src/styles/angry.css` and `scripts/test-angry.cjs` own the game.
+The two toys are offered in both mobile OS themes and hidden in desktop themes.
