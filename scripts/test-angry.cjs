@@ -1,6 +1,12 @@
 const assert=require('node:assert/strict'),{chromium}=require('playwright'),{pathToFileURL}=require('node:url'),path=require('node:path');
 (async()=>{const browser=await chromium.launch({executablePath:process.env.TEST_BROWSER_PATH,headless:true,args:['--no-sandbox','--disable-dev-shm-usage','--no-zygote','--disable-gpu','--use-gl=disabled']});try{
  const page=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.route('https://**/*',r=>r.abort());
+ // Observe the real game world for a support-removal regression, without changing its physics.
+ await page.addInitScript(()=>Object.defineProperty(window,'Matter',{configurable:true,set(matter){
+  const create=matter.Engine.create;
+  matter.Engine.create=function(...args){const engine=create.apply(this,args);window.__angryTestEngine=engine;return engine;};
+  Object.defineProperty(window,'Matter',{configurable:true,writable:true,value:matter});
+ }}));
  const url=pathToFileURL(path.resolve(__dirname,'../index.html')).href;
  const choose=t=>page.locator('[data-theme-choice="'+t+'"]').evaluate(e=>e.click());
  for(const theme of ['ios','android'])for(const[width,height]of[[320,640],[390,844],[844,390],[1024,768]]){
@@ -26,6 +32,19 @@ const assert=require('node:assert/strict'),{chromium}=require('playwright'),{pat
   await page.waitForTimeout(250);
   assert.ok(Number(await page.locator('.angry-canvas').getAttribute('data-head-x'))>cx+20,'Idle drag launch moves the head');
   await page.locator('.angry-reset').click();
+  if(width===390){
+   await page.waitForTimeout(2000);
+   const supportedY=await page.evaluate(()=>{
+    const world=window.__angryTestEngine.world,bodies=Matter.Composite.allBodies(world);
+    const server=bodies.find(b=>b.plugin.type==='server'&&b.plugin.w===42);
+    const deck=bodies.find(b=>b.plugin.type==='wood'&&b.plugin.w===120);
+    Matter.Composite.remove(world,deck);return server.position.y;
+   });
+   await page.waitForTimeout(1000);
+   const fallenY=await page.evaluate(()=>Matter.Composite.allBodies(window.__angryTestEngine.world).find(b=>b.plugin.type==='server'&&b.plugin.w===42).position.y);
+   assert.ok(fallenY>supportedY+80,'Settled server falls when the wood underneath is removed');
+   await page.locator('.angry-reset').click();
+  }
   if(width===390){await page.waitForTimeout(150);await page.screenshot({path:path.resolve(__dirname,'../verification/angry-'+theme+'-phone.png')});}
   await page.locator('.angry-back').click();assert.equal(await page.locator('.profiles').isVisible(),true);assert.equal(await page.locator('[data-open-angry]').evaluate(e=>e===document.activeElement),true);
   await choose(theme==='ios'?'android':'ios');await page.locator('[data-open-angry]').click();assert.equal(await page.locator('.angry-app').isVisible(),true);
@@ -37,6 +56,12 @@ const assert=require('node:assert/strict'),{chromium}=require('playwright'),{pat
  await page.locator('.angry-power').evaluate(e=>{e.value='55';e.dispatchEvent(new Event('input'));});await page.locator('.angry-fire').click();
  await page.waitForFunction(()=>Number(document.querySelector('.angry-canvas').dataset.score)>0,{},{timeout:7000});
  assert.ok(Number(await page.locator('.angry-canvas').getAttribute('data-targets'))<2,'Shot smashes a bug');
+ // Awake debris can deflect a shot; clear any surviving ground bug with a lower aim.
+ await page.waitForFunction(()=>document.querySelector('.angry-canvas').dataset.won==='true'||!document.querySelector('.angry-fire').disabled,{},{timeout:7000});
+ if(await page.locator('.angry-canvas').getAttribute('data-won')!=='true'){
+  await page.locator('.angry-angle').evaluate(e=>{e.value='5';e.dispatchEvent(new Event('input'));});
+  await page.locator('.angry-fire').click();
+ }
  await page.waitForFunction(()=>document.querySelector('.angry-canvas').dataset.won==='true',{},{timeout:7000});
  assert.equal(await page.locator('.angry-banner strong').textContent(),'Get in!');
  assert.equal(await page.locator('.angry-banner span').textContent(),'200 points · All bugs squashed.');
@@ -60,5 +85,5 @@ const assert=require('node:assert/strict'),{chromium}=require('playwright'),{pat
   await touchPage.waitForTimeout(250);assert.ok(Number(await touchPage.locator('.angry-canvas').getAttribute('data-head-x'))>x+20,'Idle touch launch moves the head');
  }
  await touchPage.close();
- assert.deepEqual(errors,[]);console.log('Passed eight mobile game/Pint layouts, shared launchers, drag/button/keyboard shots, collision score, retry, Back/focus, theme transitions and stopped physics.');
+ assert.deepEqual(errors,[]);console.log('Passed support-removal gravity on both mobile themes, eight game/Pint layouts, idle mouse/touch/keyboard launches, collision score, level completion, retry, Back/focus, theme transitions and stopped physics.');
 }finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

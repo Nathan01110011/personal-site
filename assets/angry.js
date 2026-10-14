@@ -7,7 +7,8 @@
   const angleInput=app.querySelector('.angry-angle'),powerInput=app.querySelector('.angry-power');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const portrait=new Image();portrait.src=canvas.dataset.portrait;portrait.addEventListener('load',()=>{if(active)draw();});
-  const engine=Engine.create({enableSleeping:true,positionIterations:8,velocityIterations:8});
+  // These small stacks must keep reacting to gravity when their support moves away.
+  const engine=Engine.create({enableSleeping:false,positionIterations:8,velocityIterations:8});
   let active=false,frame=0,lastTime=0,accumulator=0,W=600,H=900,scale=1,viewW=0,viewH=0;
   let level=0,score=0,shots=4,head=null,drag=null,launched=false,shotTime=0,settledTime=0,playingTime=0,won=false;
   let anchor={x:110,y:740},bugs=[],particles=[],trail=[];
@@ -73,7 +74,7 @@
   function fire(velocity) {
     if(!active||launched||shots<1||won||!head)return;
     shots--;launched=true;shotTime=0;settledTime=0;drag=null;
-    // The parked head can fall asleep while aiming. Making it dynamic does not wake it.
+    // Restore a dynamic, awake projectile before applying the launch velocity.
     Body.setStatic(head,false);Sleeping.set(head,false);Body.setVelocity(head,velocity);Body.setAngularVelocity(head,.04);
     fireButton.disabled=true;status.textContent='Incoming Nathan!';updateHud();animate();
   }
