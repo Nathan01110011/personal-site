@@ -235,3 +235,22 @@ resolutions and colour ranges. The Ubuntu launcher loads the new badge asset.
 - Real UI play-through clears all three puzzles within four shots, advances
   Next level, and returns to level 1 through Play again. Final puzzle verified
   with a high shot followed by lower shots; victory and ammo flow work.
+
+## Angry Nathan: eight-level expansion
+
+- Added Glass house, Domino deployment, Bridge outage, Rock and roll, and
+  Firewall fortress, with level hints, different sky palettes and a level picker.
+- Glass shatters on impact, TNT blasts nearby bugs/debris, and a heavy boulder
+  drops from an anchored, breakable glass plinth. Stone provides heavier cover.
+- Browser checks cover 64 stable, unclipped starting layouts across iOS/Android
+  at 320×640, 390×844, 844×390 and 1024×768.
+- Real slider/button shots clear all eight levels within the four-head budget
+  in both themes. Checks include glass breaking, a TNT detonation, boulder
+  movement, picker resets, next-level wrapping and Back navigation.
+- Existing game checks pass for idle mouse/touch/keyboard launches, unsupported
+  server/bug gravity, collision scoring, retry, focus and lifecycle behavior.
+- Dynamic viewport checks pass on both mobile themes: no document overscroll,
+  launcher-only scrolling and preservation of live shots during browser resizing.
+- Commands: `node scripts/test-themes.cjs`, `node scripts/test-angry.cjs`,
+  `node scripts/test-angry-levels.cjs`, `node scripts/test-mobile-viewport.cjs`.
+  Browser checks used Chromium 153 via `TEST_BROWSER_PATH`.

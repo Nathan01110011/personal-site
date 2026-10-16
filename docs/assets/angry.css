@@ -12,13 +12,16 @@
 .angry-app button { color: #fff; font: bold 13px Helvetica,Arial,sans-serif; text-shadow: 0 -1px #0007; border: 1px solid #354d6e; border-radius: 6px; min-height: 34px; padding: 6px 11px; background: linear-gradient(#8ba4c2,#4b6b94); box-shadow: inset 0 1px #c9daea8a,0 1px #fff2; }
 .angry-app button:disabled { opacity: .45; }
 .angry-app button:active { background: #395778; }
-.angry-app :is(button,input,canvas):focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+.angry-app :is(button,input,select,canvas):focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
 .angry-stage { flex: 1; min-height: 0; position: relative; overflow: hidden; }
 .angry-canvas { width: 100%; height: 100%; display: block; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
 .angry-banner { position: absolute; inset: 13% 12% auto; text-align: center; padding: 19px 12px 17px; color: #663610; background: linear-gradient(#fff38c,#ffd44c); border: 3px solid #c06a20; border-radius: 20px; box-shadow: inset 0 2px #fff9,0 5px 0 #8c481e,0 9px 16px #422e3038; pointer-events: none; transform: rotate(-2deg); }
 .angry-banner strong { display: block; font: 900 38px/1.1 "Arial Rounded MT Bold","Trebuchet MS",Helvetica,Arial,sans-serif; letter-spacing: -1px; color: #be4a1d; text-shadow: 0 2px #fff6af; margin-bottom: 9px; }
 .angry-banner span { display: inline-block; font: bold 13px/1.4 "Trebuchet MS",Helvetica,Arial,sans-serif; background: #fff6b8; border-radius: 14px; padding: 5px 12px; }
 .angry-controls { flex-shrink: 0; color: #344762; padding: 7px 12px max(9px,env(safe-area-inset-bottom)); background: linear-gradient(#f1f4f9,#dce3ed 48%,#c7d1df 49%,#aebed2); border-top: 1px solid #68788f; box-shadow: inset 0 1px #fff; text-shadow: 0 1px #fff9; }
+.angry-level-picker { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 5px; font-size: 12px; }
+.angry-level-select { min-width: 0; max-width: 85%; min-height: 28px; padding: 3px 7px; font: inherit; color: #344762; background: #f4f6fa; border: 1px solid #68788f; border-radius: 5px; }
+[data-theme="android"] .angry-level-select { color: #eee; background: #252525; border-color: #777; border-radius: 2px; }
 .angry-state { margin: 0 0 5px; text-align: center; font-size: 12px; line-height: 1.4; }
 .angry-aim { display: flex; gap: 14px; margin: 0 auto 5px; max-width: 560px; }
 .angry-aim label { display: flex; align-items: center; gap: 7px; flex: 1; min-width: 0; font-size: 11px; }

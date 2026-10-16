@@ -124,7 +124,11 @@ simulated orientation events, lifecycle and reduced motion.
 
 Both mobile appearances also include Angry Nathan: drag Nathan’s photo head
 back from the slingshot and release to knock down server/crate towers and
-squash bugs. There are three levels and four heads per attempt. Angle/power
+squash bugs. There are eight selectable levels and four heads per attempt.
+The original server stacks are joined by a glass house, domino posts, a bridge, a boulder
+perch and a stone fortress. Blue glass shatters on impact, heavy stone can
+topple, and red TNT crates blast nearby bugs and debris. Use the level picker
+to jump straight into any puzzle. Angle/power
 sliders and Fling provide an alternative; arrow keys aim and Space launches.
 Retry resets the level, and Next level appears after clearing all bugs. The
 iOS and Android toolbars use their respective era styling. Back/backgrounding
@@ -135,4 +139,6 @@ Physics uses locally bundled Matter.js 0.20.0, under the MIT license in
 portrait into a head circle, without modifying or generating a replacement photo.
 The artwork is drawn in canvas; no Angry Birds art or game code is included.
 `src/angry.js`, `src/styles/angry.css` and `scripts/test-angry.cjs` own the game.
+`scripts/test-angry-levels.cjs` checks all eight layouts, stable starting stacks, material interactions and real
+shot solutions on both mobile appearances.
 The two toys are offered in both mobile OS themes and hidden in desktop themes.

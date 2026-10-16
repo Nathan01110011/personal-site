@@ -59,8 +59,8 @@ const assert=require('node:assert/strict'),{chromium}=require('playwright'),{pat
     assert.ok(droppedBug.y>bugY+80,'Level '+level+' bug falls after its supports are knocked away');
     assert.equal(droppedBug.sleeping,false);assert.equal(droppedBug.static,false);
    }
-   // Cycle back to level one for the remaining launch and navigation checks.
-   await page.locator('.angry-next').evaluate(e=>e.click());
+   // Return to level one for the remaining launch and navigation checks.
+   await page.locator('.angry-level-select').selectOption('0');
   }
   if(width===390){await page.waitForTimeout(150);await page.screenshot({path:path.resolve(__dirname,'../verification/angry-'+theme+'-phone.png')});}
   await page.locator('.angry-back').click();assert.equal(await page.locator('.profiles').isVisible(),true);assert.equal(await page.locator('[data-open-angry]').evaluate(e=>e===document.activeElement),true);
