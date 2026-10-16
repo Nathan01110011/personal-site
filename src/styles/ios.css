@@ -1,6 +1,6 @@
 /* iOS 6: linen, glossy app tiles and grouped Settings. */
 html[data-theme="ios"] { --accent: #42689b; }
-[data-theme="ios"] body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #607f8d; background-image: url("https://wallpaperswide.com/download/ios_5_wallpaper___water_drops-wallpaper-1440x900.jpg"); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; }
+[data-theme="ios"] body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #607f8d; background-image: url("../artwork/wallpapers/ios-water-drops.jpg"); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; }
 [data-theme="ios"] .mobile-status { background: linear-gradient(#343c45, #151b22); color: #fff; text-shadow: 0 -1px #000; }
 [data-theme="ios"] h1 { font-weight: 300; }
 [data-theme="ios"] .profile-icon { position: relative; width: 83px; height: 83px; padding: 6px; background: linear-gradient(#7a93af, #385b85 50%, #29456c); border: 1px solid #152b4b; border-radius: 17px; box-shadow: inset 0 1px 1px #fff8, 0 3px 5px #0007; overflow: hidden; }
