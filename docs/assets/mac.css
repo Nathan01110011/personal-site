@@ -49,3 +49,21 @@ html[data-theme="mac"] { --accent: #000; --surface: #c9c9c9; }
 [data-theme="mac"] .profile-icon.app-icon-linkedin { background-image: url("../artwork/icons/mac-linkedin.webp"); }
 [data-theme="mac"] .profile-icon.app-icon-cv { background-image: url("../artwork/icons/mac-cv.webp"); }
 [data-theme="mac"] .profile-icon.app-icon-settings { background-image: url("../artwork/icons/mac-settings.webp"); }
+
+/* Draw small Platinum controls at whole pixels, without scaling SVG paths. */
+[data-theme="mac"] .window-control { flex-shrink: 0; }
+[data-theme="mac"] :is(#maximize, #minimize, [data-window-action="maximize"], [data-window-action="minimize"]) svg { display: none; }
+[data-theme="mac"] :is(#maximize, [data-window-action="maximize"])::after {
+  content: ''; position: absolute; left: 4px; top: 4px; width: 10px; height: 10px;
+  box-sizing: border-box; border: 1px solid #000; border-top-width: 3px;
+}
+[data-theme="mac"] :is(#maximize, [data-window-action="maximize"])[aria-pressed="true"]::after {
+  left: 3px; top: 7px; width: 8px; height: 8px; background: #ccc;
+}
+[data-theme="mac"] :is(#maximize, [data-window-action="maximize"])[aria-pressed="true"]::before {
+  content: ''; position: absolute; left: 7px; top: 3px; width: 8px; height: 8px;
+  box-sizing: border-box; border: 1px solid #000; border-top-width: 2px;
+}
+[data-theme="mac"] :is(#minimize, [data-window-action="minimize"])::after {
+  content: ''; position: absolute; left: 4px; top: 12px; width: 10px; height: 2px; background: #000;
+}
